@@ -1,3 +1,10 @@
 .dropdown-toggle, .dropdown-item{
     cursor: pointer;
 }
+.ngForm{
+    align-self:center
+}
+.img{
+    width:max-content;
+    height:max-content;
+}

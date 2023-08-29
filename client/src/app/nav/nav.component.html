@@ -1,27 +1,28 @@
 <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
     <div class="container-fluid">
-      <a class="navbar-brand" href="#">Dating App</a>
+      <a class="navbar-brand" href="#">
+      <img src="https://document-export.canva.com/Km5uc/DAFs6TKm5uc/1/thumbnail/0001.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&amp;X-Amz-Credential=AKIAQYCGKMUHWDTJW6UD%2F20230828%2Fus-east-1%2Fs3%2Faws4_request&amp;X-Amz-Date=20230828T145511Z&amp;X-Amz-Expires=74669&amp;X-Amz-Signature=49e1d431f5eb609a4260259b18e8ac7eda54fc4e0f7051211f7aa9166a2cf6f0&amp;X-Amz-SignedHeaders=host&amp;response-expires=Tue%2C%2029%20Aug%202023%2011%3A39%3A40%20GMT"  alt="..." height="36">
+    </a>
+      <a class="navbar-brand" routerLink="/" routerLinkActive="active">Koala Shop</a>
       <div class="collapse navbar-collapse" id="navbarCollapse">
 
-        <ul class="navbar-nav me-auto mb-2 mb-md-0"*ngIf="accountService.currentUser$ | async">
+        <ul class="navbar-nav me-auto mb-2 mb-md-0"> 
+          <!-- <li class="nav-item">
+            <a class="nav-link " aria-current="page" routerLink="/members" routerLinkActive="active">Matches</a>
+          </li> -->
           <li class="nav-item">
-            <a class="nav-link " aria-current="page" href="#">Matches</a>
+            <a class="nav-link " aria-current="page" routerLink="/products" routerLinkActive="active">Products</a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/lists" routerLinkActive="active">Favourites</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Lists</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link ">Messages</a>
+            <a class="nav-link " routerLink="/messages" routerLinkActive="active">Messages</a>
           </li>
         </ul>
-        <div class="dropdown" *ngIf="accountService.currentUser$ | async" dropdown>
-          <a class="text-light text-decoration-none dropdown-toggle" dropdownToggle>Welcome {{model.username}} </a>
-          <div class="dropdown-menu" *dropdownMenu>
-            <a class="dropdown-item">Edit profile</a>
-            <a class="dropdown-item"(click)="logout()">Logout</a>
-          </div>
-        </div>
-        <form *ngIf="!(accountService.currentUser$ | async)" #loginForm="ngForm" class="d-flex" (ngSubmit)="login()" autocomplete="off">
+
+        <form *ngIf="!(accountService.currentUser$ | async)" #loginForm="ngForm" class="d-flex" (ngSubmit)="login()" autocomplete="off" >
           <input 
             name="username"
             [(ngModel)]="model.username"
@@ -30,8 +31,29 @@
             placeholder="Username" >
           <input name="password"
           [(ngModel)]="model.password" class="form-control me-2" type="password" placeholder="Password">
-          <button class="btn btn-outline-success" type="submit">Login</button>
+          <button class="btn btn-success" type="submit">Login</button>
         </form>
+        <div>
+          <button type="button" class="btn btn-dark" routerLink="/shoppingCart" routerLinkActive="active" *ngIf="accountService.currentUser$ | async"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cart" viewBox="0 0 16 16">
+            <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM3.102 4l1.313 7h8.17l1.313-7H3.102zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
+          </svg></button>
+        </div>
+        <div class="dropdown" *ngIf="accountService.currentUser$ | async" dropdown>
+          <a class="text-light text-decoration-none dropdown-toggle" dropdownToggle>Welcome {{model.username | titlecase}} </a>
+          <div class="dropdown-menu" *dropdownMenu>
+            <a class="dropdown-item" routerLink="/members/:id" routerLinkActive="active">Edit profile</a>
+            <a class="dropdown-item" routerLink="/orders" routerLinkActive="active">My orders</a>
+            
+            <a class="dropdown-item"(click)="logout()">Logout</a>
+          </div>
+         
+        </div>
+        <!-- <div>
+          <button type="button" class="btn btn-dark" (click)="logout()" *ngIf="accountService.currentUser$ | async">Logout</button>
+        </div> -->
       </div>
     </div>
   </nav>
+
+
+  

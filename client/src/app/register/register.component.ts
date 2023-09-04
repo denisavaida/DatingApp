@@ -19,6 +19,7 @@ export class RegisterComponent implements OnInit {
   }
 
   register(){
+    this.model.role ="member";
     this.accountService.register(this.model).subscribe({
       next: response =>{
         this.router.navigateByUrl('/products')
@@ -27,7 +28,6 @@ export class RegisterComponent implements OnInit {
         this.cancel;
       },
       error : error =>{
-        this.toastr.error(error.error)
         console.log(error)
       }
     })

@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace API.Controllers
 {
-    public class AccountController : BaseApiController
+    public class AccountController : BaseApiController //Inheritance
     {
         private DataContext _context;
         private ITokenService _tokenService;

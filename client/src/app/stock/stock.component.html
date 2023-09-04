@@ -1,0 +1,66 @@
+<form #registerForm="ngForm" (ngSubmit)="addProduct()" autocomplete="off">
+    <h2 class="text-center text-primary">Add products</h2>
+    <hr>
+    <div class="mb-3">
+        <input type="text"
+                class="form-control"
+                name="name"
+                [(ngModel)]="model.name"
+                placeholder="Name"autocomplete="off">
+    </div>
+
+    <div class="mb-3">
+        <input type="text"
+        class="form-control"
+        name="description"
+        [(ngModel)]="model.description"
+        placeholder="Description"autocomplete="off">
+    </div>
+    <div class="mb-3">
+        <input type="int"
+        class="form-control"
+        name="quantity"
+        [(ngModel)]="model.quantity"
+        placeholder="Quantity"autocomplete="off">
+    </div>
+    <div class="mb-3">
+        <input type="text"
+        class="form-control"
+        name="category"
+        [(ngModel)]="model.category"
+        placeholder="Category"autocomplete="off">
+    </div>
+    <div class="mb-3">
+        <input type="text"
+        class="form-control"
+        name="oldPrince"
+        [(ngModel)]="model.oldPrince"
+        placeholder="OldPrince"autocomplete="off">
+    </div>
+    <div class="mb-3">
+        <input type="text"
+        class="form-control"
+        name="price"
+        [(ngModel)]="model.price"
+        placeholder="Price"autocomplete="off">
+    </div>
+    <div class="mb-3">
+        <input type="text"
+        class="form-control"
+        name="image"
+        [(ngModel)]="model.image"
+        placeholder="Image" autocomplete="off">
+    </div>
+    <div class="mb-3">
+        <input type="int"
+        class="form-control"
+        name="discount"
+        [(ngModel)]="model.discount"
+        placeholder="Discount"autocomplete="off">
+    </div>
+    <div class="text-center">
+        <button class="btn btn-success me-2" type="submit">Add to stock</button>
+        <button class="btn btn-default" type="button" (click)="cancel()">Cancel</button>
+
+    </div>
+</form>

@@ -22,7 +22,11 @@ export class NavComponent implements OnInit {
   login(){
     this.accountService.login(this.model).subscribe({
       next: _ => {this.router.navigateByUrl('/products')
-      this.toastr.success("You are logged in ! ")}
+      this.toastr.success("You are logged in ! ")},
+  
+      error : error =>{
+        console.log(error)
+      }
     })
   }
   logout(){

@@ -9,9 +9,8 @@ public class DataContext : DbContext
     {    
     }
     public DbSet<AppUser> Users{ get; set; }
-
     public DbSet<Product> Products{ get; set; }
-    
     public DbSet<ProductCategory> ProductCategory{ get; set; }
+    public DbSet<ShoppingCart> ShoppingCart{ get; set; }
 
 }

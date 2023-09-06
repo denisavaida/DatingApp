@@ -1,6 +1,7 @@
 <form #registerForm="ngForm" (ngSubmit)="addProduct()" autocomplete="off">
     <h2 class="text-center text-primary">Add products</h2>
     <hr>
+    <br>
     <div class="mb-3">
         <input type="text"
                 class="form-control"
@@ -17,7 +18,7 @@
         placeholder="Description"autocomplete="off">
     </div>
     <div class="mb-3">
-        <input type="int"
+        <input type="number"
         class="form-control"
         name="quantity"
         [(ngModel)]="model.quantity"
@@ -28,8 +29,19 @@
         class="form-control"
         name="category"
         [(ngModel)]="model.category"
-        placeholder="Category"autocomplete="off">
+        placeholder="Category">
+        <!-- <a class="btn btn-secondary dropdown-toggle" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" [(ngModel)]="model.category">
+            Category
+        </a>
+      
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink" >
+          <a class="dropdown-item" href="#">Action</a>
+          <a class="dropdown-item" href="#">Another action</a>
+          <a class="dropdown-item" href="#">Something else here</a>
+        </div> -->
     </div>
+
+
     <div class="mb-3">
         <input type="text"
         class="form-control"

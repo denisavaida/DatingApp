@@ -14,8 +14,12 @@ namespace API.Entities
          public string Category { get; set;}
          public int OldPrice{ get; set; }
          public int Price{ get; set; }
-         public string Image { get; set; }
+         public List<Photo> Images{ get; set; } = new List<Photo>();
          public int Discount { get; set; }
          public List<ProductCategory> Categories { get; set;} = new List<ProductCategory>();
+
+         public int GetDiscount(){
+            return Price = CalculateDiscount(Discount, OldPrice);
+         }
     }
 }

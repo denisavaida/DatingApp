@@ -1,1 +1,46 @@
-<p>Favourites lists works!</p>
+<section class="section-products" >
+    <div class="container">
+            <div class="row justify-content-center text-center">
+                    <div class="col-md-8 col-lg-6">
+                            <div class="header">
+                                    <h2>Favourites products</h2>
+                            </div>
+                    </div>
+            </div>
+            
+            <div *ngFor="let fav of favourites"> 
+                <div class="row">
+                        <!-- Single Product -->
+                        <div class="col-md-6 col-lg-4 col-xl-3">
+                                <div class="card">
+                                        <div class="d-flex justify-content-between p-3">
+                                <div id="fav-2" class="single-product">
+                                        <div class="part-1" >
+                                        <img src="{{fav.image}}">
+                                                <span class="discount" *ngIf="fav.discount>0">{{fav.discount}}%</span>
+                                                <ul>
+                                                        <li><a (click)="addToShoppingCart(fav)"><i class="fa fa-shopping-cart" aria-hidden="true"></i></a></li>
+                                                        <li><a routerLink="products/{{fav.id}}" routerLinkActive="active"><i class="fa fa-expand" aria-hidden="true"></i></a></li>
+                                                </ul>
+                                        </div>
+                                        <div class="part-2">
+                                                <h3 class="product-title">{{fav.name}}</h3>
+                                                
+                                                <ng-template [ngIf]="fav.oldPrice!=fav.price" [ngIfElse]="loading" >
+                                                        <h4 class="product-old-price" >{{fav.oldPrice}} Lei</h4>
+                                                </ng-template>
+                                                <ng-template #loading>
+                                                        <h4 class="product-old-price" style="visibility: hidden;">{{fav.oldPrice}} Lei</h4>
+                                                </ng-template>
+                                                <h4 class="product-old-price" style="visibility: hidden;"></h4>
+                                                <h4 class="product-price">{{fav.price}} Lei</h4>
+                                        </div>
+                                </div>
+                         </div>
+                        </div>
+                
+                        </div>
+                </div>
+        </div>
+    </div>
+</section>

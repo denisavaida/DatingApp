@@ -12,6 +12,10 @@ public class AppUser
 
     public byte[] PasswordSalt { get; set;}
 
+    public DateOnly DateOfBirth { get; set; }
+
+    public Adress Adress{ get; set; }
+
     public string Role { get; set; }
 
     public List<ShoppingCart> Orders { get; set;} = new List<ShoppingCart>();

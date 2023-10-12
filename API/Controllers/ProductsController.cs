@@ -1,33 +1,53 @@
+using API.DTOs;
 using API.Entities;
+using API.Interfaces;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace API.Controllers
 {
     public class ProductsController : BaseApiController
     {
-        private readonly DataContext _context;
-
-        public ProductsController(DataContext context)
+        private IMapper _mapper;
+        private IProductRepository _productRepository;
+        public ProductsController(IProductRepository productRepository, IMapper mapper)
         {
-            _context = context;
+            _productRepository = productRepository;
+            _mapper = mapper;
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Product>>> GetProducts()
+        public async Task<ActionResult<IEnumerable<ProductDto>>> GetProducts()
         {
+            var products = await _productRepository.GetProductsAsync();
 
-            var products = await _context.Products.ToListAsync();
-
-            return products;
+            var producsToReturn = _mapper.Map<IEnumerable<ProductDto>>(products);
+            return Ok(producsToReturn);
         }
 
         [HttpGet("{id}")] // /api/products/2
-        public async Task<ActionResult<Product>> GetProduct(int id)
+        public async Task<ActionResult<ProductDto>> GetProduct(int id)
         {
-            return await _context.Products.FindAsync(id);
+             var product = await _productRepository.GetProductByIdAsync(id);
+             return _mapper.Map<ProductDto>(product);
         }
 
+        [HttpGet("edit/{id}")] // /products/edit/1
+        public async Task<ActionResult<ProductDto>> EditProduct(int id){
+             var product = await _productRepository.GetProductByIdAsync(id);
+             return _mapper.Map<ProductDto>(product);
+        }
+        [HttpPut("update")]
+         public void UpdateProduct(Product product){
+              _productRepository.Update(product);
+              _productRepository.SaveAllAsync();
+        }
+
+        [HttpDelete("delete/{id}")] // /products/delete/2
+        public void DeleteProduct(int id){
+            _productRepository.DeleteProduct(id);
+            // _productRepository.SaveAllAsyncs();
+        }
 
     }
 }

@@ -20,9 +20,9 @@
     <div class="mb-3">
         <input type="number"
         class="form-control"
-        name="quantity"
-        [(ngModel)]="model.quantity"
-        placeholder="Quantity"autocomplete="off">
+        name="stock"
+        [(ngModel)]="model.stock"
+        placeholder="Stock"autocomplete="off">
     </div>
     <div class="mb-3">
         <input type="text"
@@ -43,19 +43,19 @@
 
 
     <div class="mb-3">
-        <input type="text"
+        <input type="number"
         class="form-control"
         name="oldPrince"
-        [(ngModel)]="model.oldPrince"
+        [(ngModel)]="model.oldPrice"
         placeholder="OldPrince"autocomplete="off">
     </div>
-    <div class="mb-3">
+    <!-- <div class="mb-3">
         <input type="text"
         class="form-control"
         name="price"
         [(ngModel)]="model.price"
         placeholder="Price"autocomplete="off">
-    </div>
+    </div> -->
     <div class="mb-3">
         <input type="text"
         class="form-control"
@@ -64,7 +64,7 @@
         placeholder="Image" autocomplete="off">
     </div>
     <div class="mb-3">
-        <input type="int"
+        <input type="number"
         class="form-control"
         name="discount"
         [(ngModel)]="model.discount"
@@ -72,7 +72,7 @@
     </div>
     <div class="text-center">
         <button class="btn btn-success me-2" type="submit">Add to stock</button>
-        <button class="btn btn-default" type="button" (click)="cancel()">Cancel</button>
+        <button class="btn cancelButton" type="button" (click)="cancel()">Cancel</button>
 
     </div>
 </form>

@@ -1,0 +1,40 @@
+<div class="mb-3">
+    <input type="text"
+            class="form-control"
+            name="street"
+            [(ngModel)]="model.street"
+            placeholder="Street">
+</div>
+
+<div class="mb-3">
+    <input type="number"
+            class="form-control"
+            name="number"
+            step="1" pattern="\d+"
+            [(ngModel)]="model.number"
+            placeholder="Number">
+</div>
+
+<div class="mb-3">
+    <input type="text"
+            class="form-control"
+            name="city"
+            [(ngModel)]="model.city"
+            placeholder="City">
+</div>
+
+<div class="mb-3">
+    <input type="text"
+            class="form-control"
+            name="region"
+            [(ngModel)]="model.region"
+            placeholder="Region">
+</div>
+
+<div class="mb-3">
+    <input type="text"
+            class="form-control"
+            name="country"
+            [(ngModel)]="model.country"
+            placeholder="Country">
+</div>

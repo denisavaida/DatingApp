@@ -7,10 +7,35 @@
                             </div>
                     </div>
             </div>
-            
-            <div *ngFor="let fav of favourites"> 
+            <button class="btn backButton" (click)="back()"><i class="fa fa-arrow-left"> Back </i></button>
+            <table>
+                <tr *ngFor="let item of favourites">
+                        <td><a a routerLink="/products/{{item.id}}" routerLinkActive="active"><img src="{{item.image}}"></a>
+                                <span class="discount" *ngIf="product.discount>0">{{product.discount}}%</span></td>
+                        <td style="text-transform: capitalize;">{{item.name}} <p *ngIf="item.stock>0" style="color: green;"> In stock</p>
+                                <p *ngIf="item.stock==0" style="color: red;"> Out of stock</p></td>
+                               <td> <ng-template [ngIf]="item.oldPrice!=item.price" [ngIfElse]="loading" >
+                                        <h4 class="product-old-price" >{{item.oldPrice}} Lei</h4>
+                                </ng-template>
+                                <ng-template #loading>
+                                        <h4 class="product-old-price" style="visibility: hidden;">{{item.oldPrice}} Lei</h4>
+                                </ng-template>
+                                <!-- <h4 class="product-old-price" style="visibility: hidden;"></h4> -->
+                               <h4  class="product-price" style="color: red;" *ngIf="item.discount > 0">{{item.price}} Lei</h4>
+                               <h4 class="product-price" *ngIf="item.discount == 0">{{item.price}} Lei</h4></td>
+                        <!-- <td style="font-size: x-large;">{{item.price}} Lei</td> -->
+                        <td style="border-top: 0;border-right: 0;border-bottom: 0;">
+                                <div *ngIf="item.stock == 0">
+                                        <button class="btn addButton" style="background-color: lightgrey;"><i class="fa fa-shopping-cart" aria-hidden="true" ></i> Add to cart</button><br><br>
+                                    </div>
+                                <div *ngIf="item.stock>0">
+                                        <button class="btn addProdButton" (click)="addToShoppingCart(item)">Add to cart</button><br><br>
+                                </div>
+                                <a (click)="deleteProduct(item.id)"><i class="fa fa-trash">  Sterge  </i></a></td>
+                      </tr> 
+            </table>
+            <!-- <div *ngFor="let fav of favourites"> 
                 <div class="row">
-                        <!-- Single Product -->
                         <div class="col-md-6 col-lg-4 col-xl-3">
                                 <div class="card">
                                         <div class="d-flex justify-content-between p-3">
@@ -41,6 +66,6 @@
                 
                         </div>
                 </div>
-        </div>
+        </div> -->
     </div>
 </section>

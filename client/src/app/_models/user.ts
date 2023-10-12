@@ -1,9 +1,11 @@
-import {ShoppingCart } from "./shopping-cart";
+import { Adress } from "./adress";
+import { Order } from "./order";
 
 export interface User{
-    id:Int16Array,
+    id:number,
     username: string,
-    token: string,
+    password: string,
     role: string,
-    orders:ShoppingCart[]
+    orders:Order[],
+    adress:Adress
 }

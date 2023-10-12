@@ -1,64 +1,79 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Cryptography;
-using System.Threading.Tasks;
 using API.DTOs;
 using API.Entities;
+using API.Interfaces;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.ObjectPool;
 
 namespace API.Controllers
 {
     public class StockController : BaseApiController
     {
-        private DataContext _context;
+        private IProductRepository _productRepository;
+        private IUserRepository _userRepository;
+        private IMapper _mapper;
+        public StockController(IProductRepository productRepository, IMapper mapper, IUserRepository userRepository){
 
-        public StockController(DataContext context){
-            _context = context;
+            _productRepository = productRepository;
+            _userRepository = userRepository;
+            _mapper = mapper;
         }
+
         [HttpPost("add")] //POST: api/stock/add?name=ciorapi&quantity=2
         public async Task<ActionResult<Product>> AddProducts(Product product){
-            if (await ProductExists(product.Name)) return BadRequest("Product name already exists !");
+            if (await _productRepository.ProductExists(product.Name)) return BadRequest("Product name already exists !");
 
             var newProduct = new Product
             {
                 Name = product.Name.ToLower(),
                 Description = product.Description.ToLower(),
                 Quantity = product.Quantity,
+                Stock = product.Stock,
                 Category = product.Category.ToLower(),
                 OldPrice = product.OldPrice,
-                Price = product.Price
-                
-            };
-            var newCategory = new ProductCategory
-            {
-                name = product.Category.ToLower(),
-            };
-            
-            newProduct.Categories.Add(newCategory);
+                Price = product.GetPrice(product.OldPrice, product.Discount),
+                Discount = product.Discount,
+                Image = product.Image,
+                Categories = new List<ProductCategory>{ new ProductCategory(){name = product.Category.ToLower()}},
+                Images = new(),
+                ShoppingCartId = product.ShoppingCartId,
+                Subtotal = product.Subtotal
 
-            if (await CategoryExists(product.Category)) 
+            };
+            var photo = new Photo
+            {
+                Url = product.Image
+            };
+            newProduct.Images.Add(photo);
+
+           
+            if (await _productRepository.CategoryExists(newProduct.Category.ToString())) 
             {
                 Console.WriteLine("Category already exists !");
             }
             else{
-                _context.ProductCategory.Add(newCategory);
+                // var prodCateg = await _productRepository.GetProductCategoryAsync();
+                // foreach(var c in prodCateg){
+                //     if(c.ProductId == newProduct.Id){
+                //        newProduct.Categories.FirstOrDefault(p=>p.id == c.id);
+
+
+                //     }
+                // }
+                // var categ = newProduct.Categories.FirstOrDefault(p=>p.id == prodCateg.);
+                //     if(categ != null){
+                        
+                //     }
+                
+                // var categDto = _mapper.Map<ProductCategory>(newProduct.Categories.FirstOrDefault());
+                await _productRepository.AddProductCategory(newProduct.Categories.FirstOrDefault());
+                
             }
-            _context.Products.Add(product);
-            await _context.SaveChangesAsync();
+            await _productRepository.AddProductAsync(newProduct);
+            await _productRepository.SaveAllAsync();
 
             return newProduct;
         }
-      
-        private async Task<bool> ProductExists(string name)
-        {
-            return await _context.Products.AnyAsync(x => x.Name == name);
-        }
 
-        private async Task<bool> CategoryExists(string name)
-        {
-            return await _context.ProductCategory.AnyAsync(x => x.name == name.ToLower());
-        }
     }
 }

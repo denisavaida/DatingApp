@@ -1,0 +1,9 @@
+.section-products .container .form-control{
+    width: 80%;
+}
+.section-products .container .updateForm{
+    padding-left: 25%;
+}
+.cancelButton{
+    background-color: lightgrey; margin-right: 2%;
+}

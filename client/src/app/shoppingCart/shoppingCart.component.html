@@ -1,0 +1,92 @@
+
+<!-- <div *ngIf="shoppingCart">
+    <div *ngIf="shoppingCart.products.length == 0">
+        <p>Hello {{user.username}} !</p>
+        <p>You have no products added to the card!</p>
+    </div>
+</div> -->
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+    </head>
+    <body>
+<div *ngIf="shoppingCart.products.length == 0 && !this.currentUser">
+    
+    <div class="container">
+        <div class="row" style="text-align: center;margin-top: 20%;">
+            <h3>Coșul de cumpărături este gol !</h3>
+            <h5>Dacă ai adăugat produse în coș la vizita trecută pe site, te rugăm să te loghezi.</h5>
+            <button (click)="login()" class="btn btn-success btn-lg me-2" style="width: 30%;margin-left: 35%;">Login</button>
+            <div ><a routerLink="/products" routerLinkActive="active" style="color:grey">SAU CONTINUĂ CUMPĂRĂTURILE</a></div>
+        </div>
+    </div>
+</div>
+<div *ngIf="shoppingCart.products.length == 0">
+    <div class="container">
+        <div class="row" style="text-align: center;margin-top: 20%;">
+            <h3>Coșul de cumpărături este gol !</h3>
+            <div >Te invitam sa <a routerLink="/products" routerLinkActive="active" style="color:grey"> CONTINUI CUMPĂRĂTURILE</a> pentru a-ti alege produsele dupa placul tau !</div>
+        </div>
+    </div>
+</div>
+
+<div *ngIf="shoppingCart.products.length > 0">
+    
+    <div class="container" >
+        <div class="row"style="text-align: center;"><h3>Cos de cumparaturi</h3></div>
+        <div class="row"style="text-align: center;"><h6>Livrare gratuita la achizitia de articole de peste 150 Lei si plata in avans.</h6></div> <!-- need to check that -->
+        
+        <div class="row" style="text-align: center;margin-top: 5%;" >
+          <div class="col-md-8">
+
+          
+            <table>
+                <tr *ngFor="let item of shoppingCart.products">
+                  <td><a a routerLink="/products/{{item.id}}" routerLinkActive="active"><img src="{{item.image}}"></a></td>
+                  <td style="text-transform: capitalize;">{{item.name}} <p style="color: green;font-weight: bolder;">In stock</p></td>
+                 
+                  <td style="text-align: end;"><h4 >{{item.subtotal}} Lei </h4><input type="number" min="1" max="{{item.stock}}"[(ngModel)]="item.quantity" name="quantity" (click)="increaseQuantity(item)"><br>
+                    <button class="btn moveButton" (click)="moveToFavourites(item)"><i class="fa fa-heart"> Muta in favorite</i></button><br>
+                    <button class="btn deleteButton"(click)="deleteProduct(item)"><i class="fa fa-trash"> Sterge</i></button></td>
+                 
+                </tr> 
+              </table>
+            </div>
+              <div class="col-md-4" style="text-align: justify;">
+                <p></p>
+                <h6>Cost produse: {{shoppingCart.total}} Lei</h6>
+                <div *ngIf="shoppingCart.total > 150"><h6 style="color: green;">Livrare: GRATUITA </h6>
+                  <h4>TOTAL: {{shoppingCart.total}} Lei</h4></div>
+                  <div *ngIf="shoppingCart.total < 150"><h6>Livrare: 15 Lei </h6>
+                    <h4>TOTAL: {{shoppingCart.total+15}} Lei</h4> </div>
+                  
+                <button class="btn orderButton"><a routerLink="/orders/{{shoppingCart.AppUserId}}" routerLinkActive="active">Finalizeaza comanda</a></button>
+                <button class="btn backToShopBtn" (click)="backToShop()">INAPOI IN MAGAZIN</button>
+                <h6><i class="fa fa-undo" style="color: black;margin-top: 3%;">  Retur gratuit in termen de 30 zile.</i></h6>
+                    <h6><i class="fa fa-truck">  Livrare gratuita la achizitia de articole de peste 150 Lei si plata in avans.</i></h6>
+                     
+                    <button type="button" class="btn btn-link buttonCost" data-toggle="modal" data-target="#exampleModal"><h6>Costuri de livrare </h6></button>
+            </div>
+              <div class="row" >
+                <div class="col-md-8" style="text-align: start;">
+                    <h5 style="color: rgb(76, 76, 255);font-family: Arial, Helvetica, sans-serif"><i class="fa fa-info-circle" aria-hidden="true"> Nu uitati sa finalizati comanda. Adaugarea articolelor in cos nu inseamna rezervarea lor.</i></h5>
+                    
+
+
+                    <h6>Acceptam :</h6>
+                    
+                    <img class="card-img-top" src="../../assets/cash.jpeg" style="width: 5%;height: 15%">
+                    <img class="card-img-top" src="../../assets/mastercard.png"style="width: 10%;height: 17%">
+                    <img class="card-img-top" src="../../assets/visa.jpeg" style="width: 6%;height: 7%">
+                
+                </div>
+               
+                 
+              </div>
+
+        </div>
+</div>
+</div>
+</body>
+</html>

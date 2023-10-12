@@ -1,0 +1,81 @@
+table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+  }
+  
+  td, th {
+    border: 1px solid #dddddd;
+    text-align: center;
+    padding: 8px;
+  }
+ 
+  img {
+    position: relative;
+    height: 230px;
+    width: auto;
+    max-height: 260px;
+    margin-bottom: 10px;
+    overflow: hidden;
+
+}
+
+img{ 
+    transform: scale(1.0,1.0);
+    transition-duration: 500ms;
+    transition-timing-function: ease-out;
+    opacity:0.8;
+}
+
+:hover i fa fa-trash{
+  color:grey;
+}
+
+.moveButton:hover {
+  /* color: #fe302f;
+ */
+ color: white;
+ background-color:crimson;
+}
+.moveButton {
+  /* color: #fe302f;
+ */
+ color: crimson;
+ background-color:white;
+}
+.deleteButton:hover{
+  /* color:grey; */
+  color: white;
+  background-color: black;
+}
+
+.deleteButton{
+  /* color:grey; */
+  color: black;
+  background-color: white;
+}
+
+.orderButton{
+  background-color: black;
+    color: white;
+    padding: 5%;
+    padding-left:30%;
+    padding-right: 30%;;
+
+}
+.orderButton:hover{
+  background-color: white;
+  color: black;
+  border-color: black;
+}
+.backToShopBtn{
+  padding: 5%;
+  padding-left:30%;
+  padding-right: 30%;;
+}
+.backToShopBtn:hover{
+  border:black;
+}
+.buttonCost{
+  color: black;
+}

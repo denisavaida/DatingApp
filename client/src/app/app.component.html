@@ -1,4 +1,148 @@
 <app-nav></app-nav>
-<div class="container" style="margin-top:100px;">
+<div class="container" style="margin-top:7%;margin-bottom:300px;">
     <router-outlet></router-outlet>
 </div>
+    <!-- Footer -->
+    <footer class="text-center text-lg-start text-dark"
+            style="background-color: #ECEFF1;" >
+        <section class="d-flex justify-content-between p-4 text-white"
+               style="background-color: grey">
+        <!-- Left -->
+            <div class="container">
+                <div class="row" style="margin: -0.5%; height: 40px;">
+                    <div class="col-lg-4"><span>Get 10% discount by subscribing to our newsletter:</span></div>
+                    <div class="col-lg-4">
+                        <form #newsForm="ngForm" (ngSubmit)="subscribe()" autocomplete="off">
+                            <input type="text"
+                            class="form-control"
+                            name="Email"
+                            [(ngModel)]="model.Email"
+                            placeholder="Email">
+                        </form>
+                    </div>
+                    <div class="col-lg-2"><button class="btn btn-success me-2" type="submit">Subscribe</button>
+                    </div>
+                    <div class="col-lg-2">         
+                    <!-- Facebook -->
+                        <a
+                        class="btn btn-link btn-floating btn-lg text-light m-1"
+                        href="https://www.facebook.com/profile.php?id=61550672896257"
+                        role="button"
+                        data-mdb-ripple-color="dark"
+                        ><i class="fa fa-facebook-f"></i
+                    ></a>
+                    <!-- Google -->
+                    <a
+                        class="btn btn-link btn-floating btn-lg text-light m-1"
+                        href="#!"
+                        role="button"
+                        data-mdb-ripple-color="dark"
+                        ><i class="fa fa-google"></i
+                    ></a>
+                    <!-- Instagram -->
+                    <a
+                        class="btn btn-link btn-floating btn-lg text-light m-1"
+                        href="https://www.instagram.com/koalakidsshop/?hl=en"
+                        role="button"
+                        data-mdb-ripple-color="dark"
+                        ><i class="fa fa-instagram"></i
+                    ></a></div>
+                </div>
+            </div>
+        </section>
+
+      <!-- Section: Links  -->
+      <section class="md-3">
+        <div class="container text-center text-md-start mt-3">
+          <!-- Grid row -->
+          <div class="row">
+            <!-- Grid column -->
+            <div class="col-md-3 col-lg-4 col-xl-3 mx-auto mb-4">
+              <!-- Content -->
+              <h6 class="text-uppercase fw-bold">Koala Kids Shop</h6>
+              <hr class="mb-4 mt-0 d-inline-block mx-auto"
+                  style="width: 140px; background-color: #7c4dff; height: 2px"/>
+              <p>
+                Koala Kids Shop comes to help you with finding the best koality products for your kids.
+                Toys, accesories, foot wear and clothes , you can find them all in our category items. Enjoy the shopping !
+              </p>
+            </div>
+            <!-- Grid column -->
+            <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mb-4">
+              <!-- Links -->
+              <h6 class="text-uppercase fw-bold">Products</h6>
+              <hr
+                  class="mb-4 mt-0 d-inline-block mx-auto"
+                  style="width: 80px; background-color: #7c4dff; height: 2px"
+                  />
+              <p>
+                <a href="#!" class="text-dark text-decoration-none">Toys</a>
+              </p>
+              <p>
+                <a href="#!" class="text-dark text-decoration-none">Accesories</a>
+              </p>
+              <p>
+                <a href="#!" class="text-dark text-decoration-none">Footwear</a>
+              </p>
+              <p>
+                <a href="#!" class="text-dark text-decoration-none">Clothes</a>
+              </p>
+            </div>
+            <!-- Grid column -->
+  
+            <!-- Grid column -->
+            <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mb-4">
+              <!-- Links -->
+              <h6 class="text-uppercase fw-bold">HELP</h6>
+              <hr
+                  class="mb-4 mt-0 d-inline-block mx-auto"
+                  style="width: 35px; background-color: #7c4dff; height: 2px"
+                  />
+              <p>
+                <a href="#!" class="text-dark text-decoration-none">Retur policy</a>
+              </p>
+              <p>
+                <a href="#!" class="text-dark text-decoration-none">Payment methods</a>
+              </p>
+              <p>
+                <a href="#!" class="text-dark text-decoration-none">Shipping</a>
+              </p>
+              <p>
+                <a href="#!" class="text-dark text-decoration-none">Stores</a>
+              </p>
+              
+            </div>
+            <!-- Grid column -->
+  
+            <!-- Grid column -->
+            <div class="col-md-2 col-lg-3 col-xl-3 mx-auto mb-md-0 mb-4">
+              <!-- Links -->
+              <h6 class="text-uppercase fw-bold">Contact</h6>
+              <hr
+                  class="mb-4 mt-0 d-inline-block mx-auto"
+                  style="width: 70px; background-color: #7c4dff; height: 2px"
+                  />
+              <p><i class="fa fa-home mr-3"></i> Octavian Goga 14, Les, Bihor, Romania</p>
+              <p><i class="fa fa-envelope mr-3"></i> koalakidsshop@gmail.com</p>
+              <p><i class="fa fa-phone mr-3"></i> +40752451702</p>
+            </div>
+        
+          </div>
+
+          </div>
+          
+  
+      </section>
+      <!-- Section: Links  -->
+  
+      <!-- Copyright -->
+      <div
+           class="text-center p-3"
+           style="background-color: rgba(0, 0, 0, 0.2)"
+           >
+        <p class="text-dark">KoalaKidsShop © 2023 All rights reserved.</p>
+      </div>
+      <!-- Copyright -->
+    </footer>
+    <!-- Footer -->
+

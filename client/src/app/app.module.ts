@@ -10,14 +10,14 @@ import { FormsModule } from '@angular/forms';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { HomeComponent } from './home/home.component';
 import { RegisterComponent } from './register/register.component';
-import { MemberListComponent } from './members/member-list/member-list.component';
+import { MemberEditComponent } from './members/member-edit/member-edit.component';
 import { MemberDetailComponent } from './members/member-detail/member-detail.component';
 import { FavouritesComponent } from './favourites/favourites.component';
 import { MessagesComponent } from './messages/messages.component';
 import { ToastrModule } from 'ngx-toastr';
 import { ProductListComponent } from './products/product-list/product-list.component';
 import { ProductDetailComponent } from './products/product-detail/product-detail.component';
-import { ShoppingCartComponent } from './shopping-cart/shopping-cart.component';
+import { ShoppingCartComponent } from './shoppingCart/shoppingCart.component';
 import { OrdersComponent } from './orders/orders.component';
 import { SharedModule } from './_modules/shared.module';
 import { StockComponent } from './stock/stock.component';
@@ -25,6 +25,16 @@ import { TestErrorComponent } from './errors/test-error/test-error.component';
 import { ErrorInterceptor } from './_interceptors/error.interceptor';
 import { NotFoundComponent } from './errors/not-found/not-found.component';
 import { ServerErrorComponent } from './errors/server-error/server-error.component';
+import { AdressComponent } from './adress/adress.component';
+import { ProductCardComponent } from './products/product-card/product-card.component';
+import { LoginComponent } from './login/login.component';
+import { AccountService } from './_services/account.service';
+import { ProductEditComponent } from './products/product-edit/product-edit.component';
+import { CartService } from './_services/cart.service';
+import { ProductService } from './_services/product.service';
+import { FavouritesService } from './_services/favourites.service';
+import { PromotionsComponent } from './promotions/promotions.component';
+import { ModalComponent } from './modal/modal.component';
 
 @NgModule({
   declarations: [
@@ -32,7 +42,7 @@ import { ServerErrorComponent } from './errors/server-error/server-error.compone
     NavComponent,
     HomeComponent,
     RegisterComponent,
-    MemberListComponent,
+    MemberEditComponent,
     MemberDetailComponent,
     FavouritesComponent,
     MessagesComponent,
@@ -41,9 +51,15 @@ import { ServerErrorComponent } from './errors/server-error/server-error.compone
     ShoppingCartComponent,
     OrdersComponent,
     StockComponent,
+    AdressComponent,
+    ProductCardComponent,
+    LoginComponent,
     TestErrorComponent,
     NotFoundComponent,
-    ServerErrorComponent
+    ServerErrorComponent,
+    ProductEditComponent,
+    PromotionsComponent,
+    ModalComponent
   ],
   imports: [
     BrowserModule,
@@ -57,8 +73,8 @@ import { ServerErrorComponent } from './errors/server-error/server-error.compone
       positionClass:'toast-bottom-right'
     })
   ],
-  providers: [
-    {provide: HTTP_INTERCEPTORS, useClass:ErrorInterceptor, multi:true}
+  providers: [ AccountService,CartService,ProductService,FavouritesService,
+    {provide: HTTP_INTERCEPTORS, useClass:ErrorInterceptor, multi:true,}
   ],
   bootstrap: [AppComponent]
 })

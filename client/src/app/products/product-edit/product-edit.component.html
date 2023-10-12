@@ -1,0 +1,76 @@
+<section class="section-products" >
+        <div class="container" *ngIf="model">                
+            <h2 class="text-center text-primary">Edit Product</h2>
+            <hr>
+            <form #updateForm="ngForm" (ngSubmit)="updateProduct()" autocomplete="off" class="updateForm">
+
+                <br>
+                <div class="mb-3">
+                    <h5 style="display: inline-block;">Name: </h5>
+                    <input type="text"
+                            class="form-control"
+                            name="name"
+                            [(ngModel)]="model.name"
+                            placeholder="Name"autocomplete="off" >
+                </div>
+            
+                <div class="mb-3"><h5 style="display: inline-block;
+                    margin-right: 2%;">Description:</h5> 
+                    <textarea class="form-control"
+                    name="description"
+                    [(ngModel)]="model.description"
+                    placeholder="Description"autocomplete="off" ></textarea>
+                </div>
+                <div class="mb-3"><h5 style="display: inline-block;
+                    margin-right: 2%;">Stock:</h5>
+                    <input type="number"
+                    class="form-control"
+                    name="stock"
+                    [(ngModel)]="model.stock"
+                    placeholder="Stock"autocomplete="off">
+                </div>
+                <div class="mb-3"><h5 style="display: inline-block;
+                    margin-right: 2%;">Category:</h5>
+                    <input type="text"
+                    class="form-control"
+                    name="category"
+                    [(ngModel)]="model.category"
+                    placeholder="Category">
+                </div>
+            
+            
+                <div class="mb-3" ><h5 style="display: inline-block;
+                    margin-right: 2%;">OldPrince:</h5>
+                    <input type="number"
+                    class="form-control"
+                    name="oldPrince"
+                    [(ngModel)]="model.oldPrice"
+                    placeholder="OldPrince"autocomplete="off">
+                </div>
+
+                <div class="mb-3"><h5 style="display: inline-block;
+                    margin-right: 2%;">Image Url:</h5> 
+                    <input type="text"
+                    class="form-control"
+                    name="image"
+                    [(ngModel)]="model.image"
+                    placeholder="Image" autocomplete="off">
+                </div>
+                <div class="mb-3"><h5 style="display: inline-block;
+                    margin-right: 2%;">Discount:</h5>
+                    <input type="number"
+                    class="form-control"
+                    name="discount"
+                    [(ngModel)]="model.discount"
+                    placeholder="Discount"autocomplete="off">
+                </div>
+                <div class="text-center"style="margin-right: 15%;">
+                    <button class="btn btn-success me-2" type="submit">Update stock</button>
+                    <button class="btn cancelButton" type="button" (click)="cancel()">Cancel</button>
+                    <button class="btn btn-primary" type="button" (click)="delete()">Delete</button>
+            
+                </div>
+            </form>
+        </div>
+        
+</section>

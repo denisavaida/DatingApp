@@ -1,6 +1,7 @@
-export interface ShoppingCart{
-    id: any,
-    products: object[],
-    total: any
+import { Product } from "./product";
 
+export interface ShoppingCart{
+    products: Product[] ,
+    total: number,
+    AppUserId: number
 }

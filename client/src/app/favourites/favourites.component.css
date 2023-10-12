@@ -1,0 +1,90 @@
+body {
+  font-family: "Poppins", sans-serif;
+  color: #444444;
+}
+
+table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+  }
+  
+  td, th {
+    border: 0px solid #dddddd;
+    text-align: center;
+    padding: 30px;
+  }
+ 
+  img {
+    position: relative;
+    height: 130px;
+    width: auto;
+    max-height: 260px;
+    margin-bottom: 10px;
+    overflow: hidden;
+
+}
+
+img{ 
+    transform: scale(1.0,1.0);
+    transition-duration: 500ms;
+    transition-timing-function: ease-out;
+    opacity:0.8;
+}
+
+.backButton{
+    
+    font-size: large;
+}
+
+.backButton:hover{
+   background-color: #444444;
+   color: white;
+}
+.product-old-price {
+  position: relative;
+  display: inline-block;
+  padding: 0px 28px 0px 0px;
+  margin-top: 25%;
+  opacity: 0.6;
+  width: 46%;
+  font-size:medium;
+}
+
+.product-old-price::after {
+
+  position: absolute;
+  content: "";
+  top: 50%;
+  left: 0;
+  width: 70%;
+  height: 1px;
+  background-color: #444444;
+  transform: translateY(-50%);
+}
+
+.discount{
+  position: relative;
+  top: 15px;
+  left: 20px;
+  color: #ffffff;
+  background-color: #fe302f;
+  padding: 2px 8px;
+  font-size: 0.85rem;
+}
+.product-price{
+  position:relative;
+  display: inline-block;
+  font-size: large;
+  line-height: -1.5rem;
+  margin-bottom: 30%;
+}
+.addProdButton:hover{
+  background-color:white;
+  color: rgb(69, 151, 103);
+}
+.addProdButton{
+  color: white;
+  background-color: rgb(69, 151, 103);
+  
+}

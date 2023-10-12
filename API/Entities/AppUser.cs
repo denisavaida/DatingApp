@@ -1,4 +1,5 @@
 ﻿
+using API.DTOs;
 using API.Entities;
 
 namespace API;
@@ -18,5 +19,6 @@ public class AppUser
 
     public string Role { get; set; }
 
-    public List<ShoppingCart> Orders { get; set;} = new List<ShoppingCart>();
+    public List<Order> Orders { get; set;} = new List<Order>();
+
 }

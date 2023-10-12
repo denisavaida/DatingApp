@@ -1,38 +1,72 @@
-<h1>detaliile produsului</h1>
-<h2>{{product.Name}}</h2>
-<!-- <div class="container py-4 my-4 mx-auto d-flex flex-column">
-    <div class="header">
-        <div class="row r1">
-            <div class="col-md-9 abc">
-                <h1>{{product.Name}}</h1>
+<div class="container" *ngIf="product">
+    <div class="row align-items-center">
+        <div class="col">
+            <div class="part-1" >
+                
+            <img class="card-img-top"src="{{product.image }}" alt="{{product.name}}" class="card-img-top img-thumbnail">
+
+            <!-- <ngx-gallery [options]="galleryOptions" [images]="galleryImages" class="ngx-gallery"></ngx-gallery> -->
+            </div>   
+        </div>
+            <div class="col">
+                <div class="part-2">
+                    <p>EXCLUSIV ONLINE</p>
+                    <strong><h3 style="text-transform: capitalize">{{product.name}}</h3></strong>
+                <div class="stockAvailable" *ngIf="product.stock > 0" >
+                    <strong>In stock</strong>
+                    
+                </div>
+                <div class="hide">{{product.stock}} products</div>
+                <div class="outOfStock" *ngIf="product.stock == 0">
+                    <strong>Out of stock</strong>
+                </div>
+                <div *ngIf="product.discount>0">
+                    <span class="price" style="font-size:160%">{{product.price}} Lei  </span><del> {{product.oldPrice}} lei</del>
+                    <span class="discount" *ngIf="product.discount>0">-{{product.discount}}%</span>
+                    
+                </div>
+                <div *ngIf="product.discount==0">
+                    <h4>{{product.price}} Lei  </h4>
+                    
+                </div>
+                <br>
+                <i class="fa fa-car" aria-hidden="true"> Transport: 15 lei</i>
+                <i class="fa fa-clock-o"> Livrare in 1-3 zile lucratoare</i>
+                
+            <div>
+                <br>
+                <strong>Description:</strong>
+                <p>{{product.description}}</p>
             </div>
-            <div class="col-md-3 text-right pqr"><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i></div>
-            <p class="text-right para">Based on 250 Review</p>
-        </div>
-    </div>
-    <div class="container-body mt-4">
-        <div class="row r3">
-            <div class="col-md-5 p-0 klo">
-                <ul>
-                    <li>{{product.Description}}</li>
-                    <li></li>
-                    <li>Easy Returns</li>
-                    <li>12 Months Warranty</li>
-                    <li>EMI Starting from (On Credit Cards)</li>
-                    <li>Normal Delivery : 4-5 Days</li>
-                    <li>Express Delivery : 2-3 Days</li>
-                    <li>COD Available (All Over India)</li>
-                </ul>
+                </div>
             </div>
-            <div class="col-md-7"> <img src={{product.Image}} width="90%" height="95%"> </div>
+        <div class="col">
+            <div class="part-3">
+                <label>Quantity</label>
+                <form *ngIf="product.stock == 0">
+                    <input type="number" min="0" max="0"[(ngModel)]="product.quantity" name="quantity">
+                </form>
+                <form *ngIf="product.stock > 0">
+                    <input type="number" min="1" max="{{product.stock}}"[(ngModel)]="product.quantity" name="quantity">
+                </form>
+                <div *ngIf="product.stock == 0">
+                    <button class="btn addButton" style="background-color: lightgrey;"><i class="fa fa-shopping-cart" aria-hidden="true" ></i> Add to cart</button>
+                    <a (click)="addToFavourites(product)"><i class="fa fa-heart"></i></a>
+                </div>
+                <div *ngIf="product.stock > 0">
+                    <button class="btn btn-success addButton" (click)="addToCart(product)" ><i class="fa fa-shopping-cart" aria-hidden="true" ></i> Add to cart</button>
+                    <a (click)="addToFavourites(product)"><i class="fa fa-heart"></i></a><br>
+                    <button class="btn backButton" (click)="cancel()"><i class="fa fa-arrow-left"> Back </i></button>
+                </div>
+                <div *ngIf="currentUser.name == 'admin'"> 
+                   
+                        <a routerLink="/products/edit/{{product.id}}" routerLinkActive="active"><button class="btn btn-warning editButton"><i class="fa fa-pencil-square-o"> Edit product </i></button></a>
+                        <button class="btn btn-primary cancelButton" type="button" (click)="delete()">Delete</button>
+                
+               </div>
+            </div>
         </div>
+
     </div>
-    <div class="footer d-flex flex-column mt-5">
-        <div class="row r4">
-            <div class="col-md-2 myt des"><a href="#">Description</a></div>
-            <div class="col-md-2 myt "><a href="#">Review</a></div>
-            <div class="col-md-2 mio offset-md-4"><a href="#">ADD TO CART</a></div>
-            <div class="col-md-2 myt "><button type="button" class="btn btn-outline-warning"><a href="#">BUY NOW</a></button></div>
-        </div>
-    </div>
-</div> -->
+
+</div>

@@ -9,8 +9,9 @@ import { User } from './_models/user';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit{
-  title = 'Dating app';
+  title = 'Koala Kids Shop';
   users: any;
+  model:any={};
 
   constructor(private http: HttpClient, private accountService: AccountService){
 
@@ -35,6 +36,8 @@ export class AppComponent implements OnInit{
     const user: User = JSON.parse(userString);
     this.accountService.setCurrentUser(user);
 }
+
+subscribe(){}
 
   }
 

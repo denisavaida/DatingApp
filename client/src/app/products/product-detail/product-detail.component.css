@@ -1,0 +1,133 @@
+
+.stockAvailable{
+    color: green;
+}
+.outOfStock{
+    color: red;
+}
+.card-img-top {
+    position: relative;
+}
+.discount{
+    color:red;
+    font-size: small;
+    margin-left: 20px;
+}
+.price{
+    color:red;
+}
+
+.part-1 img {
+    position: relative;
+    height: 450px;
+    width: auto;
+    max-height: 500px;
+    margin-bottom: 40px;
+    overflow: hidden;
+}
+.part-1 {
+    overflow: hidden;
+}
+.part-1::before {
+    position: absolute;
+    content: "";
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    transition: all 0.3s;
+}
+.part-1::before {
+    transform: scale(1.2,1.2) rotate(5deg);
+}
+
+.part-1 .new {
+    left: 0;
+    background-color: #444444;
+}
+
+
+.part-1 ul li {
+    display: inline-block;
+    margin-right: 4px;
+}
+.part-1 ul {
+    position: absolute;
+    bottom: -41px;
+    left: 20px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    opacity: 0;
+    transition: bottom 0.5s, opacity 0.5s;
+}
+.part-2{
+    margin: auto;
+    width: 50%;
+  }
+
+.part-2  .hide{
+    display: none;
+}
+
+/* .part-2 .stockAvailable:hover + .hide{
+    display:inline-block;
+    color: green;
+}  */
+
+ .part-3 a{
+    display: inline-block;
+    width: 30px;
+    /* height: 100px; */
+    line-height: 150px;
+    color: #444444;
+    text-align: right;
+    transition: color 0.2s;
+}
+
+.part-3 a:hover {
+    color: #fe302f;
+}
+
+
+.footer a{
+    color: black;
+}
+
+.footer a:hover{
+    color: gray;
+}
+
+.ngx-gallery{
+    display: inline-block;
+    margin-bottom: 20px;
+}
+ 
+.editButton{
+    display: inline-block;
+    width: 150px;
+    height: 37px;
+    color: white;
+    text-align: center;
+    transition: color 0.2s;
+    font-size: large;
+    margin-top: -50%;
+    margin-right: 30px;
+    font-family:'Courier New', Courier, monospace
+}
+
+.cancelButton{
+    background-color: white; 
+    margin-top: 20%;
+    margin-left: 12px;
+}
+.backButton{
+    background-color: lightgrey; 
+    margin-top: -5%;
+    margin-bottom: -5%;
+}
+/* .addButton{
+    margin-bottom: -185px;
+    margin-left:12px;
+} */

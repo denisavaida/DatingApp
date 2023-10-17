@@ -40,13 +40,16 @@ namespace API.Controllers
                 Subtotal = product.Subtotal
 
             };
+            var productDTO =  _mapper.Map<ProductDto>(newProduct);
             var photo = new Photo
             {
-                Url = product.Image
+                IsMain = true,
+                Url = product.Image,
+                ProductId = productDTO.Id,
             };
             newProduct.Images.Add(photo);
 
-           
+
             if (await _productRepository.CategoryExists(newProduct.Category.ToString())) 
             {
                 Console.WriteLine("Category already exists !");

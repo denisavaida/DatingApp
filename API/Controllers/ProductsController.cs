@@ -44,8 +44,15 @@ namespace API.Controllers
         }
 
         [HttpDelete("delete/{id}")] // /products/delete/2
-        public void DeleteProduct(int id){
-            _productRepository.DeleteProduct(id);
+        public  ActionResult DeleteProduct(int id){
+            try{
+                // _productRepository.DeletePhoto(id);
+                // _productRepository.DeleteProductCategory(id);
+                _productRepository.DeleteProduct(id);
+            }catch{
+                return StatusCode(500);
+            }
+            return Ok();
             // _productRepository.SaveAllAsyncs();
         }
 

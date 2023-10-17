@@ -1,6 +1,5 @@
 using System.ComponentModel.DataAnnotations.Schema;
 using API.DTOs;
-using Microsoft.EntityFrameworkCore;
 
 namespace API.Entities
 {
@@ -10,6 +9,7 @@ namespace API.Entities
     {
         public int Id { get; set; }
         public List<Product> Product{ get; set; }
+        public int ProductId{get;set;}
         public float Total{ get; set; }
 
         [ForeignKey("AppUserId")]

@@ -103,7 +103,7 @@
     display: inline-block;
     margin-bottom: 20px;
 }
- 
+
 .editButton{
     display: inline-block;
     width: 150px;
@@ -123,9 +123,13 @@
     margin-left: 12px;
 }
 .backButton{
-    background-color: lightgrey; 
-    margin-top: -5%;
-    margin-bottom: -5%;
+    
+    font-size: large;
+}
+
+.backButton:hover{
+   background-color: #444444;
+   color: white;
 }
 /* .addButton{
     margin-bottom: -185px;

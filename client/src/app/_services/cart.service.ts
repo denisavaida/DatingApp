@@ -16,6 +16,7 @@ export class CartService{
         total: 0,
         AppUserId: 0
     } ;
+    cart:any;
     currentUser:any;
     baseUrl = environment.apiUrl;
     private currentShoppingCartSource= new BehaviorSubject<ShoppingCart | null>(null);
@@ -27,25 +28,24 @@ export class CartService{
     }
 
     getShoppingCart(){
-    // this.shoppingCart.products = this.items;
-    // this.shoppingCart.AppUserId = this.currentUser.id;
-
+    this.shoppingCart.products = this.getItems();
+    this.shoppingCart.total = 0;
     if (this.items.length>0){
         this.items.forEach(element => {
-            this.shoppingCart.products.push(element);
+            // this.shoppingCart.products.push(element);
             this.shoppingCart.total = this.shoppingCart.total+ element.price * element.quantity;
         });
         }
         return this.shoppingCart;
     }
 
-    // getShoppingCart(id: any){
-    //     this.http.get(this.baseUrl+'shoppingCart/'+id).subscribe({
-    //       next:response=> this.shoppingCart = response,
-    //       error:error=>console.log(error),
-    //       complete:()=> console.log('get shopping cart Request has completed')
-    //     })
-    //   }
+    getShoppingCartDB(id: any){
+        this.http.get(this.baseUrl+'shoppingCart/'+id).subscribe({
+          next:response=> this.cart = response,
+          error:error=>console.log(error),
+          complete:()=> console.log('get shopping cart Request has completed')
+        })
+      }
     
     addToCart(model: Product){
        

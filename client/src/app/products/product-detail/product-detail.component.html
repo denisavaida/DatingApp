@@ -2,7 +2,7 @@
     <div class="row align-items-center">
         <div class="col">
             <div class="part-1" >
-                
+                <button class="btn backButton" (click)="back()"><i class="fa fa-arrow-left"> Back </i></button>
             <img class="card-img-top"src="{{product.image }}" alt="{{product.name}}" class="card-img-top img-thumbnail">
 
             <!-- <ngx-gallery [options]="galleryOptions" [images]="galleryImages" class="ngx-gallery"></ngx-gallery> -->
@@ -56,9 +56,9 @@
                 <div *ngIf="product.stock > 0">
                     <button class="btn btn-success addButton" (click)="addToCart(product)" ><i class="fa fa-shopping-cart" aria-hidden="true" ></i> Add to cart</button>
                     <a (click)="addToFavourites(product)"><i class="fa fa-heart"></i></a><br>
-                    <button class="btn backButton" (click)="cancel()"><i class="fa fa-arrow-left"> Back </i></button>
+                    
                 </div>
-                <div *ngIf="currentUser.name == 'admin'"> 
+                <div *ngIf="currentUser.username == 'admin'"> 
                    
                         <a routerLink="/products/edit/{{product.id}}" routerLinkActive="active"><button class="btn btn-warning editButton"><i class="fa fa-pencil-square-o"> Edit product </i></button></a>
                         <button class="btn btn-primary cancelButton" type="button" (click)="delete()">Delete</button>

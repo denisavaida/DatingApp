@@ -11,7 +11,7 @@ export interface Product{
     price: number,
     image: string,
     stock: number,
-    //images: Photo[],
+    images: Photo[],
     discount: number,
     shoppingCartId: any,
     subtotal: number

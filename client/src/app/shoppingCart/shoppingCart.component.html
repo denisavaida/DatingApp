@@ -38,9 +38,10 @@
         <div class="row"style="text-align: center;"><h6>Livrare gratuita la achizitia de articole de peste 150 Lei si plata in avans.</h6></div> <!-- need to check that -->
         
         <div class="row" style="text-align: center;margin-top: 5%;" >
+            
+            
           <div class="col-md-8">
-
-          
+            <button class="btn backButton" (click)="back()"><i class="fa fa-arrow-left"> Back </i></button>
             <table>
                 <tr *ngFor="let item of shoppingCart.products">
                   <td><a a routerLink="/products/{{item.id}}" routerLinkActive="active"><img src="{{item.image}}"></a></td>
@@ -53,26 +54,28 @@
                 </tr> 
               </table>
             </div>
-              <div class="col-md-4" style="text-align: justify;">
-                <p></p>
+              <div class="col-md-4 sumarInfo" style="text-align: justify;">
+                <h5 style="font-weight: bolder;">Sumar comanda :</h5>
                 <h6>Cost produse: {{shoppingCart.total}} Lei</h6>
                 <div *ngIf="shoppingCart.total > 150"><h6 style="color: green;">Livrare: GRATUITA </h6>
                   <h4>TOTAL: {{shoppingCart.total}} Lei</h4></div>
                   <div *ngIf="shoppingCart.total < 150"><h6>Livrare: 15 Lei </h6>
                     <h4>TOTAL: {{shoppingCart.total+15}} Lei</h4> </div>
                   
-                <button class="btn orderButton"><a routerLink="/orders/{{shoppingCart.AppUserId}}" routerLinkActive="active">Finalizeaza comanda</a></button>
-                <button class="btn backToShopBtn" (click)="backToShop()">INAPOI IN MAGAZIN</button>
+                <button class="btn orderButton" routerLink="/orders" routerLinkActive="active">Finalizeaza comanda</button>
                 <h6><i class="fa fa-undo" style="color: black;margin-top: 3%;">  Retur gratuit in termen de 30 zile.</i></h6>
                     <h6><i class="fa fa-truck">  Livrare gratuita la achizitia de articole de peste 150 Lei si plata in avans.</i></h6>
                      
                     <button type="button" class="btn btn-link buttonCost" data-toggle="modal" data-target="#exampleModal"><h6>Costuri de livrare </h6></button>
-            </div>
+           
+           
+                </div>
               <div class="row" >
-                <div class="col-md-8" style="text-align: start;">
-                    <h5 style="color: rgb(76, 76, 255);font-family: Arial, Helvetica, sans-serif"><i class="fa fa-info-circle" aria-hidden="true"> Nu uitati sa finalizati comanda. Adaugarea articolelor in cos nu inseamna rezervarea lor.</i></h5>
+                <div class="col-md-8 " style="text-align: start;">
+                    <div class="alert alert-info">
+                    <p style="color: rgb(76, 76, 255);font-family: Arial, Helvetica, sans-serif"><i class="fa fa-info-circle" aria-hidden="true"> Nu uitati sa finalizati comanda. Adaugarea articolelor in cos nu inseamna rezervarea lor.</i></p>
                     
-
+                </div>
 
                     <h6>Acceptam :</h6>
                     

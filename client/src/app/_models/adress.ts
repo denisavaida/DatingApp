@@ -5,5 +5,6 @@ export interface Adress{
     city: string,
     region: string,
     country: string,
+    postcode:any,
     userId:any
 }

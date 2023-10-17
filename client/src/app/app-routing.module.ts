@@ -18,6 +18,9 @@ import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { ProductEditComponent } from './products/product-edit/product-edit.component';
 import { PromotionsComponent } from './promotions/promotions.component';
+import { DeliveryInfoComponent } from './delivery/delivery-info/delivery-info.component';
+import { DeliveryOptionsComponent } from './delivery/delivery-options/delivery-options.component';
+import { PaymentComponent } from './delivery/payment/payment.component';
 
 const routes: Routes = [
   {path:'',component: HomeComponent},
@@ -34,8 +37,11 @@ const routes: Routes = [
       {path:'favourites',component: FavouritesComponent},
       {path:'shoppingCart',component:ShoppingCartComponent},
       {path:'stock',component:StockComponent},
-      {path:'orders/:id', component:OrdersComponent},
+      {path:'orders', component:OrdersComponent},
       {path:'messages',component: MessagesComponent},
+      {path:'deliveryInfo',component:DeliveryInfoComponent},
+      {path:'deliveryOptions',component:DeliveryOptionsComponent},
+      {path:'payment',component:PaymentComponent}
     ]},
   {path:'register',component:RegisterComponent},
   {path:'login',component:LoginComponent},

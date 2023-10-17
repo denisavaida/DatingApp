@@ -35,6 +35,10 @@ import { ProductService } from './_services/product.service';
 import { FavouritesService } from './_services/favourites.service';
 import { PromotionsComponent } from './promotions/promotions.component';
 import { ModalComponent } from './modal/modal.component';
+import { DeliveryInfoComponent } from './delivery/delivery-info/delivery-info.component';
+import { DeliveryOptionsComponent } from './delivery/delivery-options/delivery-options.component';
+import { PaymentComponent } from './delivery/payment/payment.component';
+import { TabsModule } from 'ngx-bootstrap/tabs';
 
 @NgModule({
   declarations: [
@@ -59,7 +63,10 @@ import { ModalComponent } from './modal/modal.component';
     ServerErrorComponent,
     ProductEditComponent,
     PromotionsComponent,
-    ModalComponent
+    ModalComponent,
+    DeliveryInfoComponent,
+    DeliveryOptionsComponent,
+    PaymentComponent
   ],
   imports: [
     BrowserModule,
@@ -68,10 +75,12 @@ import { ModalComponent } from './modal/modal.component';
     FormsModule,
     SharedModule,
     BrowserAnimationsModule,
+    // MatRadioModule,
     BsDropdownModule.forRoot(),
     ToastrModule.forRoot({
       positionClass:'toast-bottom-right'
-    })
+    }),
+    TabsModule.forRoot()
   ],
   providers: [ AccountService,CartService,ProductService,FavouritesService,
     {provide: HTTP_INTERCEPTORS, useClass:ErrorInterceptor, multi:true,}

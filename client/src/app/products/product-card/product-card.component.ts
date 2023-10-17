@@ -60,20 +60,22 @@ export class ProductCardComponent implements OnInit{
         prod.quantity++;
         prod.subtotal = prod.price * prod.quantity;
         this.cartService.addToCart(prod);
+
         this.shoppingCart = this.cartService.getShoppingCart();
         this.shoppingCart.AppUserId = this.currentUser.id;
         console.log(this.shoppingCart);
-        this.cartService.addShoppingCart(this.shoppingCart).subscribe({
-        next:response=>{
-          this.toastr.success("Shopping cart added to db!")
-          console.log(response);
-          this.cancel;
-        },
-        error:error=>{
-          this.toastr.error(error.error)
-          console.log(error)
-        }
-      }) 
+        
+      //   this.cartService.addShoppingCart(this.shoppingCart).subscribe({
+      //   next:response=>{
+      //     this.toastr.success("Shopping cart added to db!")
+      //     console.log(response);
+      //     this.cancel;
+      //   },
+      //   error:error=>{
+      //     this.toastr.error(error.error)
+      //     console.log(error)
+      //   }
+      // }) 
     
       }else {
         if(this.cartService.findItem(prod)){
@@ -85,18 +87,18 @@ export class ProductCardComponent implements OnInit{
           // this.shoppingCart = this.cartService.getShoppingCart();
           this.shoppingCart.AppUserId = this.currentUser.id;
           this.shoppingCart.products = this.cartService.getItems();
-          this.cartService.addShoppingCart(this.shoppingCart).subscribe({
-            next:response=>{
-              this.toastr.success("Shopping cart added to db!")
-              console.log(response);
-              this.cancel;
-            },
-            error:error=>{
-              this.toastr.error(error.error)
-              console.log(error)
-            }
-          }) 
-          return;
+        //   this.cartService.addShoppingCart(this.shoppingCart).subscribe({
+        //     next:response=>{
+        //       this.toastr.success("Shopping cart added to db!")
+        //       console.log(response);
+        //       this.cancel;
+        //     },
+        //     error:error=>{
+        //       this.toastr.error(error.error)
+        //       console.log(error)
+        //     }
+        //   }) 
+        //   return;
         }
        }
 
@@ -149,6 +151,7 @@ export class ProductCardComponent implements OnInit{
 
   deleteProduct(prod: Product){
       this.productService.deleteProduct(prod);
+      this.router.navigateByUrl('/products');
   }
 
   cancel(){

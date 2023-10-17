@@ -78,6 +78,9 @@ namespace API.Migrations
                     b.Property<int>("Number")
                         .HasColumnType("INTEGER");
 
+                    b.Property<string>("Postcode")
+                        .HasColumnType("TEXT");
+
                     b.Property<string>("Region")
                         .HasColumnType("TEXT");
 
@@ -90,6 +93,32 @@ namespace API.Migrations
                         .IsUnique();
 
                     b.ToTable("Adress");
+                });
+
+            modelBuilder.Entity("API.Entities.Card", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("CVV")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("ExpiryMonth")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("ExpiryYear")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("Number")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Card");
                 });
 
             modelBuilder.Entity("API.Entities.Delivery", b =>
@@ -127,14 +156,14 @@ namespace API.Migrations
                     b.Property<int?>("AdressId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("Name")
+                    b.Property<string>("Firstname")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("Surname")
+                    b.Property<string>("Lastname")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("Telephone")
-                        .HasColumnType("TEXT");
+                    b.Property<int>("Telephone")
+                        .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
 
@@ -158,7 +187,7 @@ namespace API.Migrations
                     b.Property<int?>("DeliveryInfoId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int?>("DeliveryMethodId")
+                    b.Property<int?>("DeliveryOptionsId")
                         .HasColumnType("INTEGER");
 
                     b.Property<int?>("PaymentMethodId")
@@ -173,7 +202,7 @@ namespace API.Migrations
 
                     b.HasIndex("DeliveryInfoId");
 
-                    b.HasIndex("DeliveryMethodId");
+                    b.HasIndex("DeliveryOptionsId");
 
                     b.HasIndex("PaymentMethodId");
 
@@ -188,6 +217,9 @@ namespace API.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
+                    b.Property<int>("CardId")
+                        .HasColumnType("INTEGER");
+
                     b.Property<string>("Description")
                         .HasColumnType("TEXT");
 
@@ -195,6 +227,8 @@ namespace API.Migrations
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CardId");
 
                     b.ToTable("Payment");
                 });
@@ -208,7 +242,7 @@ namespace API.Migrations
                     b.Property<bool>("IsMain")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int?>("ProductId")
+                    b.Property<int>("ProductId")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Url")
@@ -295,6 +329,9 @@ namespace API.Migrations
                     b.Property<int>("AppUserId")
                         .HasColumnType("INTEGER");
 
+                    b.Property<int>("ProductId")
+                        .HasColumnType("INTEGER");
+
                     b.Property<float>("Total")
                         .HasColumnType("REAL");
 
@@ -333,9 +370,9 @@ namespace API.Migrations
                         .WithMany()
                         .HasForeignKey("DeliveryInfoId");
 
-                    b.HasOne("API.Entities.Delivery", "DeliveryMethod")
+                    b.HasOne("API.Entities.Delivery", "DeliveryOptions")
                         .WithMany()
-                        .HasForeignKey("DeliveryMethodId");
+                        .HasForeignKey("DeliveryOptionsId");
 
                     b.HasOne("API.Entities.Payment", "PaymentMethod")
                         .WithMany()
@@ -347,18 +384,33 @@ namespace API.Migrations
 
                     b.Navigation("DeliveryInfo");
 
-                    b.Navigation("DeliveryMethod");
+                    b.Navigation("DeliveryOptions");
 
                     b.Navigation("PaymentMethod");
 
                     b.Navigation("ShoppingCart");
                 });
 
+            modelBuilder.Entity("API.Entities.Payment", b =>
+                {
+                    b.HasOne("API.Entities.Card", "Card")
+                        .WithMany()
+                        .HasForeignKey("CardId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Card");
+                });
+
             modelBuilder.Entity("API.Entities.Photo", b =>
                 {
-                    b.HasOne("API.Entities.Product", null)
+                    b.HasOne("API.Entities.Product", "Product")
                         .WithMany("Images")
-                        .HasForeignKey("ProductId");
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Product");
                 });
 
             modelBuilder.Entity("API.Entities.Product", b =>
@@ -372,11 +424,13 @@ namespace API.Migrations
 
             modelBuilder.Entity("API.Entities.ProductCategory", b =>
                 {
-                    b.HasOne("API.Entities.Product", null)
+                    b.HasOne("API.Entities.Product", "Product")
                         .WithMany("Categories")
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Product");
                 });
 
             modelBuilder.Entity("API.Entities.ShoppingCart", b =>

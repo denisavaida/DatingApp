@@ -1,15 +1,14 @@
-import { Component } from '@angular/core';
+import { Component, TemplateRef } from '@angular/core';
 import { ShoppingCart } from '../_models/shopping-cart';
 import { AccountService } from '../_services/account.service';
 import {  take } from 'rxjs';
 import { CartService } from '../_services/cart.service';
 import { Product } from '../_models/product';
-import { Order } from '../_models/order';
 import { FavouritesService } from '../_services/favourites.service';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
-import { ControlContainer } from '@angular/forms';
 
+import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 
 @Component({
   selector: 'shoppingCart',
@@ -27,22 +26,15 @@ export class ShoppingCartComponent {
   }
   currentUser: any ={};
   prod: any={};
-  // order: Order= {
-  //   id: 0,
-  //   shoppingCart: this.shoppingCart,
-  //   shippingFee: 0,
-  //   deliveryAddress: this.currentUser.Adress,
-  //   billingAdress: this.currentUser.Adress,
-  //   payment: undefined ,
-  //   coupon: 0
-  // }
-
-  constructor( private accountService: AccountService, private cartService: CartService, private favouritesService: FavouritesService, private toastr: ToastrService,
+  // cartDb:any;
+  modalRef?: BsModalRef;
+  constructor( private accountService: AccountService,private cartService: CartService, private favouritesService: FavouritesService, private toastr: ToastrService,
     private router: Router){
       this.accountService.currentUser$.pipe((take(1))).subscribe({
         next: user=> this.currentUser = user
       })
-      
+      // this.cartDb = this.cartService.getShoppingCartDB(this.currentUser.id);
+      // console.log(this.cartDb);
     }
 
   ngOnInit():void{
@@ -64,6 +56,9 @@ export class ShoppingCartComponent {
       
     // }
   }
+  // openModal(template: TemplateRef<any>) {
+  //   this.modalRef = this.modalService.show(template);
+  // }
 
   // getShoppingCart(){  
   //   this.shoppingCart.AppUserId = this.currentUser.id;
@@ -120,16 +115,13 @@ export class ShoppingCartComponent {
 
     
   }
-  sendOrder(cart: ShoppingCart){
-    console.log(this.shoppingCart);
-  console.log(this.currentUser);
-  }
+
 
   login(){}
   ProductExistsInShoppingCart(id: number){
     this.prod = localStorage.getItem("shoppingCart");
 }
-backToShop(){
+back(){
   this.router.navigateByUrl('/products');
 }
 }

@@ -1,3 +1,5 @@
+using API.Entities;
+
 namespace API.DTOs
 {
     public class ProductDto
@@ -23,5 +25,10 @@ namespace API.DTOs
             Subtotal = Quantity * Price;
             return Subtotal;
          }
+
+        public static implicit operator ProductDto(Product v)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -68,14 +68,19 @@ img{
   color: black;
   border-color: black;
 }
-.backToShopBtn{
-  padding: 5%;
-  padding-left:30%;
-  padding-right: 30%;;
+.backButton{
+  text-align: start;
+  font-size: large;
+  margin-right: 90%;
 }
-.backToShopBtn:hover{
-  border:black;
+
+.backButton:hover{
+ background-color: #444444;
+ color: white;
 }
 .buttonCost{
   color: black;
+}
+.sumarInfo{
+  margin-top: 3%;
 }

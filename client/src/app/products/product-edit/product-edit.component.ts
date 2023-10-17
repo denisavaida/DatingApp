@@ -43,6 +43,7 @@ export class ProductEditComponent implements OnInit{
     }
     console.log(this.model);
     this.productService.updateProduct(this.model).subscribe();
+    this.router.navigateByUrl('/products');
   }
   delete(){
     console.log(this.model);

@@ -1,40 +1,48 @@
-<div class="mb-3">
+<div class="row mb-4">
+    <div class="col">
+        <input type="text"
+        class="form-control"
+        name="street"
+        [(ngModel)]="model.street"
+        placeholder="Strada">
+    </div>
+    <div class="col">
+        <input type="number"
+        class="form-control"
+        name="number"
+        step="1" pattern="\d+"
+        [(ngModel)]="model.number"
+        placeholder="Numar">
+    </div>
+<div class="col">
     <input type="text"
-            class="form-control"
-            name="street"
-            [(ngModel)]="model.street"
-            placeholder="Street">
+    class="form-control"
+    name="postcode"
+    [(ngModel)]="model.postcode"
+    placeholder="Cod postal">
 </div>
-
-<div class="mb-3">
-    <input type="number"
-            class="form-control"
-            name="number"
-            step="1" pattern="\d+"
-            [(ngModel)]="model.number"
-            placeholder="Number">
 </div>
+<div class="row mb-4">
+    <div class="col">
+        <input type="text"
+        class="form-control"
+        name="city"
+        [(ngModel)]="model.city"
+        placeholder="Oras">
+    </div>
+    <div class="col">
+        <input type="text"
+        class="form-control"
+        name="region"
+        [(ngModel)]="model.region"
+        placeholder="Judet">
+    </div>
+    <div class="col">
+        <input type="text"
+        class="form-control"
+        name="country"
+        [(ngModel)]="model.country"
+        placeholder="Tara">
+    </div>
 
-<div class="mb-3">
-    <input type="text"
-            class="form-control"
-            name="city"
-            [(ngModel)]="model.city"
-            placeholder="City">
-</div>
-
-<div class="mb-3">
-    <input type="text"
-            class="form-control"
-            name="region"
-            [(ngModel)]="model.region"
-            placeholder="Region">
-</div>
-
-<div class="mb-3">
-    <input type="text"
-            class="form-control"
-            name="country"
-            [(ngModel)]="model.country"
-            placeholder="Country">
 </div>

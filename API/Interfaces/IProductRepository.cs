@@ -21,5 +21,7 @@ namespace API.Interfaces
         Task<ShoppingCart> AddShoppingCartAsync(ShoppingCart shoppingCart);
         Task<bool> ShoppingCartExists(int id);
         void DeleteProduct(int id);
+        void DeleteProductCategory(int id);
+        void DeletePhoto(int id);
     }
 }

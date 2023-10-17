@@ -29,6 +29,7 @@ shoppingCart:ShoppingCart= {
   AppUserId: 0
 };
 currentUser: any; 
+
 // galleryOptions: NgxGalleryOptions[]=[];
 // galleryImages: NgxGalleryImage[]=[];
 
@@ -42,6 +43,7 @@ constructor( private productService: ProductService,private route: ActivatedRout
 ngOnInit():void{
   //this.productService.getProducts();
   this.loadProduct();
+  console.log(this.currentUser);
   this.categories = this.productService.getCategories();
   // this.shoppingCart = this.accountService.getShoppingCart();
   // this.galleryOptions=[
@@ -178,7 +180,7 @@ addToFavourites(product:Product){
 delete(){
 
 }
-cancel(){
+back(){
   this.router.navigateByUrl('/products');
 }
 }

@@ -2,9 +2,15 @@
 
 body {
     font-family: "Poppins", sans-serif;
-    color: #444444;
+    /* color: #444444; */
 }
-
+.header{
+    background-color: rgb(192, 9, 9);
+    color: white;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    padding: 3%;
+    margin-top: 0%;
+}
 a,
 a:hover {
     text-decoration: none;
@@ -12,7 +18,7 @@ a:hover {
 }
 
 .section-products {
-    padding: 80px 0 54px;
+    padding: 20px 0 54px;
 }
 
 .section-products .header {

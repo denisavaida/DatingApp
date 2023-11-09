@@ -1,1 +1,55 @@
-<p>payment works!</p>
+<form #paymentForm="ngForm" (ngSubmit)="pay()" autocomplete="off" aria-required="true">
+
+    <div class="container">
+
+
+      
+        <div class="row mb-4">
+            <div class="col-md-12 ">
+                
+        <input matInput matNativeControl type="text"
+                class="form-control"
+                name="number" maxlength="19" required
+                [(ngModel)]="model.number"
+                placeholder="Card number"(ngModelChange)="mychange($event)" >
+    </div>
+        </div>
+
+    
+    <div class="row mb-4">
+        <div class="col-md-4 ">
+            
+            <select type="text" name="expiryMonth" id='expiryMonth' class="form-control" >
+                <option value='' disabled selected>Month</option>
+                <option value="expiryMonth" name="expiryMonth" *ngFor="let item of months"> {{item}} </option>
+
+            </select> 
+        </div>
+        <div class="col-md-4">
+            <select type="text" name='expiryYear' id='expiryYear' class="form-control" >
+                <option value=''disabled selected>Year</option>
+                <option value="expiryYear" name="expiryYear"  *ngFor="let item of years">{{item}}</option>
+            </select> 
+        </div>
+        <div class="col-md-4">
+            <input matInput matNativeControl type="text"
+            class="form-control"
+            name="CVV" maxlength="3" required
+            [(ngModel)]="model.CVV"
+            placeholder="CVV">
+        </div>
+    </div>
+
+    <div class="mb-3">
+        <input matInput matNativeControl type="text"
+        class="form-control"
+        name="name"
+        [(ngModel)]="model.name"
+        placeholder="Name">
+    </div>
+</div>
+<div class="text-center">
+    <button class="btn btn-success payButton" type="submit" (click)="pay()">Plateste</button>
+</div>
+
+</form>

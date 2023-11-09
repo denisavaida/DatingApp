@@ -1,13 +1,14 @@
+import { Card } from "./card";
 import { Delivery } from "./delivery";
 import { DeliveryInfo } from "./deliveryInfo";
 import { Payment } from "./payment";
-import { ShoppingCart } from "./shopping-cart";
+import { Summary } from "./summary";
 
 export interface Order{
     id: number;
-    shoppingCart: ShoppingCart,
+    summary: Summary,
     deliveryMethod: Delivery,
     deliveryInfo:DeliveryInfo,
-    paymentMethod:Payment,
+    paymentMethod:Card,
     coupon:string,
 }

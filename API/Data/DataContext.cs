@@ -12,7 +12,9 @@ public class DataContext : DbContext
     public DbSet<Product> Products{ get; set; }
     public DbSet<Adress> Adresses{ get; set; }
     public DbSet<Photo> Photos{get;set;}
+    public DbSet<Favourites> Favourites{get;set;}
     public DbSet<ProductCategory> ProductCategory{ get; set; }
     public DbSet<ShoppingCart> ShoppingCart{ get; set; }
+    public DbSet<Delivery> Delivery{get;set;}
 
 }

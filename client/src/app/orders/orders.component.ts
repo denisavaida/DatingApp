@@ -22,7 +22,7 @@ export class OrdersComponent implements OnInit {
     })
   }
   ngOnInit(): void {
-    this.model = this.cartService.getShoppingCart();
+    this.model = this.accountService.getShoppingCart();
     // this.model = this.cartService.getShoppingCartDB(this.currentUser.id);
     // console.log(this.model);
   }

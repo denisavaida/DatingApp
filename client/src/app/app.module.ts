@@ -6,7 +6,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NavComponent } from './nav/nav.component';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { HomeComponent } from './home/home.component';
 import { RegisterComponent } from './register/register.component';
@@ -34,13 +34,29 @@ import { CartService } from './_services/cart.service';
 import { ProductService } from './_services/product.service';
 import { FavouritesService } from './_services/favourites.service';
 import { PromotionsComponent } from './promotions/promotions.component';
-import { ModalComponent } from './modal/modal.component';
 import { DeliveryInfoComponent } from './delivery/delivery-info/delivery-info.component';
 import { DeliveryOptionsComponent } from './delivery/delivery-options/delivery-options.component';
 import { PaymentComponent } from './delivery/payment/payment.component';
 import { TabsModule } from 'ngx-bootstrap/tabs';
+import {MatRadioModule} from '@angular/material/radio';
+import {MatCardModule} from '@angular/material/card';
+import { CheckoutComponent } from './checkout/checkout.component';
+import {MatTabsModule} from '@angular/material/tabs';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { DeliveryChangeComponent } from './delivery/delivery-change/delivery-change.component';
+import { DeliveryEditComponent } from './delivery/delivery-edit/delivery-edit.component';
+import { CheckoutService } from './_services/checkout.service';
+import { CategoryService } from './_services/category.service';
+import { OrderService } from './_services/order.service';
+import {MatStepperModule} from '@angular/material/stepper';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import {MatDialogModule} from '@angular/material/dialog';
 
-@NgModule({
+
+@NgModule({exports: [ MatFormFieldModule, MatInputModule ],
   declarations: [
     AppComponent,
     NavComponent,
@@ -63,10 +79,13 @@ import { TabsModule } from 'ngx-bootstrap/tabs';
     ServerErrorComponent,
     ProductEditComponent,
     PromotionsComponent,
-    ModalComponent,
     DeliveryInfoComponent,
     DeliveryOptionsComponent,
-    PaymentComponent
+    PaymentComponent,
+    CheckoutComponent,
+    DeliveryChangeComponent,
+    DeliveryEditComponent
+    
   ],
   imports: [
     BrowserModule,
@@ -75,14 +94,25 @@ import { TabsModule } from 'ngx-bootstrap/tabs';
     FormsModule,
     SharedModule,
     BrowserAnimationsModule,
-    // MatRadioModule,
+    MatRadioModule,
+    MatCardModule,
+    MatTabsModule,
+    MatSidenavModule,
+    MatExpansionModule,
+    ReactiveFormsModule,
+    MatNativeDateModule,
+    MatStepperModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatDialogModule,
     BsDropdownModule.forRoot(),
     ToastrModule.forRoot({
       positionClass:'toast-bottom-right'
     }),
+    
     TabsModule.forRoot()
   ],
-  providers: [ AccountService,CartService,ProductService,FavouritesService,
+  providers: [ AccountService,CartService,ProductService,FavouritesService, CheckoutService, CategoryService,OrderService,
     {provide: HTTP_INTERCEPTORS, useClass:ErrorInterceptor, multi:true,}
   ],
   bootstrap: [AppComponent]

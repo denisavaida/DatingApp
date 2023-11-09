@@ -6,13 +6,13 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace API.Services
 {
-    public class TokenService : ITokenService   //Inheritance a Interface
+    public class TokenService : ITokenService                                                                //Inheritance a Interface
     {
         private readonly SymmetricSecurityKey _key;
         public TokenService(IConfiguration config){
             _key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config["TokenKey"]));
         }
-        public string CreateToken(AppUser user)             //Polymorphism
+        public string CreateToken(AppUser user)                                                                     //Polymorphism
         {
             var claims = new List<Claim>
             {

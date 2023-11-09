@@ -1,13 +1,7 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
 namespace API.Entities
 {
-    public class Measurement
+    public class Measurement : BaseEntity
     {
-        public int Id { get; set; }
         public string Name { get; set; }
         public ProductCategory Category{get; set;}
         public int ProductId { get; set; }

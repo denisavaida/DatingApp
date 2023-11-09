@@ -1,10 +1,9 @@
 import { Adress } from "./adress";
 
 export interface DeliveryInfo{
-    id: number;
     firstname: string,
     lastname:string,
-    telephone:number,
+    telephone:string,
     email:string,
     adress:Adress,
     additonalInfo:string

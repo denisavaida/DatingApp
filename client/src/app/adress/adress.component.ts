@@ -1,6 +1,8 @@
-import { Component, Injectable, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Injectable, Input, Output } from '@angular/core';
 import { AccountService } from '../_services/account.service';
 import { ToastrService } from 'ngx-toastr';
+import { Adress } from '../_models/adress';
+import { CheckoutService } from '../_services/checkout.service';
 @Component({
   selector: 'app-adress',
   templateUrl: './adress.component.html',
@@ -10,10 +12,11 @@ import { ToastrService } from 'ngx-toastr';
 export class AdressComponent {
   model: any= {}
   @Input('userId') userId: any;
+  // @Output() adressFilled = new EventEmitter<Adress>();
   // @Input() adressFrom :any ={};
   adressOutput: any = {};
 
-  constructor(private accountService: AccountService, private toastr: ToastrService ){
+  constructor(private accountService: AccountService, private toastr: ToastrService,private checkoutService:CheckoutService){
 
   }
   addAdressRegister(){
@@ -41,6 +44,11 @@ export class AdressComponent {
     console.log(this.adressOutput);
     console.log("Added to shopping cart ! ");
   }
+
+  // setAdress(){
+  //   this.checkoutService.setAdress(this.model);
+  //   this.adressFilled.emit(this.model);
+  // }
   cancel(){}
  
 

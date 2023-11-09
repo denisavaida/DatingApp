@@ -3,6 +3,7 @@ import { AccountService } from '../_services/account.service';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
 import { User } from '../_models/user';
+import { CartService } from '../_services/cart.service';
 
 @Component({
   selector: 'app-login',
@@ -11,7 +12,7 @@ import { User } from '../_models/user';
 })
 export class LoginComponent {
   @Output() model: any = {};
-  constructor(private accountService:AccountService, private toastr: ToastrService, private router: Router){
+  constructor(private accountService:AccountService, private toastr: ToastrService, private router: Router,private cartService: CartService){
   }
 
   login(){
@@ -24,6 +25,7 @@ export class LoginComponent {
       }
     })
     this.model.active = true;
+
   }
   cancel(){}
 }

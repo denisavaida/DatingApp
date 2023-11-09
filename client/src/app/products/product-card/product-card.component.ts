@@ -1,11 +1,14 @@
+import { throwDialogContentAlreadyAttachedError } from '@angular/cdk/dialog';
 import { HttpClient } from '@angular/common/http';
 import { TmplAstHoverDeferredTrigger } from '@angular/compiler';
 import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { take } from 'rxjs';
+import { Favourites } from 'src/app/_models/favourite';
 import { Product } from 'src/app/_models/product';
 import { ShoppingCart } from 'src/app/_models/shopping-cart';
+import { Summary } from 'src/app/_models/summary';
 import { AccountService } from 'src/app/_services/account.service';
 import { CartService } from 'src/app/_services/cart.service';
 import { FavouritesService } from 'src/app/_services/favourites.service';
@@ -21,13 +24,28 @@ export class ProductCardComponent implements OnInit{
   @Input() product: Product | undefined;
   baseUrl = environment.apiUrl;
   products:any;
-  favourites: Product[] = [];
+
   currentUser: any = {};
-  shoppingCart:ShoppingCart = {
-    products: [] = [],
+  shoppingCartItem:ShoppingCart = {
+    id: 0,
+    quantity: 0,
+    subtotal: 0,
+    AppUserId: 0,
+    productId: 0,
+    product: {}
+  }
+  favourites: Favourites= {
+    products: [],
+    AppUserId: 0,
+    ProductId: 0
+  };
+
+  summary:Summary={
+    AppUserId: 0,
     total: 0,
-    AppUserId: 0
-  } ;
+    shoppingCartItems: []
+  }
+  cart:any;
 
   constructor(private http:HttpClient,private productService:ProductService,private cartService: CartService,private toastr:ToastrService, private router: Router,
     private accountService: AccountService, private favouritesService: FavouritesService){
@@ -35,114 +53,69 @@ export class ProductCardComponent implements OnInit{
     this.accountService.currentUser$.pipe((take(1))).subscribe({
       next: user=> this.currentUser = user
     })
+    
+    this.cart = this.accountService.getShoppingCart();
  //this.shoppingCart = this.accountService.shoppingCart;
     
   }
 
   ngOnInit(){
-    //this.shoppingCart = this.accountService.getShoppingCart();
+    this.products = this.cartService.getItems();
+    // this.summary.shoppingCartItems = this.cart;
   }
 
   getProducts(){
     return this.http.get(this.baseUrl+'products').subscribe({
-      next:response=> this.products = response,
+      next:response=> {this.products = response
+      this.productService.validateProds(this.products)},
       error:error=>console.log(error),
       complete:()=> console.log(' get products Request has completed')
     })
+
   }
-  addToCart(prod:any){
+
+  addToCart(prod:Product){
+    console.log(prod);
     if(prod.stock == 0){
       this.toastr.warning("You can't add this product to the shopping cart because is out of stock !");
     }else{
-      var prods = this.cartService.getItems();
 
-      if(prods.length == 0){
-        prod.quantity++;
-        prod.subtotal = prod.price * prod.quantity;
-        this.cartService.addToCart(prod);
+      this.cart = this.accountService.getShoppingCart();
+      if(this.cart.length == 0){
 
-        this.shoppingCart = this.cartService.getShoppingCart();
-        this.shoppingCart.AppUserId = this.currentUser.id;
-        console.log(this.shoppingCart);
+        this.shoppingCartItem = this.cartService.setShoppingCartItem(prod);
         
-      //   this.cartService.addShoppingCart(this.shoppingCart).subscribe({
-      //   next:response=>{
-      //     this.toastr.success("Shopping cart added to db!")
-      //     console.log(response);
-      //     this.cancel;
-      //   },
-      //   error:error=>{
-      //     this.toastr.error(error.error)
-      //     console.log(error)
-      //   }
-      // }) 
-    
+        this.shoppingCartItem.AppUserId = this.currentUser.id;
+        console.log(this.shoppingCartItem);
+        this.cartService.addToCart(prod);
+        this.cartService.addShoppingCart(this.shoppingCartItem);
+
       }else {
+
         if(this.cartService.findItem(prod)){
           this.cartService.setItem(prod);
           return;
         }else{
-          prod.quantity = prod.quantity + 1;
-          this.cartService.addToCart(prod);
-          // this.shoppingCart = this.cartService.getShoppingCart();
-          this.shoppingCart.AppUserId = this.currentUser.id;
-          this.shoppingCart.products = this.cartService.getItems();
-        //   this.cartService.addShoppingCart(this.shoppingCart).subscribe({
-        //     next:response=>{
-        //       this.toastr.success("Shopping cart added to db!")
-        //       console.log(response);
-        //       this.cancel;
-        //     },
-        //     error:error=>{
-        //       this.toastr.error(error.error)
-        //       console.log(error)
-        //     }
-        //   }) 
-        //   return;
+          this.shoppingCartItem = this.cartService.setShoppingCartItem(prod);
+          
+        this.shoppingCartItem.AppUserId = this.currentUser.id;
+        this.cartService.addToCart(prod);
+          this.cartService.addShoppingCart(this.shoppingCartItem);
+          return;
         }
        }
-
-      this.toastr.success('your product has been added to the cart!');
     }
-  
   }
-  // addToShoppingCart(product:Product){
-  //   if(this.shoppingCart){
-  //     this.shoppingCart.products.push(product);
-  //     // this.shoppingCart.AppUserId = this.currentUser.id;
-  //     console.log(this.shoppingCart.AppUserId + '=> userid');
-  //     // this.shoppingCart.total = this.shoppingCart.total + product.price * product.quantity;
-  //     this.productService.addShoppingCart(this.shoppingCart).subscribe({
-  //       next:response=>{
-  //         this.toastr.success("Item added to shopping cart")
-  //         console.log(response);
-  //         this.cancel;
-  //       },
-  //       error:error=>{
-  //         this.toastr.error(error.error)
-  //         console.log(error)
-  //       }
-  //     })
-      
-  //   }
-  //   console.log(product);
-  //   console.log("Added to shopping cart ! ");
-  // }
-
   addToFavourites(prod: Product){
-    var prods = this.favouritesService.getItems();
+    var prods = this.accountService.getFavourites();
     if(prods.length == 0){
-      // prod.quantity = prod.quantity + 1;
-      prod.price = prod.price * prod.quantity;
-      this.favouritesService.addToFavourites(prod);
-  
+      this.favouritesService.addToFavourites(this.currentUser.id, prod);
     }else {
       if(this.favouritesService.findItem(prod)){
         this.toastr.warning('You already have this product in favourites list !');
         return;
       }else{
-        prod.quantity = prod.quantity + 1;
-        this.favouritesService.addToFavourites(prod);
+        this.favouritesService.addToFavourites(this.currentUser.id,prod);
         return;
       }
      }
@@ -150,8 +123,9 @@ export class ProductCardComponent implements OnInit{
   }
 
   deleteProduct(prod: Product){
-      this.productService.deleteProduct(prod);
-      this.router.navigateByUrl('/products');
+    prod.isDeleted = true;
+    this.productService.updateProduct(prod);
+    window.location.reload();
   }
 
   cancel(){

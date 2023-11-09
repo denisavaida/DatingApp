@@ -28,7 +28,7 @@
                                                         <li *ngIf="currentUser.username != 'admin'"><a (click)="addToFavourites(product)"><i class="fa fa-heart"></i></a></li>
                                                         <li ><a routerLink="/products/{{product.id}}" routerLinkActive="active"><i class="fa fa-expand"></i></a></li>
                                                         <li *ngIf="currentUser.username == 'admin'"><a routerLink="/products/edit/{{product.id}}" routerLinkActive="active"><i class="fa fa-pencil-square-o"></i></a></li> 
-                                                        <li *ngIf="currentUser.username == 'admin'"><a (click)="deleteProduct(product.id)"><i class="fa fa-trash"></i></a></li> 
+                                                        <li *ngIf="currentUser.username == 'admin'"><a (click)="deleteProduct(product)"><i class="fa fa-trash"></i></a></li> 
                                                 </ul>
                                         </div>
                                         <div class="part-2">

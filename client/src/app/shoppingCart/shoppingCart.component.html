@@ -5,13 +5,8 @@
         <p>You have no products added to the card!</p>
     </div>
 </div> -->
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-    </head>
-    <body>
-<div *ngIf="shoppingCart.products.length == 0 && !this.currentUser">
+
+<div *ngIf="items.length == 0 && !this.currentUser">
     
     <div class="container">
         <div class="row" style="text-align: center;margin-top: 20%;">
@@ -22,7 +17,7 @@
         </div>
     </div>
 </div>
-<div *ngIf="shoppingCart.products.length == 0">
+<div *ngIf="items.length == 0">
     <div class="container">
         <div class="row" style="text-align: center;margin-top: 20%;">
             <h3>Coșul de cumpărături este gol !</h3>
@@ -31,11 +26,11 @@
     </div>
 </div>
 
-<div *ngIf="shoppingCart.products.length > 0">
-    
+<div *ngIf="items.length > 0">
+
     <div class="container" >
         <div class="row"style="text-align: center;"><h3>Cos de cumparaturi</h3></div>
-        <div class="row"style="text-align: center;"><h6>Livrare gratuita la achizitia de articole de peste 150 Lei si plata in avans.</h6></div> <!-- need to check that -->
+        <div class="row"style="text-align: center;"><h6>Livrare gratuita la achizitia de articole de peste 200 Lei si plata in avans.</h6></div> <!-- need to check that -->
         
         <div class="row" style="text-align: center;margin-top: 5%;" >
             
@@ -43,32 +38,48 @@
           <div class="col-md-8">
             <button class="btn backButton" (click)="back()"><i class="fa fa-arrow-left"> Back </i></button>
             <table>
-                <tr *ngFor="let item of shoppingCart.products">
-                  <td><a a routerLink="/products/{{item.id}}" routerLinkActive="active"><img src="{{item.image}}"></a></td>
-                  <td style="text-transform: capitalize;">{{item.name}} <p style="color: green;font-weight: bolder;">In stock</p></td>
+                <tr *ngFor="let item of cart">
+                      
+                  <td><a a routerLink="/products/{{item.productId}}" routerLinkActive="active"><img src="{{item.product.image}}"></a></td>
+                  <td style="text-transform: capitalize;">{{item.product.name}} <p style="color: green;font-weight: bolder;">In stock</p></td>
                  
-                  <td style="text-align: end;"><h4 >{{item.subtotal}} Lei </h4><input type="number" min="1" max="{{item.stock}}"[(ngModel)]="item.quantity" name="quantity" (click)="increaseQuantity(item)"><br>
-                    <button class="btn moveButton" (click)="moveToFavourites(item)"><i class="fa fa-heart"> Muta in favorite</i></button><br>
-                    <button class="btn deleteButton"(click)="deleteProduct(item)"><i class="fa fa-trash"> Sterge</i></button></td>
-                 
+                  <td style="text-align: end;" ><h4 >{{item.subtotal}} Lei </h4><input type="number" min="1" max="{{item.product.stock}}"[(ngModel)]="item.quantity" name="quantity" (click)="increaseQuantity(item,item.product)"><br>
+                    <button class="btn moveButton" (click)="moveToFavourites(item.product)"><i class="fa fa-heart"> Muta in favorite</i></button><br>
+                    <button class="btn deleteButton"(click)="deleteProduct(item.product)"><i class="fa fa-trash"> Sterge</i></button>
+                    <!-- <button class="btn deleteButton"(click)="updateQuantity(item)"><i class="fa fa-undo"> Actualizeaza</i></button></td> -->
+                
                 </tr> 
               </table>
             </div>
               <div class="col-md-4 sumarInfo" style="text-align: justify;">
                 <h5 style="font-weight: bolder;">Sumar comanda :</h5>
-                <h6>Cost produse: {{shoppingCart.total}} Lei</h6>
-                <div *ngIf="shoppingCart.total > 150"><h6 style="color: green;">Livrare: GRATUITA </h6>
-                  <h4>TOTAL: {{shoppingCart.total}} Lei</h4></div>
-                  <div *ngIf="shoppingCart.total < 150"><h6>Livrare: 15 Lei </h6>
-                    <h4>TOTAL: {{shoppingCart.total+15}} Lei</h4> </div>
+                <h6>Cost produse: {{summary.total}} Lei</h6>
+                <div *ngIf="summary.total > 200"><h6 style="color: green;">Livrare: GRATUITA </h6>
+                  <h4>TOTAL: {{summary.total}} Lei</h4></div>
+                  <div *ngIf="summary.total < 200" ><h6 style="color: red;">Costul livrarii va fi adaugat dupa alegerea metodei de livrare </h6>
+                    <h4>TOTAL: {{summary.total}} Lei</h4> </div>
                   
-                <button class="btn orderButton" routerLink="/orders" routerLinkActive="active">Finalizeaza comanda</button>
+                <button type="button" class="btn orderButton" routerLink="/checkout" routerLinkActive="active">Finalizeaza comanda</button>
+                
                 <h6><i class="fa fa-undo" style="color: black;margin-top: 3%;">  Retur gratuit in termen de 30 zile.</i></h6>
-                    <h6><i class="fa fa-truck">  Livrare gratuita la achizitia de articole de peste 150 Lei si plata in avans.</i></h6>
+                    <h6><i class="fa fa-truck">  Livrare gratuita la achizitia de articole de peste 200 Lei si plata in avans.</i></h6><br>
                      
-                    <button type="button" class="btn btn-link buttonCost" data-toggle="modal" data-target="#exampleModal"><h6>Costuri de livrare </h6></button>
-           
-           
+                    <mat-accordion>
+                      <mat-expansion-panel (opened)="panelOpenState = true"
+                                           (closed)="panelOpenState = false">
+                        <mat-expansion-panel-header>
+                          <mat-panel-title>
+                            Costuri de livrare
+                          </mat-panel-title>
+                        </mat-expansion-panel-header>
+                        <br>
+                        <div *ngFor="let opt of delOptions">
+                          <p>{{opt.description}}  costa {{opt.cost}} Lei</p>
+                        </div>
+                        
+                      </mat-expansion-panel>
+                    </mat-accordion>
+              
                 </div>
               <div class="row" >
                 <div class="col-md-8 " style="text-align: start;">
@@ -84,12 +95,9 @@
                     <img class="card-img-top" src="../../assets/visa.jpeg" style="width: 6%;height: 7%">
                 
                 </div>
-               
-                 
+
               </div>
 
         </div>
 </div>
 </div>
-</body>
-</html>

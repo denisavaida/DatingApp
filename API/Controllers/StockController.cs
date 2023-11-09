@@ -3,19 +3,18 @@ using API.Entities;
 using API.Interfaces;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.ObjectPool;
 
 namespace API.Controllers
 {
     public class StockController : BaseApiController
     {
         private IProductRepository _productRepository;
-        private IUserRepository _userRepository;
+        private ICategoryRepository _categoryRepository;
         private IMapper _mapper;
-        public StockController(IProductRepository productRepository, IMapper mapper, IUserRepository userRepository){
+        public StockController(IProductRepository productRepository, IMapper mapper, ICategoryRepository categoryRepository){
 
             _productRepository = productRepository;
-            _userRepository = userRepository;
+            _categoryRepository = categoryRepository;
             _mapper = mapper;
         }
 
@@ -34,10 +33,9 @@ namespace API.Controllers
                 Price = product.GetPrice(product.OldPrice, product.Discount),
                 Discount = product.Discount,
                 Image = product.Image,
-                Categories = new List<ProductCategory>{ new ProductCategory(){name = product.Category.ToLower()}},
+                Categories = new List<ProductCategory>{ new ProductCategory(){Name = product.Category.ToLower()}},
                 Images = new(),
-                ShoppingCartId = product.ShoppingCartId,
-                Subtotal = product.Subtotal
+                isDeleted = product.isDeleted
 
             };
             var productDTO =  _mapper.Map<ProductDto>(newProduct);
@@ -49,27 +47,12 @@ namespace API.Controllers
             };
             newProduct.Images.Add(photo);
 
-
-            if (await _productRepository.CategoryExists(newProduct.Category.ToString())) 
+            if (await _categoryRepository.CategoryExists(newProduct.Category.ToString())) 
             {
                 Console.WriteLine("Category already exists !");
             }
             else{
-                // var prodCateg = await _productRepository.GetProductCategoryAsync();
-                // foreach(var c in prodCateg){
-                //     if(c.ProductId == newProduct.Id){
-                //        newProduct.Categories.FirstOrDefault(p=>p.id == c.id);
-
-
-                //     }
-                // }
-                // var categ = newProduct.Categories.FirstOrDefault(p=>p.id == prodCateg.);
-                //     if(categ != null){
-                        
-                //     }
-                
-                // var categDto = _mapper.Map<ProductCategory>(newProduct.Categories.FirstOrDefault());
-                await _productRepository.AddProductCategory(newProduct.Categories.FirstOrDefault());
+                await _categoryRepository.AddCategory(newProduct.Categories.FirstOrDefault());
                 
             }
             await _productRepository.AddProductAsync(newProduct);

@@ -5,9 +5,8 @@ using API.DTOs;
 namespace API.Entities
 {
     [Table("Product")]
-    public class Product        //Encapsulation
-    {
-         public int Id { get; set; }
+    public class Product  : BaseEntity      //Encapsulation
+    {         
          public string Name { get; set; }   
          public string Description { get; set; }
          public int Quantity { get; set; }
@@ -22,10 +21,9 @@ namespace API.Entities
         //  public List<Measurement> Measurements{get;set;}
          public string Image{get;set;}
          public List<Photo> Images{ get; set; } 
+         public bool isDeleted{get;set;}
          public int Discount { get; set; }
-         public int ShoppingCartId{ get; set; }
          public List<ProductCategory> Categories { get; set;}
-         public float Subtotal{get; set;}
          public float GetPrice(int oldPrice, int discount)
         {
             if(discount == 0){
@@ -39,10 +37,10 @@ namespace API.Entities
             Quantity = 1;
             return Quantity;
          }
-         public float GetSubtotal(){
-            Subtotal = Price * Quantity;
-            return Subtotal;
-         }
        
+       public bool GetisDeleted(){
+            isDeleted = false;
+            return isDeleted;
+       }
     }
 }

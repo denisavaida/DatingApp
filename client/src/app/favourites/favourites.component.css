@@ -12,7 +12,8 @@ table {
   td, th {
     border: 0px solid #dddddd;
     text-align: center;
-    padding: 30px;
+    padding: 0px;
+    width: 250px;
   }
  
   img {
@@ -43,8 +44,9 @@ img{
 }
 .product-old-price {
   position: relative;
+  
   display: inline-block;
-  padding: 0px 28px 0px 0px;
+  padding: 2px 38px 1px 11px;
   margin-top: 25%;
   opacity: 0.6;
   width: 46%;
@@ -65,8 +67,8 @@ img{
 
 .discount{
   position: relative;
-  top: 15px;
-  left: 20px;
+  top: -55px;
+  left: -124px;
   color: #ffffff;
   background-color: #fe302f;
   padding: 2px 8px;

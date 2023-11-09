@@ -26,7 +26,7 @@ namespace API.Controllers
         }
 
         [HttpGet("{id}")] // /api/products/2
-        public async Task<ActionResult<ProductDto>> GetProduct(int id)
+        public async Task<ActionResult<ProductDto>> GetProductById(int id)
         {
              var product = await _productRepository.GetProductByIdAsync(id);
              return _mapper.Map<ProductDto>(product);

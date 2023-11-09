@@ -25,12 +25,12 @@ export class ProductListComponent implements OnInit{
       //this.products = this.getProducts();
   }
 
-  getProducts(){
-    this.http.get(this.baseUrl+'products').subscribe({
-      next:response=> this.products = response,
-      error:error=>console.log(error),
-      complete:()=> console.log('get products Request has completed')
-    })
-  }
+  // getProducts(){
+  //   this.http.get(this.baseUrl+'products').subscribe({
+  //     next:response=> this.products = response,
+  //     error:error=>console.log(error),
+  //     complete:()=> console.log('get products Request has completed')
+  //   })
+  // }
 
 }

@@ -3,9 +3,8 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace API.Entities
 {
     [Table("Card")]
-    public class Card
+    public class Card : BaseEntity
     {
-        public int Id{get;set;}
        public int Number{get;set;}
        public  int ExpiryMonth{get;set;}
        public int ExpiryYear{get;set;}

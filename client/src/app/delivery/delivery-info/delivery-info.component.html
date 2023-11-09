@@ -1,58 +1,64 @@
-<form #deliveryInfoForm="ngForm" (ngSubmit)="setDeliveryInfo()" autocomplete="off">
+<form #deliveryInfoForm="ngForm" autocomplete="off" aria-required="true" *ngIf="info" (ngSubmit)="setDeliveryInfo()">
     <!-- 2 column grid layout with text inputs for the first and last names -->
+<div class="container">
     <div class="row mb-4">
-      <div class="col">
+      <div class="col-md-6">
         <div class="form-outline">
-          <input type="text"
+          <input matInput matNativeControl type="text"
           class="form-control"
           name="firstname"
-          [(ngModel)]="model.firstname"
+          [(ngModel)]="info.firstname"
           placeholder="Nume">
         </div>
       </div>
-      <div class="col">
+      <div class="col-md-6">
         <div class="form-outline">
-          <input type="text"
+          <input matInput matNativeControl type="text"
           class="form-control"
           name="lastname"
-          [(ngModel)]="model.lastname"
+          [(ngModel)]="info.lastname"
           placeholder="Prenume">
         </div>
       </div>
     </div>
   
+    <div class="row ">
+    <div class="col-md-6">
     <!-- Text input -->
     <div class="form-outline mb-4">
-      <input type="text"
+      <input matInput matNativeControl type="text"
       class="form-control"
       name="telephone"
-      [(ngModel)]="model.telephone"
+      [(ngModel)]="info.telephone"
       placeholder="Numar de telefon">
     </div>
-
-    <!-- Email input -->
+    
+</div>
+    <div class="col-md-6">
+          <!-- Email input -->
     <div class="form-outline mb-4">
-      <input type="text"
+      <input matInput matNativeControl type="text"
       class="form-control"
       name="email"
-      [(ngModel)]="model.email"
+      [(ngModel)]="info.email"
       placeholder="Email">
     </div>     
   
-    <!-- Adress input -->
-    <div class="form-outline mb-4">
-        <app-adress></app-adress>
-    </div>
+  </div>
+</div>
+<div class="row mb-4">
+        <app-adress (adressOutput)="adress"></app-adress>
+
+      </div>
   
     <!-- Message input -->
     <div class="form-outline mb-4">
       <textarea type="text"
       class="form-control"
       name="AdditionalInfo"
-      [(ngModel)]="model.additionalInfo" rows="4"
+      [(ngModel)]="info.additonalInfo" rows="4"
       placeholder="Informatii aditionale"></textarea>
     </div>
-  
-    <!-- Submit button -->
-    <button type="submit" class="btn btn-info btn-block mb-4" (click)="$event.preventDefault()">Continua</button>
+
+  </div>
   </form>

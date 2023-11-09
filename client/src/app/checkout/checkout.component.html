@@ -1,0 +1,80 @@
+<button class="btn backButton" (click)="back()"><i class="fa fa-arrow-left"> Back </i></button>
+<div class="container">
+    <div class="row justify-content-center text-center ">
+        <div class="header">
+            <h4> Parcurge toate sectiunile pentru a finaliza comanda ! </h4>
+        </div>
+    </div>
+    
+    <div class="container">
+        <mat-card>
+            <mat-card-content>
+              <mat-tab-group class="demo-tab-group"  #tabgroup>
+                <mat-tab label="Metoda de livrare">
+                  
+                  <div class="tab-delivery-options">
+                    <br><app-delivery-options (selectedDelivery)="addDelivery($event)"></app-delivery-options>
+                  </div>
+                  <button (click)="changeIndex(tabgroup,1)" class="btn nextButton">Continua <i class="fa fa-arrow-right"></i></button>
+                </mat-tab>
+                <mat-tab label="Adresa de livrare">
+                  <button (click)="changeIndex(tabgroup,0)" class="btn backButton" ><i class="fa fa-arrow-left"> Inapoi</i></button>
+                  <div class="tab-delivery-info">
+                    <br><app-delivery-info (deliveryInfo)="addDeliveryInfo($event)"></app-delivery-info>
+                  </div>  
+                  <button (click)="changeIndex(tabgroup,2)" class="btn nextButton" >Continua <i class="fa fa-arrow-right"></i></button>
+                </mat-tab>
+                <mat-tab label="Sumar comanda">
+                  <button (click)="changeIndex(tabgroup,1)" class="btn backButton" ><i class="fa fa-arrow-left"> Inapoi</i></button>
+                    <br> <section class="section-products" >
+                        <div class="container tab-sumar-comanda">
+                          <div class="row">
+                              <div class="col-md-10">
+                                <table>
+                                    <tr *ngFor="let item of dbCart">
+                                        <td><a a routerLink="/products/{{item.product.id}}" routerLinkActive="active"><img src="{{item.product.image}}"></a>
+                                                <span class="discount" *ngIf="item.product.discount>0">{{item.product.discount}}%</span></td>
+                                        <td style="text-transform: capitalize;">{{item.product.name}} <p *ngIf="item.product.stock>0" style="color: green;"> In stock</p>
+                                            <p *ngIf="item.product.stock==0" style="color: red;"> Out of stock</p></td>
+                                            <td><p>{{item.quantity}} buc.</p></td>
+                                            <td> <ng-template [ngIf]="item.product.oldPrice!=item.product.price" [ngIfElse]="loading" >
+                                                    <h4 class="product-old-price" >{{item.product.oldPrice}} Lei</h4>
+                                            </ng-template>
+                                            <ng-template #loading>
+                                                    <h4 class="product-old-price" style="visibility: hidden;">{{item.product.oldPrice}} Lei</h4>
+                                            </ng-template>
+                                            <h4  class="product-price" style="color: red;" *ngIf="item.product.discount > 0">{{item.product.price}} Lei</h4>
+                                            <h4 class="product-price" *ngIf="item.product.discount == 0">{{item.product.price}} Lei</h4></td>
+                                      </tr> 
+                                </table>
+                              </div>
+                              <div class="col-md-2">
+                                <h5 style="font-weight: bolder;">Sumar comanda :</h5>
+                                <h6>Cost produse: {{summary.total}} Lei</h6>
+                                <div *ngIf="summary.total > 200"><h6 style="color: green;">Livrare: GRATUITA </h6>
+                                  <h4>TOTAL: {{summary.total}} Lei</h4></div>
+                                  <div *ngIf="summary.total < 200"><h6>Livrare: {{delOption.cost}} Lei </h6>
+                                    <h4>TOTAL: {{summary.total+delOption.cost}} Lei</h4> </div>
+                                    
+                    <!-- <button (click)="changeIndex(tabgroup,3)" class="btn nextButton">Continua <i class="fa fa-arrow-right"></i></button> -->
+                                    <!-- <button class="btn btn-info orderButton" routerLink="/orders" routerLinkActive="active" (click)="$event.preventDefault()">Mergi la plata</button> -->
+                              </div>
+                            </div>
+                              
+                        </div>
+                    </section>
+                    <button (click)="changeIndex(tabgroup,3)" class="btn nextButton">Continua <i class="fa fa-arrow-right"></i></button>
+                </mat-tab>
+                <mat-tab label="Plata">
+                  <button (click)="changeIndex(tabgroup,2)" class="btn backButton"><i class="fa fa-arrow-left">Inapoi</i></button>
+                  <div class="tab-payment">
+                    <br><app-payment (fillCard)="addCard($event)"></app-payment>
+                  </div>  
+
+                </mat-tab>
+ 
+              </mat-tab-group>
+            </mat-card-content>
+          </mat-card>
+      </div>
+</div>

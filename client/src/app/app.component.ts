@@ -38,6 +38,6 @@ export class AppComponent implements OnInit{
 }
 
 subscribe(){}
-
-  }
+    //add email to the subscribers list
+}
 

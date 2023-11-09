@@ -14,26 +14,37 @@ export class ProductService {
   baseUrl = environment.apiUrl;
   private currentProductSource= new BehaviorSubject<Product | null>(null);
   currentProduct$ = this.currentProductSource.asObservable();
-  categories:any = {}
+
   shoppingCart:any={}
   prod:any={}
   products:any={}
   currentUser:any;
   constructor(private http: HttpClient, private accountService: AccountService) { 
-    this.products = this.getProducts();
+    this.getProducts();
     this.accountService.currentUser$.pipe((take(1))).subscribe({
       next: user=> this.currentUser = user
     });
   }
 
   getProducts(){
-    this.http.get(this.baseUrl+'products').subscribe({
-      next:response=> this.products = response,
+    return  this.http.get(this.baseUrl+'products').subscribe({
+      next:response=> {this.products = response,
+      console.log(response),
+    this.validateProds(this.products)},
       error:error=>console.log(error),
       complete:()=> console.log(' get products Request has completed')
     })
   }
-  getProduct(id:any){
+
+  validateProds(prods: Product[]){
+    for( var i=0; i< prods.length; i++){
+      if(prods[i].stock == 0){
+        prods.push(prods[i])
+        prods.splice(i,1);
+      }
+    }
+}
+  getProductById(id:any){
     return this.http.get<Product>(this.baseUrl+'products/'+ id);
   }
 
@@ -51,13 +62,7 @@ export class ProductService {
     )
     return this.http.get<Product>(this.baseUrl + 'products/'+ this.prod.name)
   }
-  getCategories(){
-    this.http.get(this.baseUrl+'productCategory/').subscribe({
-      next:response=> this.categories = response,
-      error:error=>console.log(error),
-      complete:()=> console.log('get categories Request has completed')
-    })
-  }
+
   makeOrder(model:any){
     return this.http.post<Product>(this.baseUrl + 'products/order',model).pipe(
         map(product=>{
@@ -91,24 +96,6 @@ export class ProductService {
           return product;
         })
       )
-    }
-   deleteProduct(prod: Product){
-      return this.http.delete<Product>(this.baseUrl+'products/delete/'+prod).subscribe(data => {
-        console.log(data);
-      });
-      // pipe(
-      //   map(response=>{
-      //     this.prod = response;
-      //     if(this.prod){
-      //       if(this.prod.id == id){
-      //         localStorage.removeItem('product');
-      //         console.log(this.prod+ 'this product has been deleted !');
-      //         this.currentProductSource.next(this.prod);
-      //     }
-      //     }
-       
-      //   })
-      // )
     }
 
     // addShoppingCart(model:ShoppingCart){

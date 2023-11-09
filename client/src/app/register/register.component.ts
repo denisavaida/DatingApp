@@ -3,7 +3,6 @@ import { AccountService } from '../_services/account.service';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
 import { AdressComponent } from '../adress/adress.component';
-import { ShoppingCart } from '../_models/shopping-cart';
 
 @Component({
   selector: 'app-register',

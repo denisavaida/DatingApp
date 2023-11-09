@@ -1,14 +1,16 @@
-import { Component, TemplateRef } from '@angular/core';
+import { Component } from '@angular/core';
 import { ShoppingCart } from '../_models/shopping-cart';
 import { AccountService } from '../_services/account.service';
-import {  take } from 'rxjs';
 import { CartService } from '../_services/cart.service';
 import { Product } from '../_models/product';
 import { FavouritesService } from '../_services/favourites.service';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
-
-import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
+import { DeliveryService } from '../_services/delivery.service';
+import { HttpClient } from '@angular/common/http';
+import { ProductService } from '../_services/product.service';
+import { take } from 'rxjs';
+import { Summary } from '../_models/summary';
 
 @Component({
   selector: 'shoppingCart',
@@ -18,110 +20,114 @@ import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 export class ShoppingCartComponent {
   model:any={};
   baseUrl : string = 'https://localhost:5001/api/';
-  items:Product[] = this.cartService.getItems();
+  items:Product[]  = [];
   shoppingCart:ShoppingCart = {
-    products: [],
-    total: 0,
-    AppUserId: 0
+    quantity: 0,
+    subtotal: 0,
+    AppUserId: 0,
+    productId: 0,
+    id: 0,
+    product: {}
   }
+  summary: Summary={
+    AppUserId: 0,
+    total: 0,
+    shoppingCartItems: []
+  };
+  // products:Product[] = [];
   currentUser: any ={};
   prod: any={};
-  // cartDb:any;
-  modalRef?: BsModalRef;
-  constructor( private accountService: AccountService,private cartService: CartService, private favouritesService: FavouritesService, private toastr: ToastrService,
-    private router: Router){
+  delOptions: any = [];
+  panelOpenState = false;
+  cartUsersItems:any;
+  cart:ShoppingCart[] = [];
+  constructor( private accountService: AccountService,private cartService: CartService,private deliveryService:DeliveryService, private http:HttpClient,
+     private favouritesService: FavouritesService, private toastr: ToastrService, private router: Router, private productService: ProductService){
       this.accountService.currentUser$.pipe((take(1))).subscribe({
-        next: user=> this.currentUser = user
+        next: user=> {this.currentUser = user;
+        }
       })
-      // this.cartDb = this.cartService.getShoppingCartDB(this.currentUser.id);
-      // console.log(this.cartDb);
+      this.cart = this.accountService.getShoppingCart();
+      this.items = this.getUsersCartItems();
+      this.delOptions = this.deliveryService.getDeliveryOptions();
     }
 
   ngOnInit():void{
-    this.shoppingCart.products = this.cartService.getItems();
-      this.shoppingCart.products.forEach(element => {
-        element.subtotal = element.price * element.quantity;
-        this.shoppingCart.total = this.shoppingCart.total + element.subtotal;
-      });
-      this.shoppingCart.AppUserId = this.currentUser.id;
-
-    // this.getShoppingCart();
-    // this.shoppingCart = this.productService.getShoppingCart(this.model.userId);
-    
-    //this.shoppingCart = localStorage.getItem('shoppingCart');
-    // if(this.accountService.currentUser$.pipe(map(u => u?.id == this.shoppingCart?.userId))
-    // .subscribe(next=>this.user.id = this.shoppingCart.userId)){
-    //   if(!this.shoppingCart)return this.shoppingCart;
-    //   this.productService.getShoppingCart(this.shoppingCart.id);
+    this.cart.forEach(element => {
+      this.summary.total = this.summary.total + element.subtotal;
+      this.summary.shoppingCartItems.push(element);
+    });
+      console.log(this.summary.total);
+      this.summary.AppUserId = this.currentUser.id;
       
-    // }
   }
-  // openModal(template: TemplateRef<any>) {
-  //   this.modalRef = this.modalService.show(template);
-  // }
 
-  // getShoppingCart(){  
-  //   this.shoppingCart.AppUserId = this.currentUser.id;
-  //   // this.shoppingCart.products = this.cartService.getItems();
-  //   if (this.items.length>0){
-  //     this.items.forEach(element => {
-  //       this.shoppingCart.products.push(element);
-  //       element.subtotal = element.price * element.quantity;
-  //       this.shoppingCart.total = this.shoppingCart.total+ element.subtotal;
-  //     });
-  //   }
-  //   // this.shoppingCart.total = this.cartService.getTotal();
-  //   console.log(this.items);
-  //   console.log(this.shoppingCart);
-  //   return this.shoppingCart;
-  // }
-  //   this.productService.addToShoppingCart(this.model).subscribe({
-  //     next:response=>{
-  //       this.toastr.success("Item added to shopping cart")
-  //       console.log(response);
-  //       this.cancel;
-  //     },
-  //     error:error=>{
-  //       this.toastr.error(error.error)
-  //       console.log(error)
-  //     }
-  //   })
-  // }
+  getUsersCartItems(){
+    if(this.cart.length != 0){
+      for(var i = 0; i< this.cart.length; i++){
+        this.productService.getProductById(this.cart[i].productId).subscribe({next: response => {this.prod = response;
+
+          this.items.push(this.prod);
+        }});
+      };   
+    }
+    return this.items;
+  }
+
   moveToFavourites(prod: Product){
     if(this.favouritesService.findItem(prod)){
       this.toastr.warning('You already have this product in favourites list !');
       return;
     }
     else{
-      this.favouritesService.addToFavourites(prod);
-      this.cartService.deleteItem(prod.id);
-      this.toastr.show("Product moved to favourites!");
-      this.shoppingCart.total = this.shoppingCart.total - prod.subtotal;
+      this.favouritesService.addToFavourites(this.currentUser.id ,prod);
+      this.deleteProduct(prod);
+      this.toastr.success('your product has been added to favourites!');
     }
-    this.toastr.success('your product has been added to favourites!');
   }
-  deleteProduct(prod: any){
-    this.cartService.deleteItem(prod.id);
-    this.toastr.show("Product deleted from shopping cart!");
-    this.shoppingCart.total = this.shoppingCart.total - prod.subtotal;
-  }
-  increaseQuantity(prod: any){
-    prod.subtotal = prod.price*prod.quantity;
-    var items = this.cartService.getItems();
-    this.shoppingCart.total = 0;
-    items.forEach(element => {
-    this.shoppingCart.total = this.shoppingCart.total + element.price*element.quantity;
-    });
 
+  deleteProduct(prod: any){
+    for(var i=0;i<this.cart.length;i++){
+      if(this.cart[i].productId == prod.id){
+        console.log(this.cart[i].id);
+        this.cartService.deleteCartItem(this.cart[i].id);
+        
+      this.summary.total = this.summary.total - this.cart[i].subtotal;
+      }
+    }
+    this.toastr.show("Product deleted from shopping cart!");
     
   }
 
-
+  increaseQuantity(item: ShoppingCart, prod: Product){
+    this.summary.shoppingCartItems = []
+    this.summary.total = 0;
+    console.log(item.quantity);
+    this.shoppingCart.quantity = item.quantity;
+    this.shoppingCart.product = prod;
+    this.shoppingCart.subtotal = this.shoppingCart.product.price*item.quantity;
+    item.subtotal = item.quantity * item.product.price;
+    
+   for(var i=0;i<this.cart.length;i++){
+      if(this.cart[i].productId == item.productId){
+        this.cart[i].quantity = this.shoppingCart.quantity;
+        this.cart[i].subtotal = this.shoppingCart.subtotal;
+        this.cartService.updateShoppingCart(item).subscribe();
+      }
+      
+      this.summary.total = this.summary.total + this.cart[i].subtotal;
+      this.summary.shoppingCartItems.push(this.cart[i]);
+    };
+  }
+  // updateQuantity(item:any){
+  //   this.cartService.updateShoppingCart(item).subscribe();
+  // }
   login(){}
+
   ProductExistsInShoppingCart(id: number){
     this.prod = localStorage.getItem("shoppingCart");
-}
-back(){
-  this.router.navigateByUrl('/products');
-}
+  }
+  back(){
+    this.router.navigateByUrl('/products');
+  }
 }

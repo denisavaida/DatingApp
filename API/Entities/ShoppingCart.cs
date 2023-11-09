@@ -5,15 +5,14 @@ namespace API.Entities
 {
 
     [Table("ShoppingCart")]
-    public class ShoppingCart
+    public class ShoppingCart : BaseEntity
     {
-        public int Id { get; set; }
-        public List<Product> Product{ get; set; }
+        public int Quantity{get;set;}
         public int ProductId{get;set;}
-        public float Total{ get; set; }
+        public Product Product{get;set;}
+        public float Subtotal{ get; set; }
 
         [ForeignKey("AppUserId")]
         public int AppUserId{ get; set; }
-        public UserDto AppUser{ get; set; }
     }
 }

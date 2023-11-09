@@ -17,14 +17,17 @@
           <li class="nav-item">
             <a class="nav-link" routerLink="/promotions" routerLinkActive="active">Promotions</a>
           </li>
-          <li class="nav-item">
+          <!-- <li class="nav-item">
             <a class="nav-link " routerLink="/messages" routerLinkActive="active">Messages</a>
-          </li>
+          </li> -->
           <!-- <li class="nav-item">
             <a class="nav-link " routerLink="/errors" routerLinkActive="active">Errors</a>
           </li> -->
           <li class="nav-item" *ngIf="model.username == 'admin'">
             <a class="nav-link " routerLink="/stock" routerLinkActive="active">Add products</a>
+          </li>
+          <li class="nav-item" *ngIf="model.username == 'admin'">
+            <a class="nav-link " routerLink="/deliveryChange" routerLinkActive="active">Change delivery</a>
           </li>
           <!-- <li class="nav-item" *ngIf="model.username == 'admin'">
             <a class="nav-link " routerLink="/edit" routerLinkActive="active">Edit products</a>

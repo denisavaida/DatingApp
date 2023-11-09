@@ -1,5 +1,5 @@
 export interface Delivery{
-    id: number;
+    id:number,
     companyUrl:string,
     description:string,
     duration:string,

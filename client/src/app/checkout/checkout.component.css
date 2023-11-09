@@ -1,0 +1,198 @@
+
+@import '~@angular/material/prebuilt-themes/indigo-pink.css';
+.image{
+    width: 12%;
+    height: 12%;
+    
+}
+.header{
+    font-weight: bolder;
+}
+
+  body {
+    font-family: "Poppins", sans-serif;
+    color: #444444;
+  }
+  
+  table {
+      font-family: arial, sans-serif;
+      border-collapse: collapse;
+      width: 100%;
+    }
+    
+    td, th {
+      border: 0px solid #dddddd;
+      text-align: center;
+    }
+   
+    img {
+      position: relative;
+      height: 130px;
+      width: auto;
+      max-height: 260px;
+      margin-bottom: 10px;
+      overflow: hidden;
+  
+  }
+  .mat-tab{
+    width: max-content;
+  }
+  img{ 
+      transform: scale(1.0,1.0);
+      transition-duration: 500ms;
+      transition-timing-function: ease-out;
+      opacity:0.8;
+  }
+  
+  .product-old-price {
+    position: relative;
+    display: inline-block;
+    padding: 0px 28px 0px 0px;
+    margin-top: 25%;
+    opacity: 0.6;
+    width: 46%;
+    font-size:medium;
+  }
+  
+  .product-old-price::after {
+  
+    position: absolute;
+    content: "";
+    top: 50%;
+    left: 0;
+    width: 70%;
+    height: 1px;
+    background-color: #444444;
+    transform: translateY(-50%);
+  }
+  
+  .discount{
+    position: relative;
+    top: -198px;
+    left: -128px;
+    color: #ffffff;
+    background-color: #fe302f;
+    padding: 2px 8px;
+    font-size: 0.85rem;
+  }
+  .product-price{
+    position:relative;
+    display: inline-block;
+    font-size: large;
+    line-height: -1.5rem;
+    margin-bottom: 30%;
+  }
+  .addProdButton:hover{
+    background-color:white;
+    color: rgb(69, 151, 103);
+  }
+  .addProdButton{
+    color: white;
+    background-color: rgb(69, 151, 103);
+    
+  }
+  .orderButton{
+    background-color: black;
+      color: white;
+      padding: 5%;
+      padding-left:40%;
+      padding-right: 40%;;
+  
+  }
+  .orderButton:hover{
+    background-color: white;
+    color: black;
+    border-color: black;
+  }
+
+  /* .demo-tab-group {
+    border: 1px solid #e8e8e8;
+  }
+  
+  .demo-tab-content {
+    padding: 16px;
+  } */
+
+  .mat-accordion{
+    font-family: "Poppins", sans-serif;
+    color: #444444;
+  }
+
+
+  .steps {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    position: relative;
+}
+.tab-sumar-comanda{
+  margin-top:2%;
+}
+.payButton{
+  padding: 2%;
+  font-size: large;
+  margin-bottom: 1%;
+}
+.backButton{
+  text-align: start;
+  font-size: large;
+  margin-top:0.2%;
+  margin-right: 90%;
+  margin-bottom: -1.5%;
+}
+
+.backButton:hover{
+ background-color: #444444;
+ color: white;
+}
+
+.nextButton{
+  text-align: end;
+  margin-left: 90%;
+
+}
+.nextButton:hover{
+  background-color: #444444;
+  color: white;
+ }
+.step-button {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    border: none;
+    background-color: var(--prm-gray);
+    transition: .4s;
+}
+.step-button[aria-expanded="true"] {
+    width: 60px;
+    height: 60px;
+    background-color: var(--prm-color);
+    color: #fff;
+}
+.done {
+    background-color: var(--prm-color);
+    color: #fff;
+}
+.step-item {
+    z-index: 10;
+    text-align: center;
+}
+#progress {
+  -webkit-appearance:none;
+    position: absolute;
+    width: 95%;
+    z-index: 5;
+    height: 10px;
+    margin-left: 18px;
+    margin-bottom: 18px;
+}
+/* to customize progress bar */
+#progress::-webkit-progress-value {
+    background-color: var(--prm-color);
+    transition: .5s ease;
+}
+#progress::-webkit-progress-bar {
+    background-color: var(--prm-gray);
+
+}

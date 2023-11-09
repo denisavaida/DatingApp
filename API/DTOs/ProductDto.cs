@@ -15,15 +15,9 @@ namespace API.DTOs
          public string Description{get;set;}
          public string Category{get;set;}
 
-         public float Subtotal{get;set;}
-
          public int GetQuantity(){
             Quantity = 1;
             return Quantity;
-         }
-         public float GetSubtotal(){
-            Subtotal = Quantity * Price;
-            return Subtotal;
          }
 
         public static implicit operator ProductDto(Product v)

@@ -21,6 +21,9 @@ import { PromotionsComponent } from './promotions/promotions.component';
 import { DeliveryInfoComponent } from './delivery/delivery-info/delivery-info.component';
 import { DeliveryOptionsComponent } from './delivery/delivery-options/delivery-options.component';
 import { PaymentComponent } from './delivery/payment/payment.component';
+import { CheckoutComponent } from './checkout/checkout.component';
+import { DeliveryChangeComponent } from './delivery/delivery-change/delivery-change.component';
+import { DeliveryEditComponent } from './delivery/delivery-edit/delivery-edit.component';
 
 const routes: Routes = [
   {path:'',component: HomeComponent},
@@ -38,9 +41,12 @@ const routes: Routes = [
       {path:'shoppingCart',component:ShoppingCartComponent},
       {path:'stock',component:StockComponent},
       {path:'orders', component:OrdersComponent},
+      {path:'checkout',component:CheckoutComponent},
       {path:'messages',component: MessagesComponent},
       {path:'deliveryInfo',component:DeliveryInfoComponent},
       {path:'deliveryOptions',component:DeliveryOptionsComponent},
+      {path:'deliveryChange',component:DeliveryChangeComponent},
+      {path:'delivery/edit/:id',component: DeliveryEditComponent},
       {path:'payment',component:PaymentComponent}
     ]},
   {path:'register',component:RegisterComponent},

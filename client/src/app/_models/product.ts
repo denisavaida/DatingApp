@@ -13,6 +13,6 @@ export interface Product{
     stock: number,
     images: Photo[],
     discount: number,
-    shoppingCartId: any,
-    subtotal: number
+    shoppingCartId: number,
+    isDeleted:boolean
 }

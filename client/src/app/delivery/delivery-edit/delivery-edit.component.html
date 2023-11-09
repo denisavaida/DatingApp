@@ -1,0 +1,43 @@
+<form #registerForm="ngForm" (ngSubmit)="updateDelivery()" autocomplete="off">
+    <h2 class="text-center text-primary">Update delivery method</h2>
+    <hr>
+    <br>
+    <div class="mb-3">
+        <h5 style="display: inline-block;">Company URL: </h5>
+        <input type="text"
+                class="form-control"
+                name="companyUrl"
+                [(ngModel)]="model.companyUrl"
+                placeholder="Company Logo URL"autocomplete="off">
+    </div>
+
+    <div class="mb-3">
+        <h5 style="display: inline-block;">Description: </h5>
+        <input type="text"
+        class="form-control"
+        name="description"
+        [(ngModel)]="model.description"
+        placeholder="Description"autocomplete="off">
+    </div>
+    <div class="mb-3">
+        <h5 style="display: inline-block;">Duration: </h5>
+        <input type="text"
+        class="form-control"
+        name="duration"
+        [(ngModel)]="model.duration"
+        placeholder="Duration"autocomplete="off">
+    </div>
+    <div class="mb-3">
+        <h5 style="display: inline-block;">Cost: </h5>
+        <input type="float"
+        class="form-control"
+        name="cost"
+        [(ngModel)]="model.cost"
+        placeholder="Cost">
+   </div>
+    <div class="text-center">
+        <button class="btn btn-success me-2" type="submit">Update delivery method</button>
+        <button class="btn cancelButton" type="button" (click)="cancel()">Cancel</button>
+
+    </div>
+</form>

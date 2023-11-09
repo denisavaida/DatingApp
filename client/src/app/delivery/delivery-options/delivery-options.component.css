@@ -1,12 +1,31 @@
-.example-radio-group {
-  display: inline-flex;
-  flex-direction: column;
+img {
+  position: relative;
+  height: 50px;
+  width: auto;
+  max-height: 260px;
+  margin-bottom: 10px;
+  overflow: hidden;
+
 }
 
-.example-radio-button {
-  margin: 5px;
+
+body {
+  font-family: "Poppins", sans-serif;
+  color: #444444;
 }
 
-.example-selected-value {
-  margin: 15px 0;
+table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+  }
+  
+  td, th {
+    border: 0px solid #dddddd;
+    text-align: center;
+    padding: 15px;
+  }
+ 
+.mat-input-container{
+  margin-left: 15%;
 }

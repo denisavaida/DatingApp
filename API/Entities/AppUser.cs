@@ -1,12 +1,9 @@
-﻿
-using API.DTOs;
-using API.Entities;
+﻿using API.Entities;
 
 namespace API;
 
-public class AppUser
-{
-    public int Id { get; set; }
+public class AppUser : BaseEntity
+{    
     public string UserName { get; set;}
 
     public byte[] PasswordHash { get; set;}

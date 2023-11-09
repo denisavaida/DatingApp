@@ -2,80 +2,101 @@ using API.DTOs;
 using API.Entities;
 using API.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
 
 namespace API.Controllers
 {
     public class ShoppingCartController : BaseApiController
     {
-        private IProductRepository _productRepository;
+        private IShoppingCartRepository _shoppingCartRepository;
         private ShoppingCart shoppingCart;
         
-        public ShoppingCartController(IProductRepository productRepository){
-            _productRepository = productRepository;
+        public ShoppingCartController(IShoppingCartRepository shoppingCartRepository){
+            _shoppingCartRepository = shoppingCartRepository;
             // shoppingCartProducts = GetShoppingCartProducts();
         }
         
         [HttpGet("{id}")]
-        public async Task<ShoppingCart> GetShoppingCart(int id)
+        public async Task<IEnumerable<ShoppingCart>> GetShoppingCartProds(int id)
         {
-            var shoppingCart = await _productRepository.GetShoppingCartByIdAsync(id);
+            var shoppingCarts = await _shoppingCartRepository.GetUserShoppingCart(id);
             
-            return shoppingCart;
+            return shoppingCarts;
         }
 
         [HttpGet]
         public async Task<IEnumerable<ShoppingCart>> GetAllShoppingCart(){
-            var shoppingCartList = await _productRepository.GetAllShoppingCart();
+            var shoppingCartList = await _shoppingCartRepository.GetAllShoppingCart();
             return shoppingCartList;
         }
 
         [HttpPost("add")]
         public async Task<ActionResult<ShoppingCart>> AddShoppingCart(ShoppingCart cart){
 
-            var cartExists = await _productRepository.ShoppingCartExists(cart.Id);
-            
-            //shoppingCart = await GetShoppingCart(cart.Id);
-            Console.WriteLine(cart.Product);
-            if(cartExists){
-                for (int i = 0; i < cart.Product.Count; i++){
-                        for (int j = 0; j < shoppingCart.Product.Count; j++){
-                            
-                            if (await _productRepository.ProductExistsInShoppingCart(cart.Product[i].Id)) {
-                                    shoppingCart.Product[j].Quantity++;
-                                    shoppingCart.Product[j].Subtotal = shoppingCart.Product[j].Price * shoppingCart.Product[j].Quantity;
-                                    shoppingCart.Total = shoppingCart.Total+ shoppingCart.Product[j].Subtotal;
-                            }else{
-                                cart.Product[i].Quantity++;
-                                shoppingCart.Product.Add(cart.Product[i]);
-                                shoppingCart.Product[j].Subtotal = shoppingCart.Product[j].Price * shoppingCart.Product[j].Quantity;
-                                shoppingCart.Total = shoppingCart.Total+ shoppingCart.Product[j].Subtotal;  
-                            }
+                var dbcart = await GetShoppingCartProds(cart.AppUserId);
+                if(! dbcart.IsNullOrEmpty()){
+                    var cartItem = await _shoppingCartRepository.GetShoppingCartByProductIdAsync(cart.ProductId);
+                    
+                    if(cartItem == null){
+                        shoppingCart = new ShoppingCart{
+                                Quantity = cart.Quantity,
+                                ProductId = cart.ProductId,
+                                Product = cart.Product,
+                                AppUserId = cart.AppUserId,
+                                Subtotal = cart.Subtotal
+                            };
+                            await _shoppingCartRepository.AddShoppingCartAsync(shoppingCart);
+                            await _shoppingCartRepository.SaveAllAsync();
+                    }else{
+                        var cartExists = await _shoppingCartRepository.ShoppingCartExists(cartItem.Id);
+                        if(cartExists){
+                            // var cartByID = await _shoppingCartRepository.GetShoppingCartByIdAsync(cartItem.Id);
+                            cartItem.Quantity = cartItem.Quantity + cart.Quantity;
+                            cartItem.Subtotal = cartItem.Quantity * cart.Product.Price;
+                            this.shoppingCart = cartItem;
+                            _shoppingCartRepository.Update(cartItem);  
+                            await _shoppingCartRepository.SaveAllAsync();                      
+                        } else{
+                            shoppingCart = new ShoppingCart{
+                                Quantity = cart.Quantity,
+                                ProductId = cart.ProductId,
+                                Product = cart.Product,
+                                AppUserId = cart.AppUserId,
+                                Subtotal = cart.Subtotal
+                            };
+                            await _shoppingCartRepository.AddShoppingCartAsync(shoppingCart);
+                            await _shoppingCartRepository.SaveAllAsync();
+                        }
                     }
+                }else{
+                    shoppingCart = new ShoppingCart{
+                        Quantity = cart.Quantity,
+                        ProductId = cart.ProductId,
+                        Product = cart.Product,
+                        AppUserId = cart.AppUserId,
+                        Subtotal = cart.Subtotal
+                    };
+                    await _shoppingCartRepository.AddShoppingCartAsync(shoppingCart);
+                    await _shoppingCartRepository.SaveAllAsync();
                 }
-                    
-            }
-            shoppingCart = new ShoppingCart{
-                Product = cart.Product,
-                Total = cart.Total,
-                AppUserId = cart.AppUserId
-            };
-
-
-            // Console.WriteLine(shoppingCart);
-            
-            // for (int i = 0; i < cart.Product.Count; i++){
-            //     shoppingCart.Product.Add(cart.Product[i]);
-            //     shoppingCart.Product[i].Subtotal = shoppingCart.Product[i].Price * shoppingCart.Product[i].Quantity;
-            //     shoppingCart.Total = shoppingCart.Total + shoppingCart.Product[i].Subtotal;
-            // }
-                    
-            
-            Console.WriteLine(shoppingCart);
-            await _productRepository.AddShoppingCartAsync(shoppingCart);
-            await _productRepository.SaveAllAsync();
-
             return shoppingCart;
         
+        }
+        [HttpPut("update")]
+         public void UpdateShoppingCart(ShoppingCart cart){
+              _shoppingCartRepository.Update(cart);
+              _shoppingCartRepository.SaveAllAsync();
+        }
+
+        [HttpDelete("delete/{id}")] // /shoppingCart/delete
+        public  ActionResult DeleteProduct(int id){
+            try{
+                _shoppingCartRepository.Delete(id);
+            }catch{
+                return StatusCode(500);
+            }
+            return Ok();
+            // _productRepository.SaveAllAsyncs();
         }
 
     }

@@ -40,7 +40,8 @@ export class StockComponent implements OnInit{
       }
   
     }
-    
+    this.model.isDeleted = false;
+    this.model.quantity = 1;
     this.productService.addToStock(this.model).subscribe({
       next:response=>{
         this.router.navigateByUrl('/products')

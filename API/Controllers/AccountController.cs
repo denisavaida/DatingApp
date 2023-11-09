@@ -13,16 +13,12 @@ namespace API.Controllers
     public class AccountController : BaseApiController //Inheritance
     {
         private ITokenService _tokenService;
-        private IMapper _mapper;
         private IUserRepository _userRepository;
-        private IProductRepository _productRepository;
 
-        public AccountController(IUserRepository userRepository, ITokenService tokenService, IMapper mapper, IProductRepository productRepository)
+        public AccountController(IUserRepository userRepository, ITokenService tokenService)
         {
             _userRepository = userRepository;
-            _productRepository = productRepository;
             _tokenService = tokenService;
-            _mapper = mapper;
         }
 
         [HttpPost("register")] //POST: api/account/register?username=dave&password=pwd
@@ -48,14 +44,6 @@ namespace API.Controllers
                 Token = _tokenService.CreateToken(user)
             };
 
-            // var shoppingCart = new ShoppingCart
-            // {
-            //     Product = new(),
-            //     AppUserId = user.Id,
-            //     AppUser = userDto
-            // };
-
-            // await _productRepository.AddShoppingCartAsync(shoppingCart);
             await _userRepository.AddAdressAsync(user.Adress);
             await _userRepository.AddUserAsync(user);
             await _userRepository.SaveAllAsync();
@@ -64,10 +52,12 @@ namespace API.Controllers
 
         }
 
+        
+
         [HttpPost("login")]
         public async Task<UserDto> Login(LoginDTO loginDto){
             var user =  await _userRepository.GetUserByUsernameAsync(loginDto.Username);
-            if (user == null) throw new UnauthorizedAccessException();
+            if (user == null) throw new UnauthorizedAccessException("Invalid user !");
             using var hmac = new HMACSHA512(user.PasswordSalt);
             
             var computedHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(loginDto.Password));

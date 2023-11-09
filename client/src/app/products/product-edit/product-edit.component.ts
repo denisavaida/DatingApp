@@ -12,7 +12,21 @@ import { ProductService } from 'src/app/_services/product.service';
 })
 export class ProductEditComponent implements OnInit{
   //products: any={};
-  model: any;
+  model: Product = {
+    id: 0,
+    name: '',
+    description: '',
+    quantity: 0,
+    category: '',
+    oldPrice: 0,
+    price: 0,
+    image: '',
+    stock: 0,
+    images: [],
+    discount: 0,
+    shoppingCartId: 0,
+    isDeleted: false
+  };
 
   constructor(private http:HttpClient,private productService:ProductService,private toastr:ToastrService, private route: ActivatedRoute, private router: Router){
 
@@ -26,7 +40,7 @@ export class ProductEditComponent implements OnInit{
   loadProduct(){
     var id = this.route.snapshot.paramMap.get('id');
     if(!id) return;
-    this.productService.getProduct(id).subscribe({
+    this.productService.getProductById(id).subscribe({
       next: product => {
         this.model = product;
       }
@@ -47,7 +61,9 @@ export class ProductEditComponent implements OnInit{
   }
   delete(){
     console.log(this.model);
-    this.productService.deleteProduct(this.model.id);
+    this.model.isDeleted = true;
+    this.productService.updateProduct(this.model);
+    this.router.navigateByUrl('/products');
   }
   cancel(){
     this.router.navigateByUrl('/products');

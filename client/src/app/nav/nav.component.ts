@@ -19,15 +19,24 @@ export class NavComponent implements OnInit {
   @Input() model: any = {};
   @Output() currentUser$: Observable<User | null> = of(null);
   shoppingCart: ShoppingCart = {
-    products: [],
-    total: 0,
-    AppUserId: 0
+    quantity: 0,
+    subtotal: 0,
+    AppUserId: 0,
+    productId: 0,
+    id: 0,
+    product: {}
   }
+  currentUser:any;
+  cart:any;
+user:any;
   constructor(public accountService: AccountService, private router: Router, private toastr: ToastrService,private favouritesService: FavouritesService, private productService:ProductService, private cartService: CartService){
-
+    // this.user = this.accountService.loadUser();
+    this.accountService.currentUser$.pipe((take(1))).subscribe({
+      next: user=> this.currentUser = user
+    })
   }
-
   ngOnInit() :  void{
+    // this.cart = this.accountService.getShoppingCart();
   }
 
   cartItemCount(){
@@ -46,8 +55,13 @@ export class NavComponent implements OnInit {
       }
     })
     this.shoppingCart.AppUserId = this.model.id;
-    this.accountService.setCurrentUser(this.model);
-    this.cartService.addShoppingCart(this.shoppingCart);
+
+    // this.accountService.setCurrentUser(this.model);
+    // this.user = this.accountService.getCurrentUser();
+    // console.log(this.user);
+    // if(this.user){
+    //   this.cartService.getShoppingCartDB(this.user.id);
+    // }
   }
   logout(){
     this.accountService.logout();

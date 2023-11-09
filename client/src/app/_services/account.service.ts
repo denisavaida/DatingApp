@@ -5,6 +5,7 @@ import { User } from '../_models/user';
 import { Adress } from '../_models/adress';
 import { environment } from 'src/environments/environment';
 import { ShoppingCart } from '../_models/shopping-cart';
+import { Favourites } from '../_models/favourite';
 
 @Injectable({
   providedIn: 'root'
@@ -19,11 +20,20 @@ export class AccountService {
   adressToDisplay:any;
   users:any;
   shoppingCart:ShoppingCart = {
-    products: [] = [],
-    total: 0,
-    AppUserId: 0
+    quantity: 0,
+    subtotal: 0,
+    AppUserId: 0,
+    productId: 0,
+    id: 0,
+    product: {}
   };
-
+  dbCart:any={};
+  favs:any={};
+  favourites:Favourites = {
+    products: [],
+    AppUserId: 0,
+    ProductId: 0
+  }
   loggedUser: any;
   isAuthenticated = false;
 
@@ -63,30 +73,60 @@ export class AccountService {
     this.currentUser$.pipe((take(1))).subscribe({
       next: user=> this.loggedUser = user
     })
-    var cart ;
     if(this.loggedUser){
-      if(this.shoppingCart.AppUserId == this.loggedUser.id){ 
-        this.http.get(this.baseUrl+'shoppingCart/'+ this.shoppingCart.AppUserId).subscribe({
-          next:response=> cart = response,
-          error:error=>console.log(error),
-          complete:()=> console.log('get shopping cart Request has completed')})
-           
-      }else{
-        this.shoppingCart.AppUserId = this.loggedUser.id;
-        cart = this.shoppingCart;
-      }
+      this.getShoppingCartById(this.loggedUser.id).subscribe({
+        next:response=> {this.dbCart = response
+        console.log(this.dbCart);
+        },
+        error:error=>console.log(error),
+        complete:()=> console.log('get shopping cart Request has completed')});
+        
+    
+       
+        // this.http.get(this.baseUrl+'shoppingCart/'+ this.shoppingCart.AppUserId).subscribe({
+        //   next:response=> cart = response,
+        //   error:error=>console.log(error),
+        //   complete:()=> console.log('get shopping cart Request has completed')})
+
+    }else{
+      this.dbCart = this.shoppingCart;
+      
     }
-   
-    return cart;
+    return this.dbCart;
       
   }
+  
+  getFavourites(){
+    this.currentUser$.pipe((take(1))).subscribe({
+      next: user=> this.loggedUser = user
+    })
+    if(this.loggedUser){
+      this.getFavouritesById(this.loggedUser.id).subscribe({
+        next:response=> {this.favs = response
+        console.log(this.favs);
+        },
+        error:error=>console.log(error),
+        complete:()=> console.log('get shopping cart Request has completed')});
+        
+    
+       
+        // this.http.get(this.baseUrl+'shoppingCart/'+ this.shoppingCart.AppUserId).subscribe({
+        //   next:response=> cart = response,
+        //   error:error=>console.log(error),
+        //   complete:()=> console.log('get shopping cart Request has completed')})
 
+    }else{
+      this.favs = this.favourites;
+      
+    }
+    return this.favs;
+      
+  }
+  getFavouritesById(id:number){
+    return this.http.get(this.baseUrl+'favourites/'+ id);
+  }
   getShoppingCartById(id: number){
-    var cart;
-    return this.http.get(this.baseUrl+'shoppingCart/'+ id).subscribe({
-      next:response=> cart = response,
-      error:error=>console.log(error),
-      complete:()=> console.log('get shopping cart Request has completed')})
+    return this.http.get(this.baseUrl+'shoppingCart/'+ id);
   }
   
   login(model:any){
@@ -102,14 +142,25 @@ export class AccountService {
         console.log(this.isAuthenticated + ' authentication');
       }
     })
-  )}
+  )
+}
 
   loadUser(){
-    this.user = {
-      username: this.currentUser$.pipe(map(u=>u?.username == this.user.username)),
-      role: this.currentUser$.pipe(map(u=>u?.role == this.user.role))
+    if(this.isAuthenticated){
+      this.currentUser$.pipe((take(1))).subscribe({
+        next: user=>{ this.user = user;
+          console.log(this.user);
+       }
+      })
+    }else{
+      console.log('you re not logged in !')
     }
-    console.log(this.user.username + ' is loaded!')
+
+    // this.user = {
+    //   username: this.currentUser$.pipe(map(u=>u?.username == this.user.username)),
+    //   role: this.currentUser$.pipe(map(u=>u?.role == this.user.role))
+    // }
+    
     return this.user;
   }
 
@@ -168,13 +219,13 @@ export class AccountService {
     this.currentUser$.pipe((take(1))).subscribe({
         next: user=> this.user = user
       })
-    var currentUser;
+    
     this.http.get<User>(this.baseUrl + 'users/'+ this.user.id).subscribe({
-      next: response=> {currentUser = response,
-      console.log("this is the current user:" + currentUser)},
+      next: response=> {this.loggedUser = response,
+      console.log("this is the current user:" + this.loggedUser)},
       error: error=> console.log(error)
     });
-    return currentUser;
+    return this.loggedUser;
   }
 
   logout(){

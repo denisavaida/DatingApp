@@ -1,0 +1,31 @@
+img {
+    position: relative;
+    height: 50px;
+    width: auto;
+    max-height: 260px;
+    margin-bottom: 10px;
+    overflow: hidden;
+  
+  }
+  
+  
+  body {
+    font-family: "Poppins", sans-serif;
+    color: #444444;
+  }
+  
+  table {
+      font-family: arial, sans-serif;
+      border-collapse: collapse;
+      width: 100%;
+    }
+    
+    td, th {
+      border: 0px solid #dddddd;
+      text-align: center;
+      padding: 10px;
+    }
+   .btnf1{
+    padding-right: 19%;
+    margin-right: -73%;
+   }

@@ -22,77 +22,77 @@ export class PromotionsComponent {
   promo: Product[] = [];
   currentUser: any = {};
   shoppingCart:ShoppingCart = {
-    products: [] = [],
-    total: 0,
-    AppUserId: 0
+    quantity: 0,
+    subtotal: 0,
+    AppUserId: 0,
+    productId: 0,
+    id: 0,
+    product: {}
   } ;
-
+cart:any =[];
   constructor(private http:HttpClient,private productService:ProductService,private cartService: CartService,private toastr:ToastrService, 
     private accountService: AccountService, private favouritesService: FavouritesService){
     this.getProducts();
     this.accountService.currentUser$.pipe((take(1))).subscribe({
       next: user=> this.currentUser = user
     })
- //this.shoppingCart = this.accountService.shoppingCart;
+ this.cart = this.accountService.getShoppingCart();
     
   }
   getProducts(){
     return this.http.get(this.baseUrl+'products').subscribe({
       next:response=> {this.products = response,
         this.products.forEach((element: Product) => {
-          if(element.discount > 0){
+          if(element.discount > 0 ){ //&& element.stock>0
             this.promo.push(element);
           }
         });
-        return this.promo;
+        this.productService.validateProds(this.promo);
       },
       error:error=>console.log(error),
       complete:()=> console.log(' get products Request has completed')
     })
   }
+
   addToCart(prod:any){
+    this.shoppingCart.AppUserId = this.currentUser.id;
+    console.log(prod);
     if(prod.stock == 0){
       this.toastr.warning("You can't add this product to the shopping cart because is out of stock !");
     }else{
-      var prods = this.cartService.getItems();
-
-      if(prods.length == 0){
-        prod.quantity++;
-        prod.subtotal = prod.price * prod.quantity;
+  
+      this.cart = this.accountService.getShoppingCart();
+      if(this.cart.length == 0){
+  
+        this.shoppingCart = this.cartService.setShoppingCartItem(prod);
+        this.shoppingCart.AppUserId = this.currentUser.id;
         this.cartService.addToCart(prod);
-    
+        this.cartService.addShoppingCart(this.shoppingCart);
+  
       }else {
+  
         if(this.cartService.findItem(prod)){
           this.cartService.setItem(prod);
           return;
         }else{
-          prod.quantity = prod.quantity + 1;
+          this.shoppingCart = this.cartService.setShoppingCartItem(prod);
+          this.shoppingCart.AppUserId = this.currentUser.id;
           this.cartService.addToCart(prod);
+          this.cartService.addShoppingCart(this.shoppingCart);
           return;
         }
        }
-      // this.productService.addShoppingCart(this.shoppingCart).subscribe({
-      //   next:response=>{
-      //     this.toastr.success("Shopping cart added to db!")
-      //     console.log(response);
-      //     this.cancel;
-      //   },
-      //   error:error=>{
-      //     this.toastr.error(error.error)
-      //     console.log(error)
-      //   }
-      // }) 
-      this.toastr.success('your product has been added to the cart!');
     }
   
   }
   addToFavourites(prod: Product){
-    this.favouritesService.addToFavourites(prod);
+    this.favouritesService.addToFavourites(this.currentUser.id, prod);
     this.toastr.success('your product has been added to favourites!');
   }
 
   deleteProduct(prod: Product){
-      this.productService.deleteProduct(prod);
+    prod.isDeleted = true;
+      this.productService.updateProduct(prod);
   }
 
 }

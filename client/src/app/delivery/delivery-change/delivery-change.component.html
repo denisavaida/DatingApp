@@ -1,0 +1,75 @@
+<div class="container">
+    <div class="row">
+        <h4 class="text-center text-primary">Update existing delivery methods</h4>
+                <mat-radio-group >
+                    <table>
+                      <mat-radio-button value="{{opt.id}}" (change)="radioButtonChange($event)" *ngFor="let opt of options"><tr>
+                        <td><img src="{{opt.companyUrl}}"></td>
+                        <td> <input type="text"
+                            class="form-control"
+                            name="companyUrl"
+                            [(ngModel)]="opt.companyUrl"
+                            placeholder="Company Logo URL"autocomplete="off"></td>
+                        <td><input type="text"
+                            class="form-control"
+                            name="description"
+                            [(ngModel)]="opt.description"
+                            placeholder="Description"autocomplete="off"></td>
+                        <td>    <input type="text"
+                            class="form-control"
+                            name="duration"
+                            [(ngModel)]="opt.duration"
+                            placeholder="Duration"autocomplete="off"></td>
+                        <td>  <input type="float"
+                            class="form-control"
+                            name="cost"
+                            [(ngModel)]="opt.cost"
+                            placeholder="Cost"></td>
+                        <td><button class="btn btn-dark btnf1" (click)="updateDeliveryMethod(opt)">Update</button></td>
+                        <td><button class="btn btn-warning btnf1" (click)="deleteDeliveryMethod(opt)">Delete</button></td>
+                      </tr></mat-radio-button>
+                  
+                    </table>
+                  </mat-radio-group>
+                  <div class="row">
+            <form #registerForm="ngForm" (ngSubmit)="addDelivery()" autocomplete="off">
+                <h4 class="text-center text-primary">Add new delivery method</h4>
+                <!-- <hr> -->
+                <!-- <br> -->
+                <div class="mb-3">
+                    <input type="text"
+                            class="form-control"
+                            name="companyUrl"
+                            [(ngModel)]="model.companyUrl"
+                            placeholder="Company Logo URL"autocomplete="off">
+                </div>
+            
+                <div class="mb-3">
+                    <input type="text"
+                    class="form-control"
+                    name="description"
+                    [(ngModel)]="model.description"
+                    placeholder="Description"autocomplete="off">
+                </div>
+                <div class="mb-3">
+                    <input type="text"
+                    class="form-control"
+                    name="duration"
+                    [(ngModel)]="model.duration"
+                    placeholder="Duration"autocomplete="off">
+                </div>
+                <div class="mb-3">
+                    <input type="float"
+                    class="form-control"
+                    name="cost"
+                    [(ngModel)]="model.cost"
+                    placeholder="Cost">
+               </div>
+                <div class="text-center">
+                    <button class="btn btn-success me-2" type="submit">Add delivery method</button>
+                    <button class="btn cancelButton" type="button" (click)="cancel()">Cancel</button>
+            
+                </div> 
+            </form>
+        </div>
+</div>

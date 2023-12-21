@@ -52,6 +52,10 @@ namespace API.Data
             return adress;
         }
 
+        public async Task<Adress> GetAdressByUserId(int id)
+        {
+            return await _context.Adresses.SingleOrDefaultAsync(a => a.AppUserId == id);
 
+        }
     }
 }

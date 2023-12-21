@@ -21,12 +21,29 @@ export class CartService{
       subtotal: 0,
       AppUserId: 0,
       productId: 0,
-      product: []
+      product: {
+        id: 0,
+        name: "",
+        description: "",
+        quantity: 0,
+        category: "",
+        oldPrice: 0,
+        price: 0,
+        image: "",
+        stock: 0,
+        images: [],
+        discount: 0,
+        shoppingCartId: 0,
+        softDeleted: false
+      }
     }
     summary: Summary={
       AppUserId: 0,
       total: 0,
-      shoppingCartItems: []
+      shoppingCartItems: [],
+      productCost: 0,
+      voucherID: 0,
+      discounted: 0
     }
     cart:any={};
     currentUser:any;
@@ -37,6 +54,7 @@ export class CartService{
           this.cart = this.accountService.getShoppingCart();
           this.items = this.getUsersCartItems();
     }
+
     getUsersCartItems(){
       this.cart = this.accountService.getShoppingCart();
       if(this.cart.length != 0){
@@ -49,23 +67,25 @@ export class CartService{
           this.summary.total = this.summary.total + this.cart[i].subtotal;
           
         };   
-        for(var i = 0; i< this.cart.length; i++){
-          for(var j = 0; j< this.items.length; j++){
-            if(this.cart[i].productId == this.items[j].id){
-              this.items[j].quantity = this.cart[i].quantity;
-            }
+          for(var i = 0; i< this.cart.length; i++){
+            for(var j = 0; j< this.items.length; j++){
+              if(this.cart[i].productId == this.items[j].id){
+                this.items[j].quantity = this.cart[i].quantity;
+              }
+          }
         }
       }
+      return this.items;
     }
-    return this.items;
-  }
-    
+      
     getShoppingCartDB(id: any){
        return  this.http.get(this.baseUrl+'shoppingCart/'+id);
-      }
+    }
+
     addToCart(prod:any){
       this.items.push(prod);
     }
+
     addShoppingCart(model:ShoppingCart){
       
         console.log(model);
@@ -73,7 +93,20 @@ export class CartService{
           next:response=>{
             this.toastr.success("Shopping cart added to db!")
             console.log(response);
-            // this.cancel;
+            return response;
+          },
+          error:error=>{
+            this.toastr.error(error.error)
+            console.log(error)
+          }
+        }) 
+    }
+
+    addSummary(summary:Summary){
+      console.log(summary);
+        return this.http.post<Summary>(this.baseUrl + 'summary/add',summary).subscribe({
+          next:response=>{
+            console.log(response);
             return response;
           },
           error:error=>{
@@ -89,6 +122,14 @@ export class CartService{
       this.shoppingCartItem.subtotal = this.shoppingCartItem.product.price * this.shoppingCartItem.quantity;
       this.shoppingCartItem.productId = prod.id;
       return this.shoppingCartItem;
+    }
+    
+    setSummary(shoppingCartItem: ShoppingCart){
+      this.summary.shoppingCartItems.push(shoppingCartItem);
+      this.summary.productCost = shoppingCartItem.subtotal;
+      this.summary.total = shoppingCartItem.subtotal;
+      
+      return this.summary;
     }
     
     getItems(){
@@ -138,6 +179,7 @@ export class CartService{
         console.log(flag);
         return flag;
     }
+
     setItem(prod: Product){
         
         this.cart = this.accountService.getShoppingCart();
@@ -154,6 +196,7 @@ export class CartService{
     }
     
     updateShoppingCart(cart:ShoppingCart){
+      console.log(cart);
         return this.http.put<ShoppingCart>(this.baseUrl + 'shoppingCart/update',cart).pipe(
             map(c=>{
               if(c){
@@ -165,5 +208,17 @@ export class CartService{
             })
           )
     }
-
+    
+    updateSummary(summary:Summary){
+      console.log(summary);
+      return this.http.put<Summary>(this.baseUrl + 'summary/update',summary).pipe(
+          map(c=>{
+            if(c){
+              localStorage.setItem('updatedSummary',JSON.stringify(c));
+              console.log("Summary is: "+c);
+            }
+            return c;
+          })
+        )
+    }
 }

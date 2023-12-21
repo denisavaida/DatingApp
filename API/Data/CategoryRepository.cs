@@ -47,5 +47,11 @@ namespace API.Data
             return await _context.SaveChangesAsync() > 0;
         }
 
+        public async Task<IEnumerable<Product>> GetProductsBySelectedCategoryAsync(string category)
+        {
+           var query = await _context.Products.Include(p=>p.Images).Include(p=> p.Categories).Where(p=>p.Category == category.ToLower()).ToListAsync();
+                            
+            return query;
+        }
     }
 }

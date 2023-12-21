@@ -35,7 +35,7 @@ namespace API.Controllers
                 Image = product.Image,
                 Categories = new List<ProductCategory>{ new ProductCategory(){Name = product.Category.ToLower()}},
                 Images = new(),
-                isDeleted = product.isDeleted
+                SoftDeleted = product.SoftDeleted
 
             };
             var productDTO =  _mapper.Map<ProductDto>(newProduct);

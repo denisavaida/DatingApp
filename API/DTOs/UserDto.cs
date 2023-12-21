@@ -1,13 +1,13 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations;
+using API.Entities;
 
 namespace API.DTOs
 {
-    public class UserDto
+    public class UserDto : BaseEntity
     {
-        public int Id{get;set;}
+        [Required]
+        [DataType(DataType.EmailAddress)]
+        [EmailAddress]
         public string Username{ get; set; }
         public string Token{ get; set; }
     }

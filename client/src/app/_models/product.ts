@@ -1,6 +1,5 @@
 import { Photo } from "./photo";
 
-
 export interface Product{
     id:number,
     name: string,
@@ -14,5 +13,5 @@ export interface Product{
     images: Photo[],
     discount: number,
     shoppingCartId: number,
-    isDeleted:boolean
+    softDeleted:boolean
 }

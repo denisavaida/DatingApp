@@ -1,5 +1,4 @@
 import { Component, EventEmitter, Output, ViewChild } from '@angular/core';
-import { Adress } from 'src/app/_models/adress';
 import { DeliveryInfo } from 'src/app/_models/deliveryInfo';
 import { CheckoutService } from 'src/app/_services/checkout.service';
 import { AdressComponent } from 'src/app/adress/adress.component';
@@ -18,25 +17,23 @@ export class DeliveryInfoComponent {
     lastname: '',
     telephone: '',
     email: '',
-    adress: {
-      street: '',
-      number: 0,
-      city: '',
-      region: '',
-      country: '',
-      postcode: 0,
-      userId: 0
-    },
-    additonalInfo: ''
+    adress: this.adress.model,
+    additonalInfo: '',
+    appUserId: 0,
+    adressId: 0
   };
-
-  constructor(private checkoutService: CheckoutService){}
+  submited:boolean = false;
+  constructor(private checkoutService: CheckoutService){
+    this.checkoutService.setDeliveryInfo(this.info);
+  }
 
   setDeliveryInfo(){
-    
+    this.info.adress = this.adress.model;
+    this.info.adressId = this.adress.model.id;
     console.log(this.info);
     this.info.adress = this.adress.model;
     this.checkoutService.setDeliveryInfo(this.info);
+    this.submited = true;
     this.deliveryInfo.emit(this.info);
   }
   

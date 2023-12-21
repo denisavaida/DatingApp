@@ -1,55 +1,142 @@
 <section class="section-products" >
     <div class="container">
-            <div class="row justify-content-center text-center ">
-                <div class="header">
+            <div class="row headerRow">
+
+                <div class="header justify-content-center text-center ">
                         <h1 >Promotii de pana la 50% </h1>
                         <p>Oferta valabila pentru produsele online, in limita stocului disponibil.</p>
                 </div>
-            </div>
-            
+                </div>
                 <div class="row">
-                        <div class="col-md-6 col-lg-4 col-xl-3" *ngFor="let product of promo">
-                                <div class="card">
-                                        <div class="d-flex justify-content-between p-3">
-                                <div id="product-2" class="single-product">
-                                        <div class="part-1" >
-                                                <div *ngIf="product.stock>0">
-                                                        <img src="{{product.image}}">
-                                                        <span class="discount" *ngIf="product.discount>0">{{product.discount}}%</span>
-                                                </div>
-                                                <div class="outOfStockImg" *ngIf="product.stock == 0">
-                                                        <img src="{{product.image}}">
-                                                        <span class="discount" *ngIf="product.discount>0">{{product.discount}}%</span>
-                                                </div>
-                                        <!-- <img src="{{product.image}}">
-                                                <span class="discount" *ngIf="product.discount>0">{{product.discount}}%</span> -->
-                                                <ul>
-                                                        <li *ngIf="currentUser.username != 'admin'"><a (click)="addToCart(product)"><i class="fa fa-shopping-cart"></i></a></li>
-                                                        <li *ngIf="currentUser.username != 'admin'"><a (click)="addToFavourites(product)"><i class="fa fa-heart"></i></a></li>
-                                                        <li ><a routerLink="/products/{{product.id}}" routerLinkActive="active"><i class="fa fa-expand"></i></a></li>
-                                                        <li *ngIf="currentUser.username == 'admin'"><a routerLink="/products/edit/{{product.id}}" routerLinkActive="active"><i class="fa fa-pencil-square-o"></i></a></li> 
-                                                        <li *ngIf="currentUser.username == 'admin'"><a (click)="deleteProduct(product)"><i class="fa fa-trash"></i></a></li> 
-                                                </ul>
-                                        </div>
-                                        <div class="part-2">
-                                                <h3 class="product-title"style="text-transform: capitalize">{{product.name}}</h3>
-                                                <div *ngIf="product.stock>0" ><h6 style="color: green;font-size: small;font-weight: bolder;">In stock</h6></div>
-                                                <div *ngIf="product.stock==0" ><h6 style="color: red;font-size: small;font-weight: bolder;">Out of stock</h6></div>
-                                                <ng-template [ngIf]="product.oldPrice!=product.price" [ngIfElse]="loading" >
-                                                        <h4 class="product-old-price" >{{product.oldPrice}} Lei</h4>
-                                                </ng-template>
-                                                <ng-template #loading>
-                                                        <h4 class="product-old-price" style="visibility: hidden;">{{product.oldPrice}} Lei</h4>
-                                                </ng-template>
-                                                <h4 class="product-old-price" style="visibility: hidden;"></h4>
-                                                <h4 class="product-price" style="color: red;font-size: large;">{{product.price}} Lei</h4>
-                                        </div>
-                                        </div>
-                                </div>
-                                </div>
-                
+                <div class="col-md-2">
+                        <h3 style="text-transform: uppercase;">Disponibilitate</h3>
+                        <mat-list>
+                          <mat-list-item>
+                            <span matListItemTitle><a routerLink="/products">Toate produsele</a></span>
+                          </mat-list-item>
+                          <mat-list-item><a routerLink="/promotions">Promotii</a></mat-list-item>
+                          <mat-list-item><a href="">In stoc</a></mat-list-item>
+                        </mat-list>
+                        
+                        <h3 style="text-transform: uppercase; ">Pret</h3>
+                        <mat-list>
+                          <mat-list-item>
+                            <span matListItemTitle>Sub 50</span>
+                          </mat-list-item>
+                          <mat-list-item>
+                            <span matListItemTitle>50-100</span>
+                          </mat-list-item>
+                          <mat-list-item>
+                            <span matListItemTitle>100-200</span>
+                          </mat-list-item>
+                          <mat-list-item>
+                                <span matListItemTitle>200-500</span>
+                                </mat-list-item>
+                        <!-- <mat-list-item>
+                                <span matListItemTitle><mat-slider thumbLabel
+                                        [displayWith]="value"
+                                        tickInterval="1000"
+                                        min="1"
+                                        max="100000">
+                                       
+                                      </mat-slider></span> 
+                        </mat-list-item> -->
+                        </mat-list>
+                        
+                        <h3 style="text-transform: uppercase;">Categorii</h3>
+                        <mat-list>
+                          <mat-list-item  *ngFor="let categ of categories">
+                            <span matListItemTitle style="text-transform:capitalize;"><a routerLink="/categorizedProducts/{{categ.name}}">{{categ.name}}</a></span>
+                          </mat-list-item>
+                         
+                        </mat-list>
+                        
+                </div>
+                <div class="col-md-10">
+
+
+                <div class="row">
+                        <div class="col-md-6">       
+                                <mat-form-field>
+                                        <mat-select placeholder="Ordoneaza">
+                                          <mat-option (onSelectionChange)="sortAscending()">Pret crescator</mat-option>
+                                          <mat-option>Pret descrescator</mat-option>
+                                          <mat-option>Cel mai mare discount</mat-option>
+                                          <mat-option>Cele mai populare</mat-option>
+                                        </mat-select>
+                                      </mat-form-field>
+
+                             </div>
+                        <div class="col-md-6">
+                                <form class="d-flex">
+                                        <input name="search" class="form-control me-2 searchInput" type="search" placeholder="Cauta" [(ngModel)]="searchItem">
+                                        <button class="btn btn-outline-success my-2 my-sm-0 searchBtn" type="submit" onclick="search()">Search</button>
+                                </form>
                         </div>
+                <div class="col-md-6 col-lg-4 col-xl-3" *ngFor="let product of products">
+                        <div class="card">
+                                <div class="d-flex justify-content-between p-3">
+                        <div id="product-2" class="single-product">
+                                <div class="part-1" >
+                                        <div *ngIf="product.stock>0">
+                                                <img src="{{product.image}}">
+                                                <span class="discount" *ngIf="product.discount>0">{{product.discount}}%</span>
+                                        </div>
+                                        <div class="outOfStockImg" *ngIf="product.stock == 0">
+                                                <img src="{{product.image}}">
+                                                <span class="discount" *ngIf="product.discount>0">{{product.discount}}%</span>
+                                        </div>
+                                        <ul *ngIf="currentUser">
+                                                <li *ngIf="currentUser.username != 'admin'"><a (click)="addToCart(product)"><i class="fa fa-shopping-cart"></i></a></li>
+                                                <li *ngIf="currentUser.username != 'admin'"><a (click)="addToFavourites(product)"><i class="fa fa-heart"></i></a></li>
+                                                <li ><a routerLink="/products/{{product.id}}" routerLinkActive="active"><i class="fa fa-expand"></i></a></li>
+                                                <li *ngIf="currentUser.username == 'admin'"><a routerLink="/products/edit/{{product.id}}" routerLinkActive="active"><i class="fa fa-pencil-square-o"></i></a></li> 
+                                                <li *ngIf="currentUser.username == 'admin'"><a (click)="deleteProduct(product)"><i class="fa fa-trash"></i></a></li> 
+                                        </ul>
+
+                                        <ul *ngIf=" !currentUser">
+                                                <li ><a (click)="addToCart(product)"><i class="fa fa-shopping-cart"></i></a></li>
+                                                <li ><a (click)="addToFavourites(product)"><i class="fa fa-heart"></i></a></li>
+                                                <li ><a routerLink="/products/{{product.id}}" routerLinkActive="active"><i class="fa fa-expand"></i></a></li>
+                                        </ul>
+                                </div>
+                                <div class="part-2">
+                                        <h3 class="product-title"style="text-transform: capitalize">{{product.name}}</h3>
+                                        <div *ngIf="product.stock>0" ><h6 style="color: green;font-size: small;font-weight: bolder;">In stock</h6></div>
+                                        <div *ngIf="product.stock==0" ><h6 style="color: red;font-size: small;font-weight: bolder;">Out of stock</h6></div>
+                                        <ng-template [ngIf]="product.oldPrice!=product.price" [ngIfElse]="loading" >
+                                                <h4 class="product-old-price" >{{product.oldPrice}} Lei</h4>
+                                        </ng-template>
+                                        <ng-template #loading>
+                                                <h4 class="product-old-price" style="visibility: hidden;">{{product.oldPrice}} Lei</h4>
+                                        </ng-template>
+                                        <h4 class="product-old-price" style="visibility: hidden;"></h4>
+                                        <h4 class="product-price" style="color: red;font-size: large;">{{product.price}} Lei</h4>
+                                </div>
+                                </div>
+                        </div>
+                        </div>
+        
+                </div>
+        </div>
+
+
+            </div>
+            </div>
+  
                 </div>
       
-    </div>
 </section>
+<div class="d-flex justify-content-center" *ngIf="pagination">
+        <pagination [boundaryLinks]="true" 
+                [totalItems]="pagination.totalItems"
+                [itemsPerPage]="pagination.itemsPerPage"
+                [maxSize]="10"
+                [(ngModel)]="pagination.currentPage"
+                (pageChanged)="pageChanged($event)"
+                previousText="&lsaquo;" 
+                nextText="&rsaquo;" 
+                firstText="&laquo;" 
+                lastText="&raquo;">
+        </pagination>
+</div>

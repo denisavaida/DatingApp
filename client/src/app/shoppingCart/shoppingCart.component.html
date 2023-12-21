@@ -9,7 +9,7 @@
 <div *ngIf="items.length == 0 && !this.currentUser">
     
     <div class="container">
-        <div class="row" style="text-align: center;margin-top: 20%;">
+        <div class="row" style="text-align: center;margin-top: 30%;">
             <h3>Coșul de cumpărături este gol !</h3>
             <h5>Dacă ai adăugat produse în coș la vizita trecută pe site, te rugăm să te loghezi.</h5>
             <button (click)="login()" class="btn btn-success btn-lg me-2" style="width: 30%;margin-left: 35%;">Login</button>
@@ -52,11 +52,12 @@
               </table>
             </div>
               <div class="col-md-4 sumarInfo" style="text-align: justify;">
+                <p>Voucher: <input type="text" [(ngModel)]="voucher.code"><button class="btn btn-info btnVoucher" (click)="applyVoucher(voucher.code)">Aplica</button></p>
                 <h5 style="font-weight: bolder;">Sumar comanda :</h5>
-                <h6>Cost produse: {{summary.total}} Lei</h6>
-                <div *ngIf="summary.total > 200"><h6 style="color: green;">Livrare: GRATUITA </h6>
+                <h6>Cost produse: {{summary.productCost}} Lei <h6 style="color: red;" *ngIf="voucher.code">-{{voucher.discount}}%</h6></h6>
+                <div *ngIf="summary.productCost > 200"><h6 style="color: green;">Livrare: GRATUITA </h6>
                   <h4>TOTAL: {{summary.total}} Lei</h4></div>
-                  <div *ngIf="summary.total < 200" ><h6 style="color: red;">Costul livrarii va fi adaugat dupa alegerea metodei de livrare </h6>
+                  <div *ngIf="summary.productCost < 200" ><h6 style="color: red;">Costul livrarii va fi adaugat dupa alegerea metodei de livrare </h6>
                     <h4>TOTAL: {{summary.total}} Lei</h4> </div>
                   
                 <button type="button" class="btn orderButton" routerLink="/checkout" routerLinkActive="active">Finalizeaza comanda</button>

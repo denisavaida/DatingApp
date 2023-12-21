@@ -1,5 +1,4 @@
 using System.ComponentModel.DataAnnotations.Schema;
-using API.DTOs;
 
 namespace API.Entities
 {
@@ -7,12 +6,12 @@ namespace API.Entities
     [Table("ShoppingCart")]
     public class ShoppingCart : BaseEntity
     {
-        public int Quantity{get;set;}
-        public int ProductId{get;set;}
-        public Product Product{get;set;}
-        public float Subtotal{ get; set; }
+        public int Quantity {get;set;}
+        public int ProductId {get;set;}
+        public Product Product {get;set;}
+        public float Subtotal { get; set; }
 
         [ForeignKey("AppUserId")]
-        public int AppUserId{ get; set; }
+        public int AppUserId { get; set; }
     }
 }

@@ -1,7 +1,7 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { environment } from "src/environments/environment";
-import { Delivery } from "../_models/delivery";
+import { Delivery } from "../_models/deliveryMethod";
 import { BehaviorSubject, map } from "rxjs";
 import { RouterModule } from "@angular/router";
 
@@ -15,7 +15,7 @@ import { RouterModule } from "@angular/router";
     deliveryOptions:any = {}
     selectedOption:any;
     isSelected: boolean = false;
-    constructor(private http: HttpClient, private router: RouterModule){ 
+    constructor(private http: HttpClient){ 
         this.getDeliveryOptions();
     }
     getDeliveryOptions(){
@@ -67,11 +67,12 @@ import { RouterModule } from "@angular/router";
             })
           )
     }
+
     deleteDelivery(model:Delivery){
-        return this.http.delete<Delivery>(this.baseUrl+'delivery/delete/'+model.id).subscribe(data => {
-            console.log(data);
-            window.location.reload();
-          });
+    return this.http.delete<Delivery>(this.baseUrl+'delivery/delete/'+model.id).subscribe(data => {
+        console.log(data);
+        window.location.reload();
+      });
     }
 
   }  

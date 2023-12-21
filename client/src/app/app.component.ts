@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { AccountService } from './_services/account.service';
 import { User } from './_models/user';
+import { NgbSlideEvent, NgbSlideEventSource } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-root',
@@ -12,7 +13,13 @@ export class AppComponent implements OnInit{
   title = 'Koala Kids Shop';
   users: any;
   model:any={};
-
+  slideActivate(ngbSlideEvent: NgbSlideEvent) {
+    console.log(ngbSlideEvent.source);
+    console.log(ngbSlideEvent.paused);
+    console.log(NgbSlideEventSource.INDICATOR);
+    console.log(NgbSlideEventSource.ARROW_LEFT);
+    console.log(NgbSlideEventSource.ARROW_RIGHT);
+  }
   constructor(private http: HttpClient, private accountService: AccountService){
 
   }
@@ -39,5 +46,6 @@ export class AppComponent implements OnInit{
 
 subscribe(){}
     //add email to the subscribers list
+
 }
 

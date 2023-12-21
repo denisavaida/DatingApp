@@ -1,6 +1,6 @@
-<form #deliveryInfoForm="ngForm" autocomplete="off" aria-required="true" *ngIf="info" (ngSubmit)="setDeliveryInfo()">
+<form #deliveryInfoForm="ngForm" autocomplete="off" aria-required="true" *ngIf="info" (ngSubmit)="setDeliveryInfo()" >
     <!-- 2 column grid layout with text inputs for the first and last names -->
-<div class="container">
+<div class="container" *ngIf="submited == false">
     <div class="row mb-4">
       <div class="col-md-6">
         <div class="form-outline">
@@ -51,14 +51,27 @@
 
       </div>
   
-    <!-- Message input -->
-    <div class="form-outline mb-4">
-      <textarea type="text"
-      class="form-control"
-      name="AdditionalInfo"
-      [(ngModel)]="info.additonalInfo" rows="4"
-      placeholder="Informatii aditionale"></textarea>
-    </div>
-
+  <!-- Message input -->
+  <div class="form-outline mb-4">
+    <textarea type="text"
+    class="form-control"
+    name="AdditionalInfo"
+    [(ngModel)]="info.additonalInfo" rows="4"
+    placeholder="Informatii aditionale"></textarea>
   </div>
+  
+</div>
+<div class="text-center">
+<button class="btn btn-success me-2" type="submit" *ngIf="submited ==false">Adauga adresa </button>
+</div>
   </form>
+  <div class="container" *ngIf="submited == true">
+    <mat-card>
+      <h6>{{info.firstname}} {{info.lastname}}</h6>
+      <h6>{{info.email}} </h6>
+      <h6>{{info.adress.street}} , {{info.adress.number}}, {{info.adress.postcode}}</h6>
+      <h6>{{info.adress.city}} , {{info.adress.region}}</h6>
+      <h6> {{info.telephone}}</h6>
+      <h6>{{info.additonalInfo}}</h6>
+    </mat-card>
+  </div>

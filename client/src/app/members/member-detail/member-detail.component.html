@@ -1,18 +1,74 @@
 <div *ngIf="user != null">
-    <p style="text-transform: capitalize;">Welcome {{user.username}}!</p>
+    <p style="text-transform: capitalize;">Welcome {{user.lastName}}!</p>
 </div>
+<div class="container">
+  <div class="row">
+    <div class="col-md-2">
+      <mat-button-toggle-group #group="matButtonToggleGroup">
+        <ul class="nav flex-column">
+          <li class="nav-item">
+            <mat-button-toggle value="orders">
+              <h6>Comenzile mele</h6>
+            </mat-button-toggle>
+          </li>
+          <li class="nav-item">
+            <mat-button-toggle value="details">
+              <h6>Detalii cont</h6>
+            </mat-button-toggle>
+          </li>
+          <li class="nav-item">
+            <mat-button-toggle value="vouchers">
+                <h6>Vouchere</h6>
+            </mat-button-toggle>
+          </li>
+          <li class="nav-item">
+            <mat-button-toggle value="returns">
+                <h6>Retururi</h6>
+            </mat-button-toggle>
+          </li>
+          <li class="nav-item">
+            <mat-button-toggle value="cards">
+                <h6>Carduri</h6>
+            </mat-button-toggle>
+          </li>
+        </ul>
+      </mat-button-toggle-group>
+    </div>
+    <div class="col-md-8">
+  
+      <div class="example-selected-value">
+        <div *ngIf="group.value == 'orders'"><app-orders></app-orders></div>
+        <div *ngIf="group.value == 'details'">
+          <div *ngIf="user != null">
+            <mat-card class="mat-elevation-z0">
+              <div class="row">
+              <div class=" col-md-2">
+              </div>
+              <div class="col-md-6">
+                  <h3>Bun venit, {{user.lastName}} !</h3>
+                  <h6>Numele: {{user.firstName}} {{user.lastName}}</h6>
+                  <h6>Email: {{user.userName}}</h6>
+                  <h6>Data nasterii: {{user.dateOfBirth}}</h6>
+                  <h6>Adresa: </h6>  
+                    <p> Str. {{user.adress.street}}, {{user.adress.number}}</p>
+                    <p>{{user.adress.city}},{{user.adress.region}} {{user.adress.postcode}}</p>
+                    <p> {{user.adress.country}}</p>
+                    
+              </div>
+              <div class="col-md-2 editBtn" ><a routerLink="/users/edit/{{user.userName}}" routerLinkActive="active" class="editBtn">Edit</a></div>
+          </div>
+            </mat-card>
 
-<ul class="nav flex-column">
-    <li class="nav-item">
-      <a class="nav-link active">Comenzile mele</a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link" >Setari cont</a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link">Link</a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link ">Link</a>
-    </li>
-  </ul>
+
+          </div>
+        </div>
+        <div *ngIf="group.value == 'vouchers'"><app-voucher-detail></app-voucher-detail></div>
+        <!-- <div *ngIf="group.value == 'returns'"><app-re></app-voucher-detail></div> -->
+        <!-- <div *ngIf="group.value == 'cards'"><app-></app-product-card></div> -->
+      </div>
+    </div>
+  </div>
+  </div>
+  
+ 
+ 

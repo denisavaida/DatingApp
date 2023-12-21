@@ -1,9 +1,7 @@
-<form #paymentForm="ngForm" (ngSubmit)="pay()" autocomplete="off" aria-required="true">
+<form #paymentForm="ngForm" (ngSubmit)="addCard()" autocomplete="off" aria-required="true">
 
-    <div class="container">
+    <div class="container" *ngIf="submited == false">
 
-
-      
         <div class="row mb-4">
             <div class="col-md-12 ">
                 
@@ -15,20 +13,19 @@
     </div>
         </div>
 
-    
     <div class="row mb-4">
         <div class="col-md-4 ">
             
-            <select type="text" name="expiryMonth" id='expiryMonth' class="form-control" >
+            <select type="text" name="expiryMonth" id='expiryMonth' class="form-control" [(ngModel)]="model.expiryMonth">
                 <option value='' disabled selected>Month</option>
-                <option value="expiryMonth" name="expiryMonth" *ngFor="let item of months"> {{item}} </option>
+                <option value="expiryMonth" name="expiryMonth" *ngFor="let item of months" [value]="item"> {{item}} </option>
 
             </select> 
         </div>
         <div class="col-md-4">
-            <select type="text" name='expiryYear' id='expiryYear' class="form-control" >
+            <select type="text" name='expiryYear' id='expiryYear' class="form-control"  [(ngModel)]="model.expiryYear">
                 <option value=''disabled selected>Year</option>
-                <option value="expiryYear" name="expiryYear"  *ngFor="let item of years">{{item}}</option>
+                <option value="expiryYear" name="expiryYear" *ngFor="let item of years" [value]="item">{{item}}</option>
             </select> 
         </div>
         <div class="col-md-4">
@@ -47,9 +44,25 @@
         [(ngModel)]="model.name"
         placeholder="Name">
     </div>
-</div>
-<div class="text-center">
-    <button class="btn btn-success payButton" type="submit" (click)="pay()">Plateste</button>
-</div>
+    </div>
+    <div class="text-center">
+        <button class="btn btn-success payButton" type="submit" (click)="addCard()" *ngIf="submited == false">Adauga card</button>
+    </div>
 
 </form>
+
+<div class="container"*ngIf="submited == true">
+    <mat-card>
+        <div class="row">
+        <div class=" col-md-2">
+            <img class="card-img-top" src="../../assets/mastercard.png" *ngIf="cardType == 'MASTERCARD' ">
+            <img class="card-img-top" src="../../assets/visa.jpeg" *ngIf="cardType == 'VISA' ">
+        </div>
+        <div class="col-md-4">
+            <h6>{{model.name}} </h6>
+            <h6>{{displayNumber}}</h6>
+            <h6>Expira in {{model.expiryMonth}}/{{model.expiryYear}}</h6>  
+        </div>
+    </div>
+      </mat-card>
+</div>

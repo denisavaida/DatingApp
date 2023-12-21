@@ -5,10 +5,14 @@ namespace API.Entities
     [Table("Order")]
     public class Order : BaseEntity
     {
-        public ShoppingCart ShoppingCart{get;set;}
-        public Delivery DeliveryOptions{get;set;}
+        public Summary Summary{get;set;}
+        public Delivery Delivery{get;set;}
         public DeliveryInfo DeliveryInfo{get;set;}
         public Card PaymentMethod{get;set;}
-        public string Coupon{get;set;}
+        public DateTime Date{get;set;}
+        public Status Status{get;set;}
+        
+        [ForeignKey("AppUserId")]
+        public int AppUserId{get;set;} 
     }
 }

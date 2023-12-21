@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { MatRadioChange } from '@angular/material/radio';
 import { take } from 'rxjs';
-import { Delivery } from 'src/app/_models/delivery';
+import { Delivery } from 'src/app/_models/deliveryMethod';
 import { ShoppingCart } from 'src/app/_models/shopping-cart';
 import { Summary } from 'src/app/_models/summary';
 import { AccountService } from 'src/app/_services/account.service';
@@ -25,7 +25,10 @@ export class DeliveryOptionsComponent implements OnInit{
   summary : Summary = {
     AppUserId: 0,
     total: 0,
-    shoppingCartItems: []
+    shoppingCartItems: [],
+    productCost: 0,
+    voucherID: 0,
+    discounted: 0
   }
   courier: any = {}
 

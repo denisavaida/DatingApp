@@ -1,9 +1,9 @@
 
 export interface Card{
     id: number;
-    number:number,
+    number:string,
     expiryMonth: number,
     expiryYear: number,
-    CVV:number,
+    CVV:any,
     name:string
 }

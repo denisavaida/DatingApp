@@ -1,6 +1,5 @@
-export interface Photo
-{
-    id: any,
+export interface Photo{
+    id: number,
     url: string,
     isMain:boolean
 }

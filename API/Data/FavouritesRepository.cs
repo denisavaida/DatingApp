@@ -19,7 +19,6 @@ namespace API.Data
         public async Task<Favourites> AddFavouritesAsync(Favourites fav)
         {
             await _context.Favourites.AddAsync(fav);
-            // _context.Products.Attach(fav.Product);
             return fav;
         }
         public async Task<Favourites> GetFavouritesByProdIdAsync(int id)

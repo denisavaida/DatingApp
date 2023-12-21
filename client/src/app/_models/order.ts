@@ -1,14 +1,16 @@
 import { Card } from "./card";
-import { Delivery } from "./delivery";
+import { Delivery } from "./deliveryMethod";
 import { DeliveryInfo } from "./deliveryInfo";
-import { Payment } from "./payment";
 import { Summary } from "./summary";
+import { Status } from "./Status";
 
 export interface Order{
-    id: number;
+    id: number,
+    date: Date,
+    status: Status,
     summary: Summary,
-    deliveryMethod: Delivery,
+    delivery: Delivery,
     deliveryInfo:DeliveryInfo,
     paymentMethod:Card,
-    coupon:string,
+    appUserId: number
 }

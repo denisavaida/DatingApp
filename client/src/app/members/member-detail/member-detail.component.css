@@ -1,0 +1,24 @@
+.example-selected-value {
+    margin: 15px 0;
+  }
+  
+.detailsCard{
+  border: 55px !important;
+}
+.nav-item{
+  border-style: groove;
+  padding: 5%;
+  margin: -1%;
+  width: -webkit-fill-available;
+}
+.mat-button-toggle :hover{
+  color: rgb(173, 168, 168);
+}
+
+.editBtn{
+  color: black;
+}
+
+.editBtn :hover{
+  color: rgb(173, 168, 168);
+}

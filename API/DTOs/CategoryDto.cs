@@ -1,9 +1,9 @@
+using API.Entities;
+
 namespace API.DTOs
 {
-    public class CategoryDto
+    public class CategoryDto : BaseEntity
     {
-        
-        public int id { get; set; }
-        public string name { get; set; }
+        public string Name { get; set; }
     }
 }

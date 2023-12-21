@@ -10,7 +10,11 @@ namespace API.DTOs
     public class RegisterDTO
     {
         [Required]
+        [DataType(DataType.EmailAddress)]
+        [EmailAddress]
         public string Username { get; set; }
+        public string FirstName{get;set;}
+        public string LastName{get;set;}
         public Adress Adress{ get; set; }
         // [Required]
         // [StringLength(8, MinimumLength = 4)]

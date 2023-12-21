@@ -16,5 +16,11 @@ public class DataContext : DbContext
     public DbSet<ProductCategory> ProductCategory{ get; set; }
     public DbSet<ShoppingCart> ShoppingCart{ get; set; }
     public DbSet<Delivery> Delivery{get;set;}
+    public DbSet<DeliveryInfo> DeliveryInfo{get;set;}
+    public DbSet<Voucher> Vouchers{get;set;}
+    public DbSet<Order> Orders{get;set;}
+    public DbSet<Card> Cards{get;set;}
+    public DbSet<Summary> Summary{get;set;}
+    public DbSet<Status> Status{get;set;}
 
 }

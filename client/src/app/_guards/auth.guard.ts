@@ -11,7 +11,7 @@ export const AuthGuard: CanActivateFn = (route, state) => {
     map(user=>{
           if(user) return true;
           else{
-            toastr.error('you shall not pass!');
+            toastr.error('Access denied ! You first need to login!');
             return false;
           }
         }

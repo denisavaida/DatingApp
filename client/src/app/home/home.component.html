@@ -1,11 +1,39 @@
-<div class="container mt-5">
+<div class="container mt-5 homeContainer">
     <div *ngIf="!registerMode" style="text-align: center;">
-        <h1>Find your koality products from our store</h1>
-        <p class="lead">Register to make an order and stay in touch with promotions !</p>
+        <!-- <app-carousel [slides]="slides"></app-carousel> -->
+
+        <div class="container-fluid carousel">
+            <ngb-carousel class="carousel">
+              <ng-template ngbSlide *ngFor="let image of images">
+                <div class="wrapper">
+                  <img class="imageSizing" [src]="image.src" alt="Random first slide">
+                </div>
+                <div class="carousel-caption" >
+                    <p style="font-size: 50px; margin-bottom: 5%;">{{ image.short }}</p>
+                  <h3><button routerLink="/categorizedProducts/{{image.category}}" class="titleStyle" style="font-size: large;">{{ image.title }}</button></h3>
+                  
+                </div>
+              </ng-template>
+            </ngb-carousel>
+                
+            </div>
+
+
+            <p class="lead" style="font-size:xx-large; margin-bottom: 2%;">Gaseste-ti produsele de koalitate din magazinul nostru !</p>
+      
+        <p class="lead">Inregistrati-va pentru a plasa o comanda ! 
+         </p>
+         <p class="lead">
+            Daca aveti deja un cont va rugam sa va logati  pentru a descoperi produsele noastre speciale pentru copii ! 
+         </p>
         <div class="text-center">
-            <button (click)="registerToggle()" class="btn btn-primary btn-lg me-2">Register</button>
-            <button (click)="guestMode()" class="btn btn-primary btn-lg btn-info">Guest</button>
+            <button (click)="registerToggle()" class="btn btn-primary btn-lg me-2">Inregistrare</button>
+            <!-- <button (click)="guestMode()" class="btn btn-primary btn-lg btn-info">Guest</button> -->
         </div>
+        <!-- <div *ngFor="let prod in popularProds">
+       
+        </div> -->
+        <p class="lead" style="font-size:xx-large; margin-bottom: 2%; margin-top: 2%;">Cele mai populare produse</p>
     </div>
 
     <div *ngIf="registerMode" class="container">

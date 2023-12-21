@@ -1,0 +1,9 @@
+<div *ngFor="let v of voucher">
+<div *ngIf="v != null && !v.available" >
+    <h6>Beneficiaza de  <b>{{v.discount}}% </b>reducere valabila pentru comenzile plasate pana in data 
+        <b>{{v.validity}}</b> ore 23:59 folosind codul de reducere <b>{{v.code}}</b>. Enjoy shopping!</h6>
+</div>
+<div *ngIf="v == null" style="text-align: center;">
+    <h5>Sorry ! You don't have any vouchers available !</h5>
+</div>
+</div>

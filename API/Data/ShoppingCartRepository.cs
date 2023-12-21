@@ -63,10 +63,15 @@ namespace API.Data
         {
             ShoppingCart prod = await GetShoppingCartByIdAsync(id);
             _context.ShoppingCart.Remove(prod);
-            await _context.SaveChangesAsync();
-            
+            await _context.SaveChangesAsync();  
         }
-
-
+        public async void ClearShoppingCartByUserId(int userId)
+        {
+            var cart = GetUserShoppingCart(userId).Result;
+            foreach(var elem in cart){
+                _context.ShoppingCart.Remove(elem);
+                await _context.SaveChangesAsync();
+            }
+        }
     }
 }

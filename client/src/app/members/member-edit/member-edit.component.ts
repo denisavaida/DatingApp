@@ -1,5 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { take } from 'rxjs';
+import { Adress } from 'src/app/_models/adress';
 import { User } from 'src/app/_models/user';
 import { AccountService } from 'src/app/_services/account.service';
 
@@ -9,23 +11,54 @@ import { AccountService } from 'src/app/_services/account.service';
   styleUrls: ['./member-edit.component.css']
 })
 export class MemberEditComponent implements OnInit{  
-  member: User | null = null;
-  user: User | null = null;
-
-  constructor(private accountService: AccountService){
+  member: User = {
+    id: 0,
+    userName: '',
+    firstName: '',
+    lastName: '',
+    password: '',
+    role: '',
+    orders: [],
+    vouchers: [],
+    adress: {
+      street: '',
+      number: 0,
+      city: '',
+      region: '',
+      country: '',
+      postcode: 0,
+      appUserId: 0
+    },
+    dateOfBirth: new Date()
+  };
+  currentUser: User | null = null;
+  adress: any = {};
+  confirm: any;
+  constructor(private accountService: AccountService, private route:ActivatedRoute){
     this.accountService.currentUser$.pipe((take(1))).subscribe({
-      next: user=> this.user = user
+      next: user=> this.currentUser = user
     })
+    
   }
   ngOnInit():void{
-    this.loadMember();
+    // this.accountService.getAdress(this.currentUser?.id).subscribe({next: response=>{this.adress = response; console.log(this.adress)}});
 
+    this.loadMember();
   }
 
   loadMember(){
-    if(!this.user) return;
-    this.accountService.getUser(this.user.username).subscribe({
-      next: member => this.member = member
-    })
+    var username = this.route.snapshot.paramMap.get('username');
+    if(!username) return;
+    this.accountService.getUserByName(username).subscribe({
+      next: member => {this.member = member;
   }
+      
+    })
+    return this.member;
+  }
+
+  updateUser(){
+
+  }
+  cancel(){}
 } 

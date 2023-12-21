@@ -1,6 +1,4 @@
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Reflection;
-using API.DTOs;
 
 namespace API.Entities
 {
@@ -21,7 +19,7 @@ namespace API.Entities
         //  public List<Measurement> Measurements{get;set;}
          public string Image{get;set;}
          public List<Photo> Images{ get; set; } 
-         public bool isDeleted{get;set;}
+         public bool SoftDeleted{get;set;}
          public int Discount { get; set; }
          public List<ProductCategory> Categories { get; set;}
          public float GetPrice(int oldPrice, int discount)
@@ -38,9 +36,9 @@ namespace API.Entities
             return Quantity;
          }
        
-       public bool GetisDeleted(){
-            isDeleted = false;
-            return isDeleted;
+       public bool GetSoftDeleted(){
+            SoftDeleted = false;
+            return SoftDeleted;
        }
     }
 }

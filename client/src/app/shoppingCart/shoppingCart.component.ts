@@ -11,6 +11,9 @@ import { HttpClient } from '@angular/common/http';
 import { ProductService } from '../_services/product.service';
 import { take } from 'rxjs';
 import { Summary } from '../_models/summary';
+import { VoucherDto } from '../_models/voucherDto';
+import { Voucher } from '../_models/voucher';
+import { VoucherService } from '../_services/voucher.service';
 
 @Component({
   selector: 'shoppingCart',
@@ -27,13 +30,39 @@ export class ShoppingCartComponent {
     AppUserId: 0,
     productId: 0,
     id: 0,
-    product: {}
+    product: {
+      id: 0,
+      name: '',
+      description: '',
+      quantity: 0,
+      category: '',
+      oldPrice: 0,
+      price: 0,
+      image: '',
+      stock: 0,
+      images: [],
+      discount: 0,
+      shoppingCartId: 0,
+      softDeleted: false
+    }
+  }
+  voucher:Voucher={
+    code: '',
+    discount: 0,
+    validity: new Date,
+    AppUserId: 0,
+    available: true,
+    id: 0
   }
   summary: Summary={
     AppUserId: 0,
     total: 0,
-    shoppingCartItems: []
+    shoppingCartItems: [],
+    productCost: 0,
+    voucherID: 0,
+    discounted: 0
   };
+  appliedVoucher:boolean = false;
   // products:Product[] = [];
   currentUser: any ={};
   prod: any={};
@@ -41,7 +70,7 @@ export class ShoppingCartComponent {
   panelOpenState = false;
   cartUsersItems:any;
   cart:ShoppingCart[] = [];
-  constructor( private accountService: AccountService,private cartService: CartService,private deliveryService:DeliveryService, private http:HttpClient,
+  constructor( private accountService: AccountService,private cartService: CartService,private deliveryService:DeliveryService, private http:HttpClient, private voucherService:VoucherService,
      private favouritesService: FavouritesService, private toastr: ToastrService, private router: Router, private productService: ProductService){
       this.accountService.currentUser$.pipe((take(1))).subscribe({
         next: user=> {this.currentUser = user;
@@ -54,12 +83,12 @@ export class ShoppingCartComponent {
 
   ngOnInit():void{
     this.cart.forEach(element => {
-      this.summary.total = this.summary.total + element.subtotal;
+      this.summary.productCost = this.summary.productCost + element.subtotal;
+      this.summary.total = this.summary.productCost;
       this.summary.shoppingCartItems.push(element);
     });
-      console.log(this.summary.total);
-      this.summary.AppUserId = this.currentUser.id;
-      
+    this.summary.AppUserId = this.currentUser.id;
+    console.log(this.summary);
   }
 
   getUsersCartItems(){
@@ -98,9 +127,41 @@ export class ShoppingCartComponent {
     this.toastr.show("Product deleted from shopping cart!");
     
   }
+  applyVoucher(code: string){
+    this.voucherService.getOneVoucherByUserId(this.currentUser.id).subscribe({
+      next: voucher => {
+        console.log(voucher);
+        var codee = code.toUpperCase();
+        console.log(codee);
+        if(voucher.available == true){
+          this.voucher = voucher;
+          if(this.voucher.code == codee){
+          
+            this.summary.total = this.summary.total - this.summary.total * this.voucher.discount /100;
+            this.summary.voucherID = this.voucher.id;
+            // this.summary.shoppingCartId = this.shoppingCart.id;
+            this.voucher.available = false;
+            this.appliedVoucher = true;
+            
+            this.voucherService.updateVoucher(this.voucher);
+            this.cartService.addSummary(this.summary);
+            // this.summary.total = this.summary.productCost 
+            console.log(this.voucher);
+            console.log(this.summary);
+          }else{
+            this.toastr.warning("Your voucher code is incorrect !");
+          }
+        }else{
+          this.toastr.warning("You have no vouchers available !");
+          console.log(this.voucher);
+        }
+    }})
+    return this.summary;
+  }
 
   increaseQuantity(item: ShoppingCart, prod: Product){
     this.summary.shoppingCartItems = []
+    this.summary.productCost = 0;
     this.summary.total = 0;
     console.log(item.quantity);
     this.shoppingCart.quantity = item.quantity;
@@ -115,6 +176,7 @@ export class ShoppingCartComponent {
         this.cartService.updateShoppingCart(item).subscribe();
       }
       
+      this.summary.productCost = this.summary.productCost + this.cart[i].subtotal;
       this.summary.total = this.summary.total + this.cart[i].subtotal;
       this.summary.shoppingCartItems.push(this.cart[i]);
     };
@@ -128,6 +190,6 @@ export class ShoppingCartComponent {
     this.prod = localStorage.getItem("shoppingCart");
   }
   back(){
-    this.router.navigateByUrl('/products');
+    window.history.back();
   }
 }

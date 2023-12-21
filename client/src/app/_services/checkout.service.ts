@@ -1,13 +1,14 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { environment } from "src/environments/environment";
-import { Delivery } from "../_models/delivery";
+import { Delivery } from "../_models/deliveryMethod";
 import { AccountService } from "./account.service";
 import { DeliveryInfo } from "../_models/deliveryInfo";
 import { Adress } from "../_models/adress";
 import { take } from "rxjs";
 import { Order } from "../_models/order";
 import { Card } from "../_models/card";
+import { Summary } from "../_models/summary";
 
 @Injectable({
     providedIn: 'root'
@@ -24,7 +25,7 @@ import { Card } from "../_models/card";
       region: "",
       country: "",
       postcode: 0,
-      userId: 0
+      appUserId: 0
     }
     delInfo:DeliveryInfo={
       firstname: "",
@@ -32,7 +33,9 @@ import { Card } from "../_models/card";
       telephone: "",
       email: "",
       adress: this.adress,
-      additonalInfo: ""
+      additonalInfo: "",
+      appUserId: 0,
+      adressId: 0
     }
     order:any={};
     currentUser:any;
@@ -53,19 +56,31 @@ import { Card } from "../_models/card";
     // return this.deliveryOptions;
     // }
 
+    // getSummaryByUserId(id: number){
+    //   return this.http.get<Summary>(this.baseUrl+'summary/'+ id);
+    // }s
+
     getDeliveryOptionById(id:any){
       return this.http.get<Delivery>(this.baseUrl+'delivery/'+ id);
     }
+
     setDeliveryInfo(info:DeliveryInfo){
       this.delInfo = {firstname:info.firstname,
                       lastname:info.lastname,
                       telephone:info.telephone,
                       email: info.email,
                       adress: info.adress,
-                      additonalInfo:info.additonalInfo};
+                      additonalInfo:info.additonalInfo,
+                      appUserId: info.appUserId, 
+                      adressId: info.adressId};
       console.log(this.delInfo);
       return this.delInfo;
     }
+
+    getDeliveryInfo(){
+      return this.delInfo;
+    }
+
     setAdress(adress:Adress){
       this.adress = {street: adress.street,
                     number: adress.number,
@@ -73,19 +88,22 @@ import { Card } from "../_models/card";
                     region:adress.region,
                     country:adress.country,
                     postcode:adress.postcode,
-                    userId:this.currentUser.id}
+                    appUserId:this.currentUser.id}
       console.log(this.adress);
       return this.adress;
     }
+
     setPaymentInfo(card:Card){
       
     }
-    pay(order: Order){
+
+    sendOrder(order: Order){
       console.log(order);
-      // this.http.post<Order>(this.baseUrl + '/order/add',order).subscribe({
-      //   next: response=> this.order = response,
-      //   error:error=>console.error(error)
+      this.http.post<Order>(this.baseUrl + 'order/add',order).subscribe({
+        next: response=> {this.order = response
+        console.log(this.order)},
+        error:error=>console.error(error)
         
-      // });
+      });
     }
   }  

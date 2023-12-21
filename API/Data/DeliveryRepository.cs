@@ -21,6 +21,11 @@ public class DeliveryRepository : IDeliveryRepository
             await _context.Delivery.AddAsync(delivery);
             return delivery;
     }
+    public async Task<DeliveryInfo> AddDeliveryInfoAsync(DeliveryInfo deliveryInfo)
+    {
+            await _context.DeliveryInfo.AddAsync(deliveryInfo);
+            return deliveryInfo;
+    }
     public async Task<bool> DeliveryExists(string description)
     {
         return await _context.Delivery.AnyAsync(p=>p.Description == description);
@@ -46,4 +51,5 @@ public class DeliveryRepository : IDeliveryRepository
     {
          return await _context.Delivery.ToListAsync();
     }
+
 }

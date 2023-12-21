@@ -17,13 +17,13 @@ export class FavouritesService{
         products: [],
         AppUserId: 0,
         ProductId: 0
-      };
-      prod:any={}
-      favs : any={}
+    };
+    prod:any={}
+    favs : any={}
+
     constructor(private http: HttpClient, private toastr:ToastrService,private accountService:AccountService,private productService: ProductService){
       this.favs = this.accountService.getFavourites();
      }
-
 
     addToFavourites(AppUserId: number, prod: Product){
         this.items.push(prod);
@@ -33,7 +33,7 @@ export class FavouritesService{
         
         return this.http.post<Favourites>(this.baseUrl + 'favourites/add',this.favourites).subscribe({
             next:response=>{
-              this.toastr.success("Shopping cart added to db!")
+              this.toastr.success("Favourites added to db!")
               console.log(response);
               return response;
             },
@@ -42,7 +42,6 @@ export class FavouritesService{
               console.log(error)
             }
           }) 
-        
     }
     getUsersFavItems(){
       this.favs = this.accountService.getFavourites();
@@ -56,17 +55,21 @@ export class FavouritesService{
         };   
       }
     return this.items;
-  }
+    }
+
     getItems(){
         return this.favs.products;
     }
+
     itemsCount(){
         return this.favs.length;
     }
+
     clearFavourites(){
         this.items = [];
         return this.items;
     }
+
     deleteItem(id: any){
         for( var i=0; i< this.items.length; i++){
             if(this.items[i].id == id){
@@ -78,15 +81,20 @@ export class FavouritesService{
           console.log(data);
       });
     }
+
     findItem(prod:Product){
-        var p = false; 
+        var flag = false; 
+        this.items = this.accountService.getFavourites();
         this.items.forEach(element => {
             if(element.id == prod.id){
-              p = true;  
+              flag = true;  
+              return flag;
             }
+            else{
+              return flag;
+          }
         });
-        return p;
+        console.log(flag);
+        return flag;
     }
-   
-
 }

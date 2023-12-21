@@ -58,12 +58,13 @@
                     <a (click)="addToFavourites(product)"><i class="fa fa-heart"></i></a><br>
                     
                 </div>
-                <div *ngIf="currentUser.username == 'admin'"> 
-                   
-                        <a routerLink="/products/edit/{{product.id}}" routerLinkActive="active"><button class="btn btn-warning editButton"><i class="fa fa-pencil-square-o"> Edit product </i></button></a>
-                        <button class="btn btn-primary cancelButton" type="button" (click)="delete()">Delete</button>
-                
-               </div>
+                <div *ngIf="currentUser">
+                    <div *ngIf="currentUser.username == 'admin'"> 
+                    
+                            <a routerLink="/products/edit/{{product.id}}" routerLinkActive="active"><button class="btn btn-warning editButton"><i class="fa fa-pencil-square-o"> Edit product </i></button></a>
+                            <button class="btn btn-primary cancelButton" type="button" (click)="delete()">Delete</button>
+                </div>
+            </div>
             </div>
         </div>
 

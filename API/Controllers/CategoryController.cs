@@ -20,6 +20,14 @@ namespace API.Controllers
             var categoriesToReturn = _mapper.Map<IEnumerable<CategoryDto>>(categories);
             return Ok(categoriesToReturn);
         }
+
+        [HttpGet("{category}")] // /api/products/category/baby
+        public async Task<ActionResult<IEnumerable<ProductDto>>> GetProductsBySelectedCategory(string categ)
+        {
+            var products = await _categoryRepository.GetProductsBySelectedCategoryAsync(categ);
+            // Response.AddPaginationHeader(new PaginationHeader(query.CurrentPage, query.PageSize, query.TotalCount, query.TotalPages));
+            return Ok(products);
+        }
         
     }
 }

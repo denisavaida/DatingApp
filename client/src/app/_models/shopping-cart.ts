@@ -6,5 +6,5 @@ export interface ShoppingCart{
     subtotal: number,
     AppUserId: number, 
     productId: number,
-    product: any
+    product: Product
 }

@@ -6,5 +6,7 @@ export interface DeliveryInfo{
     telephone:string,
     email:string,
     adress:Adress,
-    additonalInfo:string
+    adressId: number,
+    additonalInfo:string,
+    appUserId: number
 }

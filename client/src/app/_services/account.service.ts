@@ -25,7 +25,21 @@ export class AccountService {
     AppUserId: 0,
     productId: 0,
     id: 0,
-    product: {}
+    product: {
+      id: 0,
+      name: '',
+      description: '',
+      quantity: 0,
+      category: '',
+      oldPrice: 0,
+      price: 0,
+      image: '',
+      stock: 0,
+      images: [],
+      discount: 0,
+      shoppingCartId: 0,
+      softDeleted: false
+    }
   };
   dbCart:any={};
   favs:any={};
@@ -38,7 +52,9 @@ export class AccountService {
   isAuthenticated = false;
 
   constructor(private http: HttpClient) { 
-    
+    this.currentUser$.pipe((take(1))).subscribe({
+      next: user=> this.loggedUser = user
+    })
   }
 
   getUsers(){
@@ -46,33 +62,47 @@ export class AccountService {
     return this.users;
   }
 
-  getUser(id: any){
+  getUser(name: any){
     this.user = this.currentUser$.pipe(
       map(useer =>{
-        if ( useer?.id == id){
+        if ( useer?.userName == name){
           this.currentUserSource.next(useer);
         }
         return useer;
       })
     )
-    return this.http.get<User>(this.baseUrl + 'users/'+ this.user.id);
+    return this.http.get<User>(this.baseUrl + 'users/'+ this.user.username);
 
   }
-   
+  getUserByName(username: string){
+    return this.http.get<User>(this.baseUrl+'users/'+ username).pipe(
+      map(user=>{
+        if(user){
+          localStorage.setItem('user',JSON.stringify(user));
+          this.currentUserSource.next(user);
+        }
+        return user;
+      })
+    );
+  }
+
+  // getUserById(id: any){
+  //   return this.http.get<User>(this.baseUrl+'users/'+ id).pipe(
+  //     map(user=>{
+  //       if(user){
+  //         localStorage.setItem('user',JSON.stringify(user));
+  //         this.currentUserSource.next(user);
+  //       }
+  //       return user;
+  //     })
+  //   );
+  // }
   getAdress(id:any){
-    this.adress = this.currentUser$.pipe(map(adress=>{
-      if(adress?.id == id){
-        this.currentUserSource.next(adress);
-      }
-      return adress;
-    }))
-    return this.http.get<Adress>(this.baseUrl+'adresses/'+this.user.id);
+    return this.http.get<Adress>(this.baseUrl+'users/adress'+id);
   }
 
   getShoppingCart(){
-    this.currentUser$.pipe((take(1))).subscribe({
-      next: user=> this.loggedUser = user
-    })
+
     if(this.loggedUser){
       this.getShoppingCartById(this.loggedUser.id).subscribe({
         next:response=> {this.dbCart = response
@@ -80,13 +110,6 @@ export class AccountService {
         },
         error:error=>console.log(error),
         complete:()=> console.log('get shopping cart Request has completed')});
-        
-    
-       
-        // this.http.get(this.baseUrl+'shoppingCart/'+ this.shoppingCart.AppUserId).subscribe({
-        //   next:response=> cart = response,
-        //   error:error=>console.log(error),
-        //   complete:()=> console.log('get shopping cart Request has completed')})
 
     }else{
       this.dbCart = this.shoppingCart;
@@ -94,6 +117,24 @@ export class AccountService {
     }
     return this.dbCart;
       
+  }
+  getSummary(){
+    this.currentUser$.pipe((take(1))).subscribe({
+      next: user=> this.loggedUser = user
+    })
+    if(this.loggedUser){
+      this.getSummaryById(this.loggedUser.id).subscribe({
+        next:response=> {this.dbCart = response
+        console.log(this.dbCart);
+        },
+        error:error=>console.log(error),
+        complete:()=> console.log('get shopping cart Request has completed')});
+
+    }else{
+      this.dbCart = this.shoppingCart;
+      
+    }
+    return this.dbCart;
   }
   
   getFavourites(){
@@ -107,14 +148,7 @@ export class AccountService {
         },
         error:error=>console.log(error),
         complete:()=> console.log('get shopping cart Request has completed')});
-        
-    
-       
-        // this.http.get(this.baseUrl+'shoppingCart/'+ this.shoppingCart.AppUserId).subscribe({
-        //   next:response=> cart = response,
-        //   error:error=>console.log(error),
-        //   complete:()=> console.log('get shopping cart Request has completed')})
-
+      
     }else{
       this.favs = this.favourites;
       
@@ -127,6 +161,9 @@ export class AccountService {
   }
   getShoppingCartById(id: number){
     return this.http.get(this.baseUrl+'shoppingCart/'+ id);
+  }
+  getSummaryById(id: number){
+    return this.http.get(this.baseUrl+'summary/'+ id);
   }
   
   login(model:any){
@@ -171,7 +208,7 @@ export class AccountService {
       city: adress.city,
       region: adress.region,
       country: adress.country,
-      userId: adress.userId
+      appUserId: adress.appUserId
     }
     
     console.log("this is the output adresss : "+this.adressToDisplay);

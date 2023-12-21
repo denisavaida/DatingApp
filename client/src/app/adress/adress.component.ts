@@ -14,36 +14,36 @@ export class AdressComponent {
   @Input('userId') userId: any;
   // @Output() adressFilled = new EventEmitter<Adress>();
   // @Input() adressFrom :any ={};
-  adressOutput: any = {};
+ adressOutput: any = {};
 
   constructor(private accountService: AccountService, private toastr: ToastrService,private checkoutService:CheckoutService){
 
   }
-  addAdressRegister(){
-    this.adressOutput ={
-      street: this.model.street,
-      number: this.model.number,
-      city: this.model.city,
-      region: this.model.region,
-      country: this.model.country,
-      userId: this.model.userId
-    }
-    this.accountService.addAdressRegister(this.adressOutput).subscribe({
-      next:response=>{
-        localStorage.setItem('adress',JSON.stringify(this.adressOutput))
-        this.toastr.success("Item added to user details adress component")
-        console.log(response);
-        this.cancel;
-      },
-      error:error=>{
-        this.toastr.error(error.error)
-        console.log(error)
-      }
-    })
+  // addAdressRegister(){
+  //   this.adressOutput ={
+  //     street: this.model.street,
+  //     number: this.model.number,
+  //     city: this.model.city,
+  //     region: this.model.region,
+  //     country: this.model.country,
+  //     userId: this.model.userId
+  //   }
+  //   this.accountService.addAdressRegister(this.adressOutput).subscribe({
+  //     next:response=>{
+  //       localStorage.setItem('adress',JSON.stringify(this.adressOutput))
+  //       this.toastr.success("Item added to user details adress component")
+  //       console.log(response);
+  //       this.cancel;
+  //     },
+  //     error:error=>{
+  //       this.toastr.error(error.error)
+  //       console.log(error)
+  //     }
+  //   })
     
-    console.log(this.adressOutput);
-    console.log("Added to shopping cart ! ");
-  }
+  //   console.log(this.adressOutput);
+  //   console.log("Added to shopping cart ! ");
+  // }
 
   // setAdress(){
   //   this.checkoutService.setAdress(this.model);

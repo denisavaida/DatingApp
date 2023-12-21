@@ -4,9 +4,11 @@ import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { Product } from '../_models/product';
 import { AccountService } from '../_services/account.service';
-import { take } from 'rxjs';
+import { Observable, take } from 'rxjs';
 import { User } from '../_models/user';
 import { ShoppingCart } from '../_models/shopping-cart';
+import { CategoryService } from '../_services/category.service';
+import { FormControl, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-stock',
@@ -18,15 +20,36 @@ export class StockComponent implements OnInit{
   model: any = {};
   loggedUser : User| null = null;
   shoppingCart: any = {}
+  categoriesDB: any = [];
 
-  constructor(private productService: ProductService, private router: Router, private toastr: ToastrService, private accountService: AccountService){
+  myControl = new FormControl();
+  // categories = new FormControl();
+  options: Observable<string[]> | undefined;
+  category:any ={};
+  selectedCategories = [];
+  constructor(private productService: ProductService, private router: Router, 
+    private toastr: ToastrService, private accountService: AccountService, 
+    private categoryService: CategoryService){
     this.accountService.currentUser$.pipe((take(1))).subscribe({
       next: user=> this.loggedUser = user
     })
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    // this.categories.setValue(['baby','christmas']);
+    this.loadCategories();
+  }
 
+  loadCategories(){
+    this.categoryService.getCategories().subscribe({
+      next:response=> {this.categoriesDB = response,
+      console.log(this.categoriesDB)
+      },
+      error:error=>console.log(error),
+      complete:()=> console.log('get categories Request has completed')
+    })
+    
+  }
   addProduct(){
     if(this.loggedUser){
       if(this.shoppingCart){

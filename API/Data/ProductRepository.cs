@@ -1,4 +1,5 @@
 using API.Entities;
+using API.Helpers;
 using API.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
@@ -20,12 +21,51 @@ namespace API.Data
         // public async Task<IEnumerable<Photo>> GetPhotoByProdIdAsync(int id){
         //     return await _context.Photos.Where(x=>x.ProductId == id).ToListAsync();
         // }
-        public async Task<IEnumerable<Product>> GetProductsAsync()
+        public async Task<PagedList<Product>> GetProductsAsync(ProductParams productParams)
         {
-            return await _context.Products.Include(p=>p.Images).ToListAsync();
- 
+            var query = _context.Products.Include(p=>p.Images).Include(p=> p.Categories).OrderByDescending(p=>p.Stock)
+                            .AsNoTracking(); //meant for read operations
+            return await  PagedList<Product>.CreateAsync(query, productParams.PageNumber, productParams.PageSize);
+        }
+        
+        public async Task<IEnumerable<Product>> GetProductsBySelectedCategoryAsync(string category)
+        {
+           var query = await _context.Products.Include(p=>p.Images).Include(p=> p.Categories).Where(p=>p.Category == category.ToLower()).ToListAsync();
+                            
+            return query;
+        }
+        public async Task<IEnumerable<Product>> GetProductsByRangeAsync(int minPrice, int maxPrice)
+        {
+            var query = await _context.Products.Include(p=>p.Images).Include(p=> p.Categories).Where(p=>p.Price> minPrice && p.Price < maxPrice).OrderByDescending(p=>p.Stock).ToListAsync();
+                            
+            return query;
+        }
+        public async Task<IEnumerable<Product>> GetProductsBySortingTypeAsync(string type)
+        {
+            IEnumerable<Product> prods = new Product[]{};
+            if(type =="ascending"){
+                prods = await _context.Products.Include(p=>p.Images).Include(p=> p.Categories).OrderBy(p=>p.Price).ToListAsync();
+            }else if(type=="descending"){
+                prods = await _context.Products.Include(p=>p.Images).Include(p=> p.Categories).OrderByDescending(p=>p.Price).ToListAsync();
+            }else if(type=="discount"){
+                prods = await _context.Products.Include(p=>p.Images).Include(p=> p.Categories).OrderByDescending(p=>p.Discount).ToListAsync();
+            }else if(type=="popular"){
+                // prods = await _context.Products.Include(p=>p.Images).Include(p=> p.Categories).OrderByDescending(p=>p.Price).ToListAsync();
+            }
+           
+            return prods;
         }
 
+        public async Task<IEnumerable<Product>> GetInStockProductsAsync()
+        {
+            var prods = await _context.Products.Include(p=>p.Images).Include(p=> p.Categories).Where(p=>p.Stock > 0 ).ToListAsync();
+            return prods;
+        }
+
+        public async Task<PagedList<Product>> GetOutOfStockProducts(ProductParams productParams){
+             var prods =  _context.Products.Include(p=>p.Images).Include(p=> p.Categories).Where(p=>p.Stock == 0).AsNoTracking();
+             return await  PagedList<Product>.CreateAsync(prods, productParams.PageNumber, productParams.PageSize);
+        }
         public async Task<Product> AddProductAsync(Product product)
         {
              await _context.Products.AddAsync(product);
@@ -53,6 +93,12 @@ namespace API.Data
              _context.Entry(product).State = EntityState.Modified;
          }
 
+        public IQueryable<Product> Query(IEnumerable<Product> products)
+        {
+            return products.AsQueryable();
+        }
+
+
 
         // public async void DeletePhoto(int id)
         // {
@@ -64,7 +110,7 @@ namespace API.Data
         //         _context.Photos.Remove(p);
         //     }
         //     await _context.SaveChangesAsync();
-            
+
         // }
 
     }

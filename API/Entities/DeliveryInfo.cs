@@ -7,8 +7,14 @@ namespace API.Entities
     {
         public string Firstname{get;set;}
         public string Lastname{get;set;}
-        public int Telephone{get;set;}
+        public string Telephone{get;set;}
+
+        [ForeignKey("AdressId")]
+        public int AdressId{get;set;}
         public Adress Adress{get;set;}
         public string AddtionalInfo{get;set;}
+        
+        [ForeignKey("AppUserId")]
+        public int AppUserId{get;set;} 
     }
 }

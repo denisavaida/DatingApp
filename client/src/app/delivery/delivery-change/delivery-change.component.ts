@@ -3,7 +3,7 @@ import { Component } from '@angular/core';
 import { MatRadioChange } from '@angular/material/radio';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { Delivery } from 'src/app/_models/delivery';
+import { Delivery } from 'src/app/_models/deliveryMethod';
 import { DeliveryService } from 'src/app/_services/delivery.service';
 import { environment } from 'src/environments/environment';
 

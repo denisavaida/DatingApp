@@ -4,6 +4,9 @@
 .ngForm{
     align-self:center
 }
+.navbar{
+    position: absolute;
+}
 .img{
     width:10%;
 }
@@ -42,3 +45,41 @@
         top: 6%;
     }
 }
+@media (max-width: 767px) {
+    .navbar-nav .open .dropdown-menu {
+      position: relative;
+      right: 0;
+      left: auto;
+      padding: 5px 0;
+      margin: 2px 0 0;
+      background-color: #fff;
+      border: 1px solid #ccc;
+      border: 1px solid rgba(0, 0, 0, .15);
+      border-radius: 4px;
+      -webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, .175);
+              box-shadow: 0 6px 12px rgba(0, 0, 0, .175);
+    }
+    .navbar-nav .open .dropdown-menu > li > a {
+      color: #000;
+      padding: 3px 20px;
+      line-height: 1.42857143;
+    }
+    .navbar-nav .open .dropdown-menu > li > a:hover,
+    .navbar-nav .open .dropdown-menu > li > a:focus {
+      color: #333;
+      background-color: #e7e7e7 !important;
+      background-image: none;
+    }
+    .navbar-nav .open .dropdown-menu > .active > a,
+    .navbar-nav .open .dropdown-menu > .active > a:hover,
+    .navbar-nav .open .dropdown-menu > .active > a:focus {
+      color: #555;
+      background-color: #e7e7e7 !important;
+    }
+    .navbar-nav .open .dropdown-menu > .disabled > a,
+    .navbar-nav .open .dropdown-menu > .disabled > a:hover,
+    .navbar-nav .open .dropdown-menu > .disabled > a:focus {
+      color: #ccc;
+      background-color: #e7e7e7 !important;
+    }
+  }

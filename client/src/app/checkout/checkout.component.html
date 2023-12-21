@@ -9,23 +9,23 @@
     <div class="container">
         <mat-card>
             <mat-card-content>
-              <mat-tab-group class="demo-tab-group"  #tabgroup>
-                <mat-tab label="Metoda de livrare">
+              <mat-tab-group class="demo-tab-group"  #tabgroup [(selectedIndex)]="selectedTabIndex" (selectedTabChange)="onTabChange()" >
+                <mat-tab label="Metoda de livrare"#tab [attr.disabled]='currentTab != tab.textLabel'>
                   
-                  <div class="tab-delivery-options">
-                    <br><app-delivery-options (selectedDelivery)="addDelivery($event)"></app-delivery-options>
+                  <div class="tab-delivery-options" >
+                    <br><app-delivery-options (selectedDelivery)="addDeliveryOption($event)"></app-delivery-options>
                   </div>
-                  <button (click)="changeIndex(tabgroup,1)" class="btn nextButton">Continua <i class="fa fa-arrow-right"></i></button>
+                  <button (click)="changeIndex(1)" class="btn nextButton">Continua <i class="fa fa-arrow-right"></i></button>
                 </mat-tab>
-                <mat-tab label="Adresa de livrare">
-                  <button (click)="changeIndex(tabgroup,0)" class="btn backButton" ><i class="fa fa-arrow-left"> Inapoi</i></button>
+                <mat-tab label="Adresa de livrare" #tab [attr.disabled]='currentTab != tab.textLabel'>
+                  <button (click)="changeIndex(0)" class="btn backButton" ><i class="fa fa-arrow-left"> Inapoi</i></button>
                   <div class="tab-delivery-info">
                     <br><app-delivery-info (deliveryInfo)="addDeliveryInfo($event)"></app-delivery-info>
                   </div>  
-                  <button (click)="changeIndex(tabgroup,2)" class="btn nextButton" >Continua <i class="fa fa-arrow-right"></i></button>
+                  <button (click)="changeIndex(2)" class="btn nextButton" >Continua <i class="fa fa-arrow-right"></i></button>
                 </mat-tab>
-                <mat-tab label="Sumar comanda">
-                  <button (click)="changeIndex(tabgroup,1)" class="btn backButton" ><i class="fa fa-arrow-left"> Inapoi</i></button>
+                <mat-tab label="Sumar comanda" #tab [attr.disabled]='currentTab != tab.textLabel'>
+                  <button (click)="changeIndex(1)" class="btn backButton" ><i class="fa fa-arrow-left"> Inapoi</i></button>
                     <br> <section class="section-products" >
                         <div class="container tab-sumar-comanda">
                           <div class="row">
@@ -49,28 +49,28 @@
                                 </table>
                               </div>
                               <div class="col-md-2">
+                               
                                 <h5 style="font-weight: bolder;">Sumar comanda :</h5>
-                                <h6>Cost produse: {{summary.total}} Lei</h6>
-                                <div *ngIf="summary.total > 200"><h6 style="color: green;">Livrare: GRATUITA </h6>
+                                <h6>Cost produse: {{summary.productCost}} Lei</h6>
+                                <div *ngIf="summary.productCost > 200"><h6 style="color: green;">Livrare: GRATUITA </h6>
                                   <h4>TOTAL: {{summary.total}} Lei</h4></div>
-                                  <div *ngIf="summary.total < 200"><h6>Livrare: {{delOption.cost}} Lei </h6>
-                                    <h4>TOTAL: {{summary.total+delOption.cost}} Lei</h4> </div>
-                                    
-                    <!-- <button (click)="changeIndex(tabgroup,3)" class="btn nextButton">Continua <i class="fa fa-arrow-right"></i></button> -->
-                                    <!-- <button class="btn btn-info orderButton" routerLink="/orders" routerLinkActive="active" (click)="$event.preventDefault()">Mergi la plata</button> -->
-                              </div>
+                                  <div *ngIf="summary.productCost < 200"><h6>Livrare: {{delOption.cost}} Lei </h6>
+                                    <h4>TOTAL: {{summary.total}} Lei</h4> </div>
+                                </div>
                             </div>
                               
                         </div>
                     </section>
-                    <button (click)="changeIndex(tabgroup,3)" class="btn nextButton">Continua <i class="fa fa-arrow-right"></i></button>
+                    <button (click)="changeIndex(3)" class="btn nextButton">Continua <i class="fa fa-arrow-right"></i></button>
                 </mat-tab>
-                <mat-tab label="Plata">
-                  <button (click)="changeIndex(tabgroup,2)" class="btn backButton"><i class="fa fa-arrow-left">Inapoi</i></button>
+                <mat-tab label="Plata" #tab [attr.disabled]='currentTab != tab.textLabel'>
+                  <button (click)="changeIndex(2)" class="btn backButton"><i class="fa fa-arrow-left">Inapoi</i></button>
                   <div class="tab-payment">
                     <br><app-payment (fillCard)="addCard($event)"></app-payment>
                   </div>  
-
+                  <div class="text-center">
+                    <button class="btn btn sendOrderButton" type="submit" (click)="sendOrder()" *ngIf="submited==true">Trimite Comanda</button>
+                </div>
                 </mat-tab>
  
               </mat-tab-group>

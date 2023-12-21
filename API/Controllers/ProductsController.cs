@@ -1,5 +1,7 @@
 using API.DTOs;
 using API.Entities;
+using API.Extensions;
+using API.Helpers;
 using API.Interfaces;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
@@ -17,12 +19,51 @@ namespace API.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<ProductDto>>> GetProducts()
+        public async Task<ActionResult<PagedList<ProductDto>>> GetProducts([FromQuery]ProductParams productParams)
         {
-            var products = await _productRepository.GetProductsAsync();
+            var query = await _productRepository.GetProductsAsync(productParams);
+            // var query = ValidateInStockProducts(query1);
+            Response.AddPaginationHeader(new PaginationHeader(query.CurrentPage, query.PageSize, query.TotalCount, query.TotalPages));
+            return Ok(query);
+        }
 
-            var producsToReturn = _mapper.Map<IEnumerable<ProductDto>>(products);
-            return Ok(producsToReturn);
+        public PagedList<Product> ValidateInStockProducts(PagedList<Product> products){
+            for( var i=0; i < products.Count; i++){
+                if(products[i].Stock == 0){
+                    products.Add(products[i]);
+                    products.Remove(products[i]);
+                }
+            }
+            return products;
+        }
+        [HttpGet("category/{category}")] // /api/products/category/baby
+        public async Task<ActionResult<IEnumerable<ProductDto>>> GetProductsBySelectedCategory(string category)
+        {
+            var products = await _productRepository.GetProductsBySelectedCategoryAsync(category);
+            // Response.AddPaginationHeader(new PaginationHeader(query.CurrentPage, query.PageSize, query.TotalCount, query.TotalPages));
+            return Ok(products);
+        }
+
+        [HttpGet("range/{minPrice}/{maxPrice}")] // /api/products/category/baby
+        public async Task<ActionResult<IEnumerable<ProductDto>>> GetProductsBySelectedCategory(int minPrice, int maxPrice)
+        {
+            var products = await _productRepository.GetProductsByRangeAsync(minPrice, maxPrice);
+            // Response.AddPaginationHeader(new PaginationHeader(query.CurrentPage, query.PageSize, query.TotalCount, query.TotalPages));
+            return Ok(products);
+        }
+        [HttpGet("sort/{type}")] // /api/products/sort/ascending
+        public async Task<ActionResult<IEnumerable<ProductDto>>> GetProductsSort(string type)
+        {
+            var products = await _productRepository.GetProductsBySortingTypeAsync(type);
+            // Response.AddPaginationHeader(new PaginationHeader(query.CurrentPage, query.PageSize, query.TotalCount, query.TotalPages));
+            return Ok(products);
+        }
+        [HttpGet("instock")] // /api/products/instock
+        public async Task<ActionResult<IEnumerable<ProductDto>>> GetInStockProducts()
+        {
+            var products = await _productRepository.GetInStockProductsAsync();
+            // Response.AddPaginationHeader(new PaginationHeader(query.CurrentPage, query.PageSize, query.TotalCount, query.TotalPages));
+            return Ok(products);
         }
 
         [HttpGet("{id}")] // /api/products/2
@@ -46,14 +87,11 @@ namespace API.Controllers
         [HttpDelete("delete/{id}")] // /products/delete/2
         public  ActionResult DeleteProduct(int id){
             try{
-                // _productRepository.DeletePhoto(id);
-                // _productRepository.DeleteProductCategory(id);
                 _productRepository.DeleteProduct(id);
             }catch{
                 return StatusCode(500);
             }
             return Ok();
-            // _productRepository.SaveAllAsyncs();
         }
 
     }

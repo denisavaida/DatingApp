@@ -23,7 +23,21 @@ export class FavouritesComponent {
     subtotal: 0,
     AppUserId: 0,
     productId: 0,
-    product: undefined
+    product: {
+      id: 0,
+      name: '',
+      description: '',
+      quantity: 0,
+      category: '',
+      oldPrice: 0,
+      price: 0,
+      image: '',
+      stock: 0,
+      images: [],
+      discount: 0,
+      shoppingCartId: 0,
+      softDeleted: false
+    }
   }
   currentUser:any;
   cart: any =[];
@@ -72,7 +86,8 @@ export class FavouritesComponent {
     this.favouritesService.deleteItem(id);
     this.toastr.warning("Product deleted from favourites list!");
   }
+  login(){}
   back(){
-    this.router.navigateByUrl('/products');
+    window.history.back();
   }
 }

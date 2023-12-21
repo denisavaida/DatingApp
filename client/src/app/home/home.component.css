@@ -1,0 +1,38 @@
+.imageSizing{
+    width: 100%;
+    height: 680px;
+
+
+}
+.homeContainer{
+
+}
+.carousel{
+    margin-bottom: 2%;
+}
+.titleStyle{
+    color: white;
+    background-color: transparent;
+    border-color: white;
+}
+
+.carousel-caption{
+    margin-bottom: 15%;
+}
+.carousel{
+    margin-left: -9%;
+    width: 113.17%; 
+    padding-right: -2%; 
+    margin-top: -2.5%;
+}
+@media screen and (min-width:2400px){
+    .imageSizing{
+        width: 100%;
+        height: 800px;
+    }
+    .carousel{
+        margin-left: -22%;
+        width: 142.4%;
+        margin-top: -5.5%;
+    }
+}

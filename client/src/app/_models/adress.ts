@@ -1,10 +1,10 @@
 
 export interface Adress{
     street: string,
-    number: any,
+    number: number,
     city: string,
     region: string,
     country: string,
-    postcode:any,
-    userId:any
+    postcode:number,
+    appUserId:number
 }

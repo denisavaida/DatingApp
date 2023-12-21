@@ -1,7 +1,5 @@
-import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ToastrService } from 'ngx-toastr';
 import { Product } from 'src/app/_models/product';
 import { ProductService } from 'src/app/_services/product.service';
 
@@ -11,7 +9,7 @@ import { ProductService } from 'src/app/_services/product.service';
   styleUrls: ['./product-edit.component.css']
 })
 export class ProductEditComponent implements OnInit{
-  //products: any={};
+
   model: Product = {
     id: 0,
     name: '',
@@ -25,14 +23,13 @@ export class ProductEditComponent implements OnInit{
     images: [],
     discount: 0,
     shoppingCartId: 0,
-    isDeleted: false
+    softDeleted: false
   };
 
-  constructor(private http:HttpClient,private productService:ProductService,private toastr:ToastrService, private route: ActivatedRoute, private router: Router){
-
-    //this.products = this.productService.getProducts();
+  constructor(private productService:ProductService, private route: ActivatedRoute, private router: Router){
     
   }
+
   ngOnInit(): void {
     this.loadProduct();
   }
@@ -61,7 +58,7 @@ export class ProductEditComponent implements OnInit{
   }
   delete(){
     console.log(this.model);
-    this.model.isDeleted = true;
+    this.model.softDeleted = true;
     this.productService.updateProduct(this.model);
     this.router.navigateByUrl('/products');
   }

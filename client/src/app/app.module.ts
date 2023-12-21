@@ -15,7 +15,6 @@ import { MemberDetailComponent } from './members/member-detail/member-detail.com
 import { FavouritesComponent } from './favourites/favourites.component';
 import { MessagesComponent } from './messages/messages.component';
 import { ToastrModule } from 'ngx-toastr';
-import { ProductListComponent } from './products/product-list/product-list.component';
 import { ProductDetailComponent } from './products/product-detail/product-detail.component';
 import { ShoppingCartComponent } from './shoppingCart/shoppingCart.component';
 import { OrdersComponent } from './orders/orders.component';
@@ -38,10 +37,10 @@ import { DeliveryInfoComponent } from './delivery/delivery-info/delivery-info.co
 import { DeliveryOptionsComponent } from './delivery/delivery-options/delivery-options.component';
 import { PaymentComponent } from './delivery/payment/payment.component';
 import { TabsModule } from 'ngx-bootstrap/tabs';
-import {MatRadioModule} from '@angular/material/radio';
-import {MatCardModule} from '@angular/material/card';
+import { MatRadioModule } from '@angular/material/radio';
+import { MatCardModule } from '@angular/material/card';
 import { CheckoutComponent } from './checkout/checkout.component';
-import {MatTabsModule} from '@angular/material/tabs';
+import { MatTabsModule } from '@angular/material/tabs';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatExpansionModule } from '@angular/material/expansion';
@@ -49,12 +48,22 @@ import { DeliveryChangeComponent } from './delivery/delivery-change/delivery-cha
 import { DeliveryEditComponent } from './delivery/delivery-edit/delivery-edit.component';
 import { CheckoutService } from './_services/checkout.service';
 import { CategoryService } from './_services/category.service';
-import { OrderService } from './_services/order.service';
-import {MatStepperModule} from '@angular/material/stepper';
-import {MatFormFieldModule} from '@angular/material/form-field';
+import { MatStepperModule} from '@angular/material/stepper';
+import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import {MatDialogModule} from '@angular/material/dialog';
-
+import { MatDialogModule } from '@angular/material/dialog';
+import { ConfirmationComponent } from './confirmation/confirmation.component';
+import { VoucherService } from './_services/voucher.service';
+import { VoucherDetailComponent } from './voucher/voucher-detail/voucher-detail.component';
+import { VoucherCreateComponent } from './voucher/voucher-create/voucher-create.component';
+import { PromotionService } from './_services/promotion.service';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { MatSelectModule } from '@angular/material/select';
+import { CategorizedProductsComponent } from './products/categorized-products/categorized-products.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import {MatToolbarModule} from '@angular/material/toolbar';
+import {MatListModule} from '@angular/material/list';
+import {MatSliderModule} from '@angular/material/slider';
 
 @NgModule({exports: [ MatFormFieldModule, MatInputModule ],
   declarations: [
@@ -66,7 +75,6 @@ import {MatDialogModule} from '@angular/material/dialog';
     MemberDetailComponent,
     FavouritesComponent,
     MessagesComponent,
-    ProductListComponent,
     ProductDetailComponent,
     ShoppingCartComponent,
     OrdersComponent,
@@ -84,7 +92,12 @@ import {MatDialogModule} from '@angular/material/dialog';
     PaymentComponent,
     CheckoutComponent,
     DeliveryChangeComponent,
-    DeliveryEditComponent
+    DeliveryEditComponent,
+    ConfirmationComponent,
+    VoucherDetailComponent,
+    VoucherCreateComponent,
+    CategorizedProductsComponent
+
     
   ],
   imports: [
@@ -105,14 +118,20 @@ import {MatDialogModule} from '@angular/material/dialog';
     MatFormFieldModule,
     MatInputModule,
     MatDialogModule,
+    MatButtonToggleModule,
+    MatSelectModule,
+    NgbModule,
+    MatToolbarModule,
+    MatListModule,
+    MatSliderModule,
     BsDropdownModule.forRoot(),
     ToastrModule.forRoot({
       positionClass:'toast-bottom-right'
     }),
     
     TabsModule.forRoot()
-  ],
-  providers: [ AccountService,CartService,ProductService,FavouritesService, CheckoutService, CategoryService,OrderService,
+  ],  
+  providers: [ AccountService,CartService,ProductService,FavouritesService, CheckoutService, CategoryService,VoucherService, PromotionService,
     {provide: HTTP_INTERCEPTORS, useClass:ErrorInterceptor, multi:true,}
   ],
   bootstrap: [AppComponent]

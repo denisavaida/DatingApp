@@ -1,9 +1,9 @@
+using System.Globalization;
 using API.DTOs;
+using API.Entities;
 using API.Interfaces;
 using AutoMapper;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace API.Controllers
 {
@@ -31,12 +31,25 @@ namespace API.Controllers
         }
 
         [HttpGet("{username}")] 
-        public async Task<ActionResult<MemberDto>> GetUser(string username)
+        public async Task<ActionResult<MemberDto>> GetUserByUsername(string username)
         {
             var user = await _userRepository.GetUserByUsernameAsync(username);
             return _mapper.Map<MemberDto>(user);
         }
 
+        
+        [HttpGet("adress/{id}")] 
+        public async Task<ActionResult<Adress>> GetAdressByUserId(int id)
+        {
+            var adress = await _userRepository.GetAdressByUserId(id);
+            return _mapper.Map<Adress>(adress);
+        }
+        // [HttpGet("{id}")] 
+        // public async Task<ActionResult<MemberDto>> GetUserById(int id)
+        // {
+        //     var user = await _userRepository.GetUserByIdAsync(id);
+        //     return _mapper.Map<MemberDto>(user);
+        // }
         // [HttpGet("detail/{username}")] 
         // public async Task<ActionResult<MemberDto>> GetUserDetail(string username)
         // {

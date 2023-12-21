@@ -26,6 +26,12 @@ namespace API.Migrations
                     b.Property<DateOnly>("DateOfBirth")
                         .HasColumnType("TEXT");
 
+                    b.Property<string>("FirstName")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("LastName")
+                        .HasColumnType("TEXT");
+
                     b.Property<byte[]>("PasswordHash")
                         .HasColumnType("BLOB");
 
@@ -36,6 +42,7 @@ namespace API.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("UserName")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
@@ -84,6 +91,9 @@ namespace API.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
+                    b.Property<int>("AppUserId")
+                        .HasColumnType("INTEGER");
+
                     b.Property<int>("CVV")
                         .HasColumnType("INTEGER");
 
@@ -96,8 +106,8 @@ namespace API.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("Number")
-                        .HasColumnType("INTEGER");
+                    b.Property<string>("Number")
+                        .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 
@@ -136,7 +146,10 @@ namespace API.Migrations
                     b.Property<string>("AddtionalInfo")
                         .HasColumnType("TEXT");
 
-                    b.Property<int?>("AdressId")
+                    b.Property<int>("AdressId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("AppUserId")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Firstname")
@@ -145,8 +158,8 @@ namespace API.Migrations
                     b.Property<string>("Lastname")
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("Telephone")
-                        .HasColumnType("INTEGER");
+                    b.Property<string>("Telephone")
+                        .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 
@@ -178,59 +191,42 @@ namespace API.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<int?>("AppUserId")
+                    b.Property<int>("AppUserId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("Coupon")
+                    b.Property<DateTime>("Date")
                         .HasColumnType("TEXT");
 
-                    b.Property<int?>("DeliveryInfoId")
+                    b.Property<int?>("DeliveryId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int?>("DeliveryOptionsId")
+                    b.Property<int?>("DeliveryInfoId")
                         .HasColumnType("INTEGER");
 
                     b.Property<int?>("PaymentMethodId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int?>("ShoppingCartId")
+                    b.Property<int?>("StatusId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("SummaryId")
                         .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
 
                     b.HasIndex("AppUserId");
 
-                    b.HasIndex("DeliveryInfoId");
+                    b.HasIndex("DeliveryId");
 
-                    b.HasIndex("DeliveryOptionsId");
+                    b.HasIndex("DeliveryInfoId");
 
                     b.HasIndex("PaymentMethodId");
 
-                    b.HasIndex("ShoppingCartId");
+                    b.HasIndex("StatusId");
+
+                    b.HasIndex("SummaryId");
 
                     b.ToTable("Order");
-                });
-
-            modelBuilder.Entity("API.Entities.Payment", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("CardId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("Description")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Icon")
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CardId");
-
-                    b.ToTable("Payment");
                 });
 
             modelBuilder.Entity("API.Entities.Photo", b =>
@@ -288,10 +284,10 @@ namespace API.Migrations
                     b.Property<int>("Quantity")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("Stock")
+                    b.Property<bool>("SoftDeleted")
                         .HasColumnType("INTEGER");
 
-                    b.Property<bool>("isDeleted")
+                    b.Property<int>("Stock")
                         .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
@@ -338,11 +334,87 @@ namespace API.Migrations
                     b.Property<float>("Subtotal")
                         .HasColumnType("REAL");
 
+                    b.Property<int?>("SummaryId")
+                        .HasColumnType("INTEGER");
+
                     b.HasKey("Id");
 
                     b.HasIndex("ProductId");
 
+                    b.HasIndex("SummaryId");
+
                     b.ToTable("ShoppingCart");
+                });
+
+            modelBuilder.Entity("API.Entities.Status", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Status");
+                });
+
+            modelBuilder.Entity("API.Entities.Summary", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("AppUserId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<float>("Discounted")
+                        .HasColumnType("REAL");
+
+                    b.Property<float>("ProductCost")
+                        .HasColumnType("REAL");
+
+                    b.Property<int>("ShoppingCartId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<float>("Total")
+                        .HasColumnType("REAL");
+
+                    b.Property<int>("VoucherId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Summary");
+                });
+
+            modelBuilder.Entity("API.Entities.Voucher", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("AppUserId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<bool>("Available")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Code")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("Discount")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateOnly>("Validity")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AppUserId");
+
+                    b.ToTable("Vouchers");
                 });
 
             modelBuilder.Entity("API.Entities.Adress", b =>
@@ -358,7 +430,9 @@ namespace API.Migrations
                 {
                     b.HasOne("API.Entities.Adress", "Adress")
                         .WithMany()
-                        .HasForeignKey("AdressId");
+                        .HasForeignKey("AdressId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Adress");
                 });
@@ -367,42 +441,39 @@ namespace API.Migrations
                 {
                     b.HasOne("API.AppUser", null)
                         .WithMany("Orders")
-                        .HasForeignKey("AppUserId");
+                        .HasForeignKey("AppUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("API.Entities.Delivery", "Delivery")
+                        .WithMany()
+                        .HasForeignKey("DeliveryId");
 
                     b.HasOne("API.Entities.DeliveryInfo", "DeliveryInfo")
                         .WithMany()
                         .HasForeignKey("DeliveryInfoId");
 
-                    b.HasOne("API.Entities.Delivery", "DeliveryOptions")
-                        .WithMany()
-                        .HasForeignKey("DeliveryOptionsId");
-
-                    b.HasOne("API.Entities.Payment", "PaymentMethod")
+                    b.HasOne("API.Entities.Card", "PaymentMethod")
                         .WithMany()
                         .HasForeignKey("PaymentMethodId");
 
-                    b.HasOne("API.Entities.ShoppingCart", "ShoppingCart")
+                    b.HasOne("API.Entities.Status", "Status")
                         .WithMany()
-                        .HasForeignKey("ShoppingCartId");
+                        .HasForeignKey("StatusId");
+
+                    b.HasOne("API.Entities.Summary", "Summary")
+                        .WithMany()
+                        .HasForeignKey("SummaryId");
+
+                    b.Navigation("Delivery");
 
                     b.Navigation("DeliveryInfo");
 
-                    b.Navigation("DeliveryOptions");
-
                     b.Navigation("PaymentMethod");
 
-                    b.Navigation("ShoppingCart");
-                });
+                    b.Navigation("Status");
 
-            modelBuilder.Entity("API.Entities.Payment", b =>
-                {
-                    b.HasOne("API.Entities.Card", "Card")
-                        .WithMany()
-                        .HasForeignKey("CardId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Card");
+                    b.Navigation("Summary");
                 });
 
             modelBuilder.Entity("API.Entities.Photo", b =>
@@ -438,7 +509,20 @@ namespace API.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("API.Entities.Summary", null)
+                        .WithMany("ShoppingCartItems")
+                        .HasForeignKey("SummaryId");
+
                     b.Navigation("Product");
+                });
+
+            modelBuilder.Entity("API.Entities.Voucher", b =>
+                {
+                    b.HasOne("API.AppUser", null)
+                        .WithMany("Vouchers")
+                        .HasForeignKey("AppUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("API.AppUser", b =>
@@ -446,6 +530,8 @@ namespace API.Migrations
                     b.Navigation("Adress");
 
                     b.Navigation("Orders");
+
+                    b.Navigation("Vouchers");
                 });
 
             modelBuilder.Entity("API.Entities.Favourites", b =>
@@ -458,6 +544,11 @@ namespace API.Migrations
                     b.Navigation("Categories");
 
                     b.Navigation("Images");
+                });
+
+            modelBuilder.Entity("API.Entities.Summary", b =>
+                {
+                    b.Navigation("ShoppingCartItems");
                 });
 #pragma warning restore 612, 618
         }

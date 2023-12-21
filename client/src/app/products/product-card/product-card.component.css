@@ -187,3 +187,15 @@ a:hover {
     transform: translateY(-50%);
 }
 
+.searchBtn{
+    /* margin: 30%; */
+    margin-top:5%;
+}
+/* .searchInput{
+    align-self: flex-end;
+} */
+
+.mat-slider {
+    width: 300px;
+  }
+  

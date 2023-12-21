@@ -1,4 +1,82 @@
-<p>member-edit works!</p>
-<div *ngIf="user != null">
-    <p>edit {{user.username}} !!!</p>
-</div>
+
+<section class="section-user" >
+    <div class="container" *ngIf="member">                
+        <h2 class="text-center text-primary">Edit member details</h2>
+        <hr>
+        <form #updateForm="ngForm" (ngSubmit)="updateUser()" autocomplete="off" class="updateForm">
+
+            <div class="container">
+                <br>
+                <div class="row">
+
+                    <div class="col-md-6 mb-3">
+                        <h5 style="display: inline-block;">Email: </h5>
+                        <input type="text"
+                                class="form-control"
+                                name="username"
+                                [(ngModel)]="member.userName"
+                                placeholder="Username"autocomplete="off" ></div>
+
+                                <div class="col-md-6 mb-3">
+                                    
+                        <h5 style="display: inline-block;">Date of birth: </h5>
+                        <input type="text"
+                        class="form-control"
+                        name="dateOfBirth"
+                        [(ngModel)]="member.dateOfBirth"
+                        placeholder="Date Of Birth"autocomplete="off" >
+                        </div>
+                    </div>
+                    <div class="row">
+
+                        <div class="col-md-6 mb-3">
+                            <h5 style="display: inline-block;">Firstname: </h5>
+                            <input type="text"
+                                    class="form-control"
+                                    name="firstName"
+                                    [(ngModel)]="member.firstName"
+                                    placeholder="Firstname"autocomplete="off" ></div>
+    
+                                    <div class="col-md-6 mb-3">
+                                        
+                            <h5 style="display: inline-block;">Lastname: </h5>
+                            <input type="text"
+                            class="form-control"
+                            name="lastName"
+                            [(ngModel)]="member.lastName"
+                            placeholder="Lastname"autocomplete="off" >
+                            </div>
+                        </div>
+                    <div class="row">
+
+                    <div class="col-md-6">
+                    <div class="mb-3"><h5 style="display: inline-block;
+                        margin-right: 2%;">Password:</h5> 
+                        <textarea class="form-control"
+                        name="password"
+                        [(ngModel)]="member.password"
+                        placeholder="New password"autocomplete="off" ></textarea>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="mb-3"><h5 style="display: inline-block;
+                        margin-right: 2%;">Confirmation:</h5> 
+                        <textarea class="form-control"
+                        name="confirmation"
+                        [(ngModel)]="confirm"
+                        placeholder="Confirmation"autocomplete="off" ></textarea>
+                    </div>
+                </div>
+                    <app-adress></app-adress>
+                    <div class="text-center"style="margin-right: 15%;margin-top: 2%;">
+                        <button class="btn btn-success me-2" type="submit">Update user</button>
+                        <button class="btn cancelButton" type="button" (click)="cancel()">Cancel</button>
+                
+                    </div>
+                </div>
+        </div>
+        </form>
+    </div>
+  
+
+</section>

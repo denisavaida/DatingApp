@@ -11,6 +11,8 @@ namespace API.Entities
         public string Region {get; set; }
         public string Country {get; set; }
         public string Postcode{get;set;}
+        
+        [ForeignKey("AppUserId")]
         public int AppUserId{get;set;}
 
     }

@@ -31,18 +31,17 @@ namespace API.Controllers
          public async Task<ActionResult<Favourites>> AddFavourites(Favourites fav){
             var favList = await _favouritesRepository.GetAllFavouritesAsync();
             if(! favList.IsNullOrEmpty()){
-                var favItem = await _favouritesRepository.GetFavouritesByProductIdAsync(fav.ProductId);
-
-                 if(favItem == null){
-                    favourites = new Favourites{
-                        ProductId = fav.ProductId,
-                        AppUserId = fav.AppUserId,
-                        Product = fav.Product
-                    };
-                    await _favouritesRepository.AddFavouritesAsync(favourites);
-                    await _favouritesRepository.SaveAllAsync();
-                 }
-                 
+                var favExists = await _favouritesRepository.FavouritesExists(fav.ProductId);
+                if(!favExists){
+                favourites = new Favourites{
+                    ProductId = fav.ProductId,
+                    AppUserId = fav.AppUserId,
+                    Product = fav.Product
+                };
+                await _favouritesRepository.AddFavouritesAsync(favourites);
+                await _favouritesRepository.SaveAllAsync();
+                }
+                
             }else{
                 favourites = new Favourites{
                         ProductId = fav.ProductId,

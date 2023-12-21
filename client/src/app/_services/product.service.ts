@@ -1,10 +1,10 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, map,take } from 'rxjs';
 import { Product } from '../_models/product';
-import { ShoppingCart } from '../_models/shopping-cart';
 import { environment } from 'src/environments/environment';
 import { AccountService } from './account.service';
+import { PaginatedResult } from '../_models/pagination';
 
 @Injectable({
   providedIn: 'root'
@@ -15,10 +15,12 @@ export class ProductService {
   private currentProductSource= new BehaviorSubject<Product | null>(null);
   currentProduct$ = this.currentProductSource.asObservable();
 
+  paginatedResult : PaginatedResult<Product[]> = new PaginatedResult<Product[]>;
   shoppingCart:any={}
   prod:any={}
   products:any={}
   currentUser:any;
+  outOfStockProds: Product[] = [];
   constructor(private http: HttpClient, private accountService: AccountService) { 
     this.getProducts();
     this.accountService.currentUser$.pipe((take(1))).subscribe({
@@ -26,24 +28,40 @@ export class ProductService {
     });
   }
 
-  getProducts(){
-    return  this.http.get(this.baseUrl+'products').subscribe({
-      next:response=> {this.products = response,
-      console.log(response),
-    this.validateProds(this.products)},
-      error:error=>console.log(error),
-      complete:()=> console.log(' get products Request has completed')
-    })
-  }
-
-  validateProds(prods: Product[]){
-    for( var i=0; i< prods.length; i++){
-      if(prods[i].stock == 0){
-        prods.push(prods[i])
-        prods.splice(i,1);
-      }
+  getProducts(page?:number, itemsPerPage ?:number){
+    let params = new HttpParams();
+    if(page && itemsPerPage){
+      params = params.append('pageNumber',page);
+      params = params.append('pageSize', itemsPerPage);
     }
-}
+
+    return  this.http.get(this.baseUrl+'products', {observe: 'response', params}).pipe(
+      map(response=>{
+        
+        if(response.body){
+        
+          this.paginatedResult = response.body;
+        }
+        const pagination = response.headers.get('Pagination');
+        if(pagination){
+          this.paginatedResult.pagination = JSON.parse(pagination);
+        }
+        console.log(this.paginatedResult);
+        return this.paginatedResult;
+      })
+    )
+  }
+  getPopularProducts(){
+    return this.http.get<Product[]>(this.baseUrl+'products');
+  }
+  getProductsBySelectedCategory(categ:string){
+    console.log(categ);
+    return this.http.get<Product[]>(this.baseUrl +'products/category/' + categ);
+  }
+  getRangeProducts(minPrice: number, maxPrice: number){
+    return this.http.get<Product[]>(this.baseUrl+'products/range/'+ minPrice +"/"+maxPrice);
+
+  }
   getProductById(id:any){
     return this.http.get<Product>(this.baseUrl+'products/'+ id);
   }
@@ -62,12 +80,17 @@ export class ProductService {
     )
     return this.http.get<Product>(this.baseUrl + 'products/'+ this.prod.name)
   }
+  getSortedProds(type: string){
+    return this.http.get<Product[]>(this.baseUrl + 'products/sort/'+type);
+  }
 
+  getInStockProducts(){
+    return this.http.get<Product[]>(this.baseUrl + 'products/instock');
+  }
   makeOrder(model:any){
     return this.http.post<Product>(this.baseUrl + 'products/order',model).pipe(
         map(product=>{
           if(product){
-            // localStorage.setItem('product',JSON.stringify(product));
             this.currentProductSource.next(product);
           }
           return product;
@@ -98,17 +121,6 @@ export class ProductService {
       )
     }
 
-    // addShoppingCart(model:ShoppingCart){
-    //   // model.userId = this.currentUser.id;
-    //   console.log("model is : " + model);
-    //   return this.http.post<ShoppingCart>(this.baseUrl + 'shoppingCart/add',model).pipe(
-    //     map(shoppingCart=>{
-          
-    //       localStorage.setItem('shoppingCart',JSON.stringify(shoppingCart));
-    //       this.currentShoppingCartSource.next(shoppingCart);
-    //     })
-    //   )
-    // }
     getShoppingCart(id: any){
       this.http.get(this.baseUrl+'shoppingCart/'+id).subscribe({
         next:response=> this.shoppingCart = response,

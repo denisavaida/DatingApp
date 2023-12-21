@@ -54,13 +54,15 @@ img{
   color: black;
   background-color: white;
 }
-
+.btnVoucher{
+  margin-left: 2%;
+}
 .orderButton{
   background-color: black;
     color: white;
     padding: 5%;
     padding-left:30%;
-    padding-right: 30%;;
+    padding-right: 30%;
 
 }
 .orderButton:hover{

@@ -13,7 +13,6 @@ namespace API.Controllers
         
         public ShoppingCartController(IShoppingCartRepository shoppingCartRepository){
             _shoppingCartRepository = shoppingCartRepository;
-            // shoppingCartProducts = GetShoppingCartProducts();
         }
         
         [HttpGet("{id}")]
@@ -50,7 +49,6 @@ namespace API.Controllers
                     }else{
                         var cartExists = await _shoppingCartRepository.ShoppingCartExists(cartItem.Id);
                         if(cartExists){
-                            // var cartByID = await _shoppingCartRepository.GetShoppingCartByIdAsync(cartItem.Id);
                             cartItem.Quantity = cartItem.Quantity + cart.Quantity;
                             cartItem.Subtotal = cartItem.Quantity * cart.Product.Price;
                             this.shoppingCart = cartItem;
@@ -96,7 +94,6 @@ namespace API.Controllers
                 return StatusCode(500);
             }
             return Ok();
-            // _productRepository.SaveAllAsyncs();
         }
 
     }

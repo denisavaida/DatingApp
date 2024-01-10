@@ -62,8 +62,18 @@ import { MatSelectModule } from '@angular/material/select';
 import { CategorizedProductsComponent } from './products/categorized-products/categorized-products.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import {MatToolbarModule} from '@angular/material/toolbar';
+import {MatIconModule} from '@angular/material/icon';
+import {MatButtonModule} from '@angular/material/button';
 import {MatListModule} from '@angular/material/list';
 import {MatSliderModule} from '@angular/material/slider';
+import { RatingComponent } from './products/rating/rating.component';
+import { ReturPolicyComponent } from './help/retur-policy/retur-policy.component';
+import { PaymentInfoComponent } from './help/payment-info/payment-info.component';
+import { ShippingInfoComponent } from './help/shipping-info/shipping-info.component';
+import { StoreLocationComponent } from './help/store-location/store-location.component';
+import { NextDirective } from './home/next.directive';
+import { PrevDirective } from './home/prev.directive';
+
 
 @NgModule({exports: [ MatFormFieldModule, MatInputModule ],
   declarations: [
@@ -96,9 +106,14 @@ import {MatSliderModule} from '@angular/material/slider';
     ConfirmationComponent,
     VoucherDetailComponent,
     VoucherCreateComponent,
-    CategorizedProductsComponent
-
-    
+    CategorizedProductsComponent,
+    RatingComponent,
+    ReturPolicyComponent,
+    PaymentInfoComponent,
+    ShippingInfoComponent,
+    StoreLocationComponent,
+    NextDirective,
+    PrevDirective    
   ],
   imports: [
     BrowserModule,
@@ -124,6 +139,8 @@ import {MatSliderModule} from '@angular/material/slider';
     MatToolbarModule,
     MatListModule,
     MatSliderModule,
+    MatIconModule,
+    MatButtonModule,
     BsDropdownModule.forRoot(),
     ToastrModule.forRoot({
       positionClass:'toast-bottom-right'

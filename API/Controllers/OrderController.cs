@@ -29,19 +29,19 @@ namespace API.Controllers
             _shoppingCartRepository = shoppingCartRepository;
         }
         [HttpPost("add")] //POST: api/oder/add
-        public async Task<ActionResult<Order>> AddOrder(Order order){
+        public async Task<ActionResult<Order>> AddOrder(Order orderCheckout){
             this.order = new Order
             {
-                Summary = order.Summary,
-                Delivery= order.Delivery,
-                DeliveryInfo = order.DeliveryInfo,
-                PaymentMethod = order.PaymentMethod,
-                AppUserId = order.AppUserId
+                Summary = orderCheckout.Summary,
+                Delivery= orderCheckout.Delivery,
+                DeliveryInfo = orderCheckout.DeliveryInfo,
+                PaymentMethod = orderCheckout.PaymentMethod,
+                AppUserId = orderCheckout.AppUserId
             };
-            this.order.Summary.AppUserId = this.order.AppUserId;
-            this.order.DeliveryInfo.AppUserId = this.order.AppUserId;
-            this.order.DeliveryInfo.Adress.AppUserId = this.order.AppUserId;
-            this.order.PaymentMethod.AppUserId = this.order.AppUserId;
+            this.order.Summary.AppUserId = orderCheckout.AppUserId;
+            this.order.DeliveryInfo.AppUserId = orderCheckout.AppUserId;
+            this.order.DeliveryInfo.Adress.AppUserId = orderCheckout.AppUserId;
+            this.order.PaymentMethod.AppUserId = orderCheckout.AppUserId;
             // var newOrder = new Order{};
             
             await _userRepository.AddAdressAsync(this.order.DeliveryInfo.Adress);

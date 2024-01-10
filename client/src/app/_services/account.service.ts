@@ -1,11 +1,12 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, map, take } from 'rxjs';
+import { BehaviorSubject, Subscription, map, take } from 'rxjs';
 import { User } from '../_models/user';
 import { Adress } from '../_models/adress';
 import { environment } from 'src/environments/environment';
 import { ShoppingCart } from '../_models/shopping-cart';
 import { Favourites } from '../_models/favourite';
+import { SubscribeNewsletter } from '../_models/subscription';
 
 @Injectable({
   providedIn: 'root'
@@ -38,7 +39,8 @@ export class AccountService {
       images: [],
       discount: 0,
       shoppingCartId: 0,
-      softDeleted: false
+      softDeleted: false,
+      rating: 0
     }
   };
   dbCart:any={};
@@ -165,7 +167,9 @@ export class AccountService {
   getSummaryById(id: number){
     return this.http.get(this.baseUrl+'summary/'+ id);
   }
-  
+  getSubscribers(){
+    return this.http.get(this.baseUrl + 'users/subscribers');
+  }
   login(model:any){
     return this.http.post<User>(this.baseUrl + 'account/login', model).pipe(
       map((response: User)=>{
@@ -227,15 +231,20 @@ export class AccountService {
       )
     }
 
-  addAdressRegister(model:Adress){
-    return this.http.post<Adress>(this.baseUrl + 'account/addAdress',model).pipe(
-      map(adress=>{
-        if(adress){
-          localStorage.setItem('adress',JSON.stringify(adress));
-        }
-        return adress;
-      })
-    )
+  // addAdressRegister(model:Adress){
+  //   return this.http.post<Adress>(this.baseUrl + 'account/addAdress',model).pipe(
+  //     map(adress=>{
+  //       if(adress){
+  //         localStorage.setItem('adress',JSON.stringify(adress));
+  //       }
+  //       return adress;
+  //     })
+  //   )
+  // }
+  addSubscribtion(subscription:SubscribeNewsletter){
+
+    console.log(subscription);
+    return this.http.post<SubscribeNewsletter>(this.baseUrl+"users/subscribe",subscription);
   }
   // addShoppingCart(cart: ShoppingCart){
   //   return this.http.post<ShoppingCart>(this.baseUrl + 'shoppingCart/add',cart).pipe(

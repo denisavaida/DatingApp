@@ -28,9 +28,17 @@ namespace API.Data
             return await  PagedList<Product>.CreateAsync(query, productParams.PageNumber, productParams.PageSize);
         }
         
+        public async Task<IEnumerable<Product>> GetProductsSearchAsync(string searchItem)
+        {
+            var query = await _context.Products.Include(p=>p.Images).Include(p=> p.Categories)
+            .Where(p=>p.Name.Contains(searchItem)).ToListAsync();
+                            
+            return query;
+        }
+
         public async Task<IEnumerable<Product>> GetProductsBySelectedCategoryAsync(string category)
         {
-           var query = await _context.Products.Include(p=>p.Images).Include(p=> p.Categories).Where(p=>p.Category == category.ToLower()).ToListAsync();
+           var query = await _context.Products.Include(p=>p.Images).Include(p=> p.Categories).Where(p=>p.Category == category.ToLower()).OrderByDescending(p=>p.Stock).ToListAsync();
                             
             return query;
         }
@@ -44,13 +52,13 @@ namespace API.Data
         {
             IEnumerable<Product> prods = new Product[]{};
             if(type =="ascending"){
-                prods = await _context.Products.Include(p=>p.Images).Include(p=> p.Categories).OrderBy(p=>p.Price).ToListAsync();
+                prods = await _context.Products.Include(p=>p.Images).Include(p=> p.Categories).Where(p=>p.Stock > 0).OrderBy(p=>p.Price).ToListAsync();
             }else if(type=="descending"){
-                prods = await _context.Products.Include(p=>p.Images).Include(p=> p.Categories).OrderByDescending(p=>p.Price).ToListAsync();
+                prods = await _context.Products.Include(p=>p.Images).Include(p=> p.Categories).Where(p=>p.Stock > 0).OrderByDescending(p=>p.Price).ToListAsync();
             }else if(type=="discount"){
-                prods = await _context.Products.Include(p=>p.Images).Include(p=> p.Categories).OrderByDescending(p=>p.Discount).ToListAsync();
+                prods = await _context.Products.Include(p=>p.Images).Include(p=> p.Categories).Where(p=>p.Stock > 0).OrderByDescending(p=>p.Discount).ToListAsync();
             }else if(type=="popular"){
-                // prods = await _context.Products.Include(p=>p.Images).Include(p=> p.Categories).OrderByDescending(p=>p.Price).ToListAsync();
+                prods = await _context.Products.Include(p=>p.Images).Include(p=> p.Categories).Where(p=>p.Stock > 0).OrderByDescending(p=>p.Rating).ToListAsync();
             }
            
             return prods;

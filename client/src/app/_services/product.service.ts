@@ -21,6 +21,7 @@ export class ProductService {
   products:any={}
   currentUser:any;
   outOfStockProds: Product[] = [];
+  searchItem:string = '';
   constructor(private http: HttpClient, private accountService: AccountService) { 
     this.getProducts();
     this.accountService.currentUser$.pipe((take(1))).subscribe({
@@ -50,6 +51,10 @@ export class ProductService {
         return this.paginatedResult;
       })
     )
+  }
+
+  getSearchProducts(searchItem:string){
+   return this.http.get<Product[]>(this.baseUrl+'products/search/'+ searchItem);
   }
   getPopularProducts(){
     return this.http.get<Product[]>(this.baseUrl+'products');
@@ -129,7 +134,9 @@ export class ProductService {
       })
     }
   
-    
+    // deleteProduct(prod:Product){
+    //   this.http.delete<Product>(this.baseUrl+"favourites/delete/"+ prod.id);
+    // }
     setCurrentProduct(product: Product){
       this.currentProductSource.next(product);
     }

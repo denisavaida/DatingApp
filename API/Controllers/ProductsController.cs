@@ -22,11 +22,19 @@ namespace API.Controllers
         public async Task<ActionResult<PagedList<ProductDto>>> GetProducts([FromQuery]ProductParams productParams)
         {
             var query = await _productRepository.GetProductsAsync(productParams);
+            
             // var query = ValidateInStockProducts(query1);
             Response.AddPaginationHeader(new PaginationHeader(query.CurrentPage, query.PageSize, query.TotalCount, query.TotalPages));
             return Ok(query);
         }
 
+        [HttpGet("search/{searchItem}")]
+        public async Task<ActionResult<IEnumerable<ProductDto>>> GetSearchProducts(string searchItem)
+        {
+            var products = await _productRepository.GetProductsSearchAsync(searchItem);
+            // Response.AddPaginationHeader(new PaginationHeader(query.CurrentPage, query.PageSize, query.TotalCount, query.TotalPages));
+            return Ok(products);
+        }
         public PagedList<Product> ValidateInStockProducts(PagedList<Product> products){
             for( var i=0; i < products.Count; i++){
                 if(products[i].Stock == 0){

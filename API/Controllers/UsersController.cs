@@ -65,6 +65,19 @@ namespace API.Controllers
             await _userRepository.SaveAllAsync();
             return _mapper.Map<MemberDto>(appuser);
         }
+        [HttpGet("subscribers")]
+        public async Task<IEnumerable<Subscribtion>> GetSubscribers(){
+            var subscribers = await _userRepository.GetSubscribersAsync();
+            await _userRepository.SaveAllAsync();
+            return  subscribers;
+        }
+
+        [HttpPost("subscribe")]
+        public async Task<ActionResult<Subscribtion>> AddSubscription(Subscribtion subscribtion){
+            await _userRepository.AddSubscriptionAsync(subscribtion);
+            await _userRepository.SaveAllAsync();
+            return _mapper.Map<Subscribtion>(subscribtion);
+        }
 
     }
 }

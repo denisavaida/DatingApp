@@ -14,13 +14,13 @@ namespace API.Data
         }
         public async Task<Summary> AddSummaryAsync(Summary summary)
         {
-            await _context.Summary.AddAsync(summary);
+            await _context.Summaries.AddAsync(summary);
             return summary;
         }
 
         public async Task<Summary> GetUserSummary(int id)
         {
-            return await _context.Summary.SingleOrDefaultAsync(s=>s.AppUserId == id);
+            return await _context.Summaries.SingleOrDefaultAsync(s=>s.AppUserId == id);
         }
 
         public async Task<bool> SaveAllAsync()

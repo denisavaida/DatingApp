@@ -26,14 +26,88 @@
          <p class="lead">
             Daca aveti deja un cont va rugam sa va logati  pentru a descoperi produsele noastre speciale pentru copii ! 
          </p>
-        <div class="text-center">
+        <div class="text-center" style="margin-top:2%">
             <button (click)="registerToggle()" class="btn btn-primary btn-lg me-2">Inregistrare</button>
             <!-- <button (click)="guestMode()" class="btn btn-primary btn-lg btn-info">Guest</button> -->
         </div>
         <!-- <div *ngFor="let prod in popularProds">
        
         </div> -->
-        <p class="lead" style="font-size:xx-large; margin-bottom: 2%; margin-top: 2%;">Cele mai populare produse</p>
+        <p class="lead" style="font-size:xx-large; margin-bottom: 4%; margin-top: 3%;">Cele mai populare produse</p>
+        
+        <div class="container-fluid" style="margin-bottom: -5%;">
+          <!-- <ngb-carousel class="carousel">
+            <ng-template ngbSlide *ngFor="let prod of popularProds">
+              <div class="wrapper">
+                <img class="imageSizing" [src]="prod.image" alt="Products slider">
+              </div>
+              <div class="carousel-caption"  style="margin-top:60%"> -->
+                <section class="section-products" >
+                  <div class="slider-wrap">
+                      <div class="slider-main row"> 
+                        
+                              <div class="col-md-6 col-lg-4 col-xl-3" *ngFor="let product of popularProds; index as i">
+                                      <div class="card" *ngIf="product  && i<4" >
+                                        <!-- && i<4 -->
+                                              <div class="d-flex justify-content-between p-3">
+                                      <div id="product-2" class="single-product">
+                                              <div class="part-1" >
+                                                      <div *ngIf="product.stock>0">
+                                                        <a routerLink="/products/{{product.id}}" > <img src="{{product.image}}"></a>
+                                                              <span class="discount" *ngIf="product.discount>0">{{product.discount}}%</span>
+                                                      </div>
+    
+                                              </div>
+                                              <div class="part-2">
+                                                      <h3 class="product-title"style="text-transform: capitalize">{{product.name}}</h3>
+                                                      <ngb-rating [max]="5" [(rate)]="product.rating" [readonly]="false" style="color: rgb(228, 196, 16); "></ngb-rating>
+                                                      <div *ngIf="product.stock>0" ><h6 style="color: green;font-size: small;font-weight: bolder;">In stock</h6></div>
+                                                      <div *ngIf="product.stock==0" ><h6 style="color: red;font-size: small;font-weight: bolder;">Out of stock</h6></div>
+                                                      <ng-template [ngIf]="product.oldPrice!=product.price" [ngIfElse]="loading" >
+                                                              <h4 class="product-old-price" >{{product.oldPrice}} Lei</h4>
+                                                      </ng-template>
+                                                      <ng-template #loading>
+                                                              <h4 class="product-old-price" style="visibility: hidden;">{{product.oldPrice}} Lei</h4>
+                                                      </ng-template>
+                                                      <h4 class="product-old-price" style="visibility: hidden;"></h4>
+                                                      <h4 class="product-price" style="color: red;font-size: large;" *ngIf="product.discount > 0">{{product.price}} Lei</h4>
+                                                      <h4 class="product-price" style="font-size: large;margin-left: -75px;" *ngIf="product.discount == 0">{{product.price}} Lei</h4>
+                                              </div>
+                                            </div>
+                                      </div>
+                                    </div>
+                              </div>
+                      </div>
+                      <!-- <div class="button-area">
+                        <button type="button" class="prev">Prev</button>
+                        <button type="button" class="next" appNext>Next</button>
+                      </div> -->
+                  </div>
+              </section>
+              <!-- </div>
+            </ng-template>
+          </ngb-carousel>
+               -->
+          </div>
+
+      
+      <!-- <div class="d-flex justify-content-center" *ngIf="pagination">
+              <pagination [boundaryLinks]="true" 
+                      [totalItems]="pagination.totalItems"
+                      [itemsPerPage]="pagination.itemsPerPage"
+                      [maxSize]="10"
+                      [(ngModel)]="pagination.currentPage"
+                      (pageChanged)="pageChanged($event)"
+                      previousText="&lsaquo;" 
+                      nextText="&rsaquo;" 
+                      firstText="&laquo;" 
+                      lastText="&raquo;">
+              </pagination>
+      </div> -->
+
+
+
+
     </div>
 
     <div *ngIf="registerMode" class="container">

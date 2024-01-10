@@ -7,6 +7,8 @@ namespace API.Entities
     public class ShoppingCart : BaseEntity
     {
         public int Quantity {get;set;}
+
+        [ForeignKey("ProductId")]
         public int ProductId {get;set;}
         public Product Product {get;set;}
         public float Subtotal { get; set; }

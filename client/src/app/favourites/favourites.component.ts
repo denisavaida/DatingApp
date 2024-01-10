@@ -36,7 +36,8 @@ export class FavouritesComponent {
       images: [],
       discount: 0,
       shoppingCartId: 0,
-      softDeleted: false
+      softDeleted: false,
+      rating: 0
     }
   }
   currentUser:any;

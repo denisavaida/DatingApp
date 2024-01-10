@@ -28,6 +28,10 @@ import { VoucherCreateComponent } from './voucher/voucher-create/voucher-create.
 import { VoucherDetailComponent } from './voucher/voucher-detail/voucher-detail.component';
 import { ProductCardComponent } from './products/product-card/product-card.component';
 import { CategorizedProductsComponent } from './products/categorized-products/categorized-products.component';
+import { ReturPolicyComponent } from './help/retur-policy/retur-policy.component';
+import { PaymentInfoComponent } from './help/payment-info/payment-info.component';
+import { ShippingInfoComponent } from './help/shipping-info/shipping-info.component';
+import { StoreLocationComponent } from './help/store-location/store-location.component';
 
 const routes: Routes = [
   {path:'',component: HomeComponent},
@@ -57,6 +61,10 @@ const routes: Routes = [
   {path:'products',component: ProductCardComponent},
   {path:'products/:id',component:ProductDetailComponent},
   {path:'categorizedProducts/:category',component:CategorizedProductsComponent},
+  {path:'returPolicy',component:ReturPolicyComponent},
+  {path:'paymentInfo',component:PaymentInfoComponent},
+  {path:'shippingInfo',component:ShippingInfoComponent},
+  {path:'storeLocation',component:StoreLocationComponent},
   {path:'register',component:RegisterComponent},
   {path:'login',component:LoginComponent},
   {path:'errors', component: TestErrorComponent},

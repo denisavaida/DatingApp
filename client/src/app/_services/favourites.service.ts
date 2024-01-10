@@ -66,7 +66,10 @@ export class FavouritesService{
     }
 
     clearFavourites(){
-        this.items = [];
+        this.items = this.getUsersFavItems();
+        this.items.forEach(element => {
+          this.deleteItem(element);
+        });
         return this.items;
     }
 

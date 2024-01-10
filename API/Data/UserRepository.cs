@@ -51,11 +51,21 @@ namespace API.Data
             await _context.Adresses.AddAsync(adress);
             return adress;
         }
+        public async Task<Subscribtion> AddSubscriptionAsync(Subscribtion subscribtion)
+        {
+           await _context.Subscriptions.AddAsync(subscribtion);
+           return subscribtion;
+        }
 
         public async Task<Adress> GetAdressByUserId(int id)
         {
             return await _context.Adresses.SingleOrDefaultAsync(a => a.AppUserId == id);
 
+        }
+
+        public async Task<IEnumerable<Subscribtion>> GetSubscribersAsync()
+        {
+            return await _context.Subscriptions.ToListAsync();
         }
     }
 }

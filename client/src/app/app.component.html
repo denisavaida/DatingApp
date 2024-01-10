@@ -1,6 +1,6 @@
 <app-nav></app-nav>
 <!-- style="margin-top:7%;margin-bottom:300px;" -->
-<div class="container"style="margin-top:7%;margin-bottom:350px;">
+<div class="container"style="margin-top:7%;margin-bottom:6%;">
     <router-outlet></router-outlet>
     
 </div>
@@ -14,15 +14,15 @@
                 <div class="row" style="margin: -0.5%; height: 40px;">
                     <div class="col-lg-4"><span>Get 10% discount by subscribing to our newsletter:</span></div>
                     <div class="col-lg-4">
-                        <form #newsForm="ngForm" (ngSubmit)="subscribe()" autocomplete="off">
+                        <form #newsForm="ngForm"autocomplete="off">
                             <input type="text"
                             class="form-control"
                             name="Email"
-                            [(ngModel)]="model.Email"
+                            [(ngModel)]="subscription.email"
                             placeholder="Email">
                         </form>
                     </div>
-                    <div class="col-lg-2"><button class="btn btn-success me-2" type="submit">Subscribe</button>
+                    <div class="col-lg-2"><button class="btn btn-success me-2" (click)="subscribeNews()">Subscribe</button>
                     </div>
                     <div class="col-lg-2">         
                     <!-- Facebook -->
@@ -101,16 +101,16 @@
                   style="width: 35px; background-color: #7c4dff; height: 2px"
                   />
               <p>
-                <a href="#!" class="text-dark text-decoration-none">Retur policy</a>
+                <a routerLink="returPolicy" class="text-dark text-decoration-none">Retur policy</a>
               </p>
               <p>
-                <a href="#!" class="text-dark text-decoration-none">Payment methods</a>
+                <a routerLink="paymentInfo" class="text-dark text-decoration-none">Payment methods</a>
               </p>
               <p>
-                <a href="#!" class="text-dark text-decoration-none">Shipping</a>
+                <a routerLink="shippingInfo" class="text-dark text-decoration-none">Shipping</a>
               </p>
               <p>
-                <a href="#!" class="text-dark text-decoration-none">Stores</a>
+                <a routerLink="storeLocation" class="text-dark text-decoration-none">Stores</a>
               </p>
               
             </div>
@@ -127,6 +127,9 @@
               <p><i class="fa fa-home mr-3"></i> Octavian Goga 14, Les, Bihor, Romania</p>
               <p><i class="fa fa-envelope mr-3"></i> contact.koalakids&#64;gmail.com</p>
               <p><i class="fa fa-phone mr-3"></i> +40752451702</p>
+              <p></p>
+              <p><a href="" class="text-dark">Unsubscribe</a></p>
+              <!-- *ngIf="validateSubscription() == true" -->
             </div>
         
           </div>
@@ -143,6 +146,7 @@
            style="background-color: rgba(0, 0, 0, 0.2)"
            >
         <p class="text-dark">KoalaKidsShop © 2023 All rights reserved.</p>
+        
       </div>
       <!-- Copyright -->
     </footer>

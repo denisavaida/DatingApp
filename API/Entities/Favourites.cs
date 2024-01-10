@@ -6,7 +6,10 @@ namespace API.Entities
 
     [Table("Favourites")]
     public class Favourites : BaseEntity
-    {   public List<Product> Product{ get; set; }
+    {   
+        public List<Product> Product{ get; set; }
+
+        [ForeignKey("ProductId")]
         public int ProductId{get;set;}
 
         [ForeignKey("AppUserId")]

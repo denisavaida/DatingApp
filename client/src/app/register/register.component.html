@@ -7,7 +7,7 @@
         <input type="text"
                 class="form-control"
                 name="username"
-                [(ngModel)]="model.username"
+                [(ngModel)]="model.userName"
                 placeholder="Email">
     </div>
     <div class="row">
@@ -16,7 +16,7 @@
         <input type="text"
                 class="form-control"
                 name="firstname"
-                [(ngModel)]="model.firstname"
+                [(ngModel)]="model.firstName"
                 placeholder="First Name">
     </div>
 </div>
@@ -25,13 +25,13 @@
         <input type="text"
                 class="form-control"
                 name="lastname"
-                [(ngModel)]="model.lastname"
+                [(ngModel)]="model.lastName"
                 placeholder="Last Name">
     </div>
     </div>
     </div>
     <div class="mb-4">
-        <app-adress (adressOutput)="adress"></app-adress>
+        <app-adress (model)="adress"></app-adress>
     </div>
 
     <div class="mb-3">
@@ -46,7 +46,7 @@
         <input type="password"
         class="form-control"
         name="Confirm password"
-        [(ngModel)]="model.confirm"
+        [(ngModel)]="confirm"
         placeholder="Confirm">
     </div>
 

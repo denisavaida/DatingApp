@@ -10,11 +10,12 @@ import { CheckoutService } from '../_services/checkout.service';
 })
 
 export class AdressComponent {
-  model: any= {}
+  // model: any= {}
   @Input('userId') userId: any;
   // @Output() adressFilled = new EventEmitter<Adress>();
   // @Input() adressFrom :any ={};
- adressOutput: any = {};
+ @Input('model') model:any={}
+  // adressOutput: any = {};
 
   constructor(private accountService: AccountService, private toastr: ToastrService,private checkoutService:CheckoutService){
 

@@ -12,15 +12,11 @@ namespace API.DTOs
          public string Discount{get;set;}
          public string Description{get;set;}
          public string Category{get;set;}
+         public int Rating{get;set;}
 
          public int GetQuantity(){
             Quantity = 1;
             return Quantity;
          }
-
-        public static implicit operator ProductDto(Product v)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

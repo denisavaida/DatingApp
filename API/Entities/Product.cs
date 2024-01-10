@@ -22,6 +22,7 @@ namespace API.Entities
          public bool SoftDeleted{get;set;}
          public int Discount { get; set; }
          public List<ProductCategory> Categories { get; set;}
+         public int Rating{get; set;}
          public float GetPrice(int oldPrice, int discount)
         {
             if(discount == 0){

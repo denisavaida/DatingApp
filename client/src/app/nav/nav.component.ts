@@ -38,7 +38,8 @@ export class NavComponent implements OnInit {
       images: [],
       discount: 0,
       shoppingCartId: 0,
-      softDeleted: false
+      softDeleted: false,
+      rating: 0
     }
   }
   category:Category = {

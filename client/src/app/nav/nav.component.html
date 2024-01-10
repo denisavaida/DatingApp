@@ -65,7 +65,7 @@
           <button class="btn btn-dark " *ngIf="user.currentUser.userName != 'admin'"><a class="text-light text-decoration-none" dropdownToggle style="font-size: large; "><i class="fa fa-user"> Contul meu {{user.currentUser.firstName|titlecase}}</i></a>
               <div class="dropdown-menu" *dropdownMenu>
                 <a class="dropdown-item" routerLink="/users/{{model.userName}}" routerLinkActive="active">Details profile</a>
-                <a class="dropdown-item" routerLink="/users/edit/{{model}}" routerLinkActive="active">Edit profile</a>
+                <a class="dropdown-item" routerLink="/users/edit/{{model.userName}}" routerLinkActive="active">Edit profile</a>
                 <a class="dropdown-item" routerLink="/orders" routerLinkActive="active">My orders</a>
                 <a class="dropdown-item"(click)="logout()">Logout</a>
               </div>

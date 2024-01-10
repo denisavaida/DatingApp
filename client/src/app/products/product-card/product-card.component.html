@@ -4,11 +4,11 @@
                 <div class="col-md-2">
                         <h3 style="text-transform: uppercase;">Disponibilitate</h3>
                         <mat-list>
-                          <mat-list-item>
-                            <span matListItemTitle><a routerLink="/products">Toate produsele</a></span>
+                          <mat-list-item class="sidenavItem">
+                            <span matListItemTitle><a (click)="refresh()">Toate produsele</a></span>
                           </mat-list-item>
-                          <mat-list-item><a routerLink="/promotions">Promotii</a></mat-list-item>
-                          <mat-list-item><a (click)="inStockProducts()">In stoc</a></mat-list-item>
+                          <mat-list-item class="sidenavItem"><a routerLink="/promotions">Promotii</a></mat-list-item>
+                          <mat-list-item class="sidenavItem"><a (click)="inStockProducts()">In stoc</a></mat-list-item>
                         </mat-list>
                         
 
@@ -23,7 +23,7 @@
                         <h3 style="text-transform: uppercase;">Categorii</h3>
                         <mat-list>
                           <mat-list-item  *ngFor="let categ of categories">
-                            <span matListItemTitle style="text-transform:capitalize;"><a (click)="categorizedProducts(categ.name)">{{categ.name}}</a></span>
+                            <span matListItemTitle style="text-transform:capitalize;" class="sidenavItem"><a (click)="categorizedProducts(categ.name)">{{categ.name}}</a></span>
                           </mat-list-item>
                         </mat-list>
                         
@@ -45,7 +45,7 @@
                                 <div class="col-md-6">
                                         <form class="d-flex">
                                                 <input name="search" class="form-control me-2 searchInput" type="search" placeholder="Cauta" [(ngModel)]="searchItem">
-                                                <button class="btn btn-outline-success my-2 my-sm-0 searchBtn" type="submit" onclick="search()">Search</button>
+                                                <button class="btn btn-outline-success my-2 my-sm-0 searchBtn" (click)="search()">Search</button>
                                         </form>
                                 </div>
                         </div>
@@ -56,11 +56,11 @@
                                             <div id="product-2" class="single-product">
                                                     <div class="part-1" >
                                                             <div *ngIf="product.stock>0">
-                                                                    <img src="{{product.image}}">
+                                                                <a routerLink="/products/{{product.id}}" ><img src="{{product.image}}"></a>
                                                                     <span class="discount" *ngIf="product.discount>0">{{product.discount}}%</span>
                                                             </div>
                                                             <div class="outOfStockImg" *ngIf="product.stock == 0">
-                                                                    <img src="{{product.image}}">
+                                                                <a routerLink="/products/{{product.id}}" ><img src="{{product.image}}"></a>
                                                                     <span class="discount" *ngIf="product.discount>0">{{product.discount}}%</span>
                                                             </div>
                                                             <ul *ngIf="currentUser">
@@ -79,6 +79,8 @@
                                                     </div>
                                                     <div class="part-2">
                                                             <h3 class="product-title"style="text-transform: capitalize">{{product.name}}</h3>
+                                                            <!-- <app-rating (SelectedStar)="product.rating"></app-rating> -->
+                                                            <ngb-rating [max]="5" [(rate)]="product.rating" [readonly]="false" style="color: rgb(228, 196, 16); "></ngb-rating>
                                                             <div *ngIf="product.stock>0" ><h6 style="color: green;font-size: small;font-weight: bolder;">In stock</h6></div>
                                                             <div *ngIf="product.stock==0" ><h6 style="color: red;font-size: small;font-weight: bolder;">Out of stock</h6></div>
                                                             <ng-template [ngIf]="product.oldPrice!=product.price" [ngIfElse]="loading" >

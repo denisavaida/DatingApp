@@ -18,7 +18,22 @@ import { ProductService } from 'src/app/_services/product.service';
 })
 export class ProductDetailComponent implements OnInit{
 
-product: Product | undefined;
+product: Product ={
+  id: 0,
+  name: '',
+  description: '',
+  quantity: 0,
+  category: '',
+  oldPrice: 0,
+  price: 0,
+  image: '',
+  stock: 0,
+  images: [],
+  discount: 0,
+  shoppingCartId: 0,
+  softDeleted: false,
+  rating: 0
+};
 categories: any={}
 shoppingCartItem:ShoppingCart= {
   quantity: 0,
@@ -39,7 +54,8 @@ shoppingCartItem:ShoppingCart= {
     images: [],
     discount: 0,
     shoppingCartId: 0,
-    softDeleted: false
+    softDeleted: false,
+    rating: 0
   }
 };
 favourites: Favourites= {
@@ -65,13 +81,18 @@ this.cart = this.accountService.getShoppingCart();
 ngOnInit():void{
   this.loadProduct();
 }
-
+Handle(index:number){
+  this.product.rating = index;
+  this.productService.updateProduct(this.product);
+  alert(`You rate ${index}`);
+}
 loadProduct(){
   var id = this.route.snapshot.paramMap.get('id');
   if(!id) return;
   this.productService.getProductById(id).subscribe({
     next: product => {
       this.product = product;
+      console.log(this.product);
       if(this.product.stock > 0){
         this.product.quantity = 1;
       }
@@ -81,6 +102,7 @@ loadProduct(){
       
     }
   })
+  return this.product;
 }
 
 addToCart(prod:Product){

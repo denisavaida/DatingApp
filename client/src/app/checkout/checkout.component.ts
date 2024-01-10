@@ -136,6 +136,7 @@ export class CheckoutComponent {
 
   addDeliveryInfo(delInfo:DeliveryInfo){
     this.delInfo = delInfo;
+    this.delInfo.appUserId = this.currentUser.id;
     this.order.deliveryInfo = this.checkoutService.getDeliveryInfo();
     console.log(this.order.deliveryInfo);
     console.log(this.order);
@@ -165,6 +166,7 @@ export class CheckoutComponent {
   sendOrder(){
     console.log(this.order);
     this.order.appUserId = this.currentUser.id;
+    this.order.status.name = "Confirmare comanda";
     this.checkoutService.sendOrder(this.order);
     this.router.navigateByUrl('/confirmation');
   }

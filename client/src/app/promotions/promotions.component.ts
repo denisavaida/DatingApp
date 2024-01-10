@@ -43,7 +43,8 @@ export class PromotionsComponent {
       images: [],
       discount: 0,
       shoppingCartId: 0,
-      softDeleted: false
+      softDeleted: false,
+      rating: 0
     }
   } ;
   cart:any =[];
@@ -52,7 +53,9 @@ export class PromotionsComponent {
   pageSize = 8;
   categories: Category[]=[];
   searchItem:string = '';
-
+  startValue:any = 0;
+  endValue: any = 500;
+  sortingType:string="";
   constructor(private http:HttpClient,private promotionService:PromotionService,private cartService: CartService,
     private toastr:ToastrService, private productService: ProductService,private categoryService:CategoryService,
     private accountService: AccountService, private favouritesService: FavouritesService){
@@ -93,7 +96,24 @@ export class PromotionsComponent {
     })
   }
   sortAscending(){
-    
+    this.sortingType = 'ascending';
+    this.productService.getSortedProds(this.sortingType)
+    .subscribe({next: response=>this.products = response});
+  }
+  sortDescending(){
+    this.sortingType = 'descending';
+    this.productService.getSortedProds(this.sortingType)
+    .subscribe({next: response=>this.products = response});
+  }
+  sortBiggestDiscount(){
+    this.sortingType = 'discount';
+    this.productService.getSortedProds(this.sortingType)
+    .subscribe({next: response=>this.products = response});
+  }
+  sortPopular(){
+    this.sortingType = 'popular';
+    this.productService.getSortedProds(this.sortingType)
+    .subscribe({next: response=>this.products = response});
   }
   pageChanged(event:any){
     if(this.pageNumber !== event.page){
@@ -151,6 +171,19 @@ export class PromotionsComponent {
   deleteProduct(prod: Product){
     prod.softDeleted = true;
       this.productService.updateProduct(prod);
+  }
+  inStockProducts(){
+    this.productService.getInStockProducts()
+    .subscribe({next: response=>this.products = response});
+  }
+  categorizedProducts(categ:string){
+    this.productService.getProductsBySelectedCategory(categ).subscribe({
+      next: response => this.products = response
+    })
+  }
+  sliderValueChanged(){ 
+    this.productService.getRangeProducts(this.startValue, this.endValue)
+    .subscribe({next: response=>this.products = response});
   }
 
 }

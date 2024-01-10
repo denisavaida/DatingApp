@@ -67,7 +67,7 @@
                         placeholder="Confirmation"autocomplete="off" ></textarea>
                     </div>
                 </div>
-                    <app-adress></app-adress>
+                    <app-adress [model]="this.member.adress" ></app-adress>
                     <div class="text-center"style="margin-right: 15%;margin-top: 2%;">
                         <button class="btn btn-success me-2" type="submit">Update user</button>
                         <button class="btn cancelButton" type="button" (click)="cancel()">Cancel</button>

@@ -1,6 +1,5 @@
-import { HttpParams } from '@angular/common/http';
 import { Component,  EventEmitter,  OnInit, Output } from '@angular/core';
-import { NavigationExtras, Router } from '@angular/router';
+import {  ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { take } from 'rxjs';
 import { Favourites } from 'src/app/_models/favourite';
@@ -22,7 +21,7 @@ import { environment } from 'src/environments/environment';
 })
 export class ProductCardComponent implements OnInit{
   baseUrl = environment.apiUrl;
-  products:any;
+  products:any = [];
   categories: any = [];
   currentUser: any = {};
   searchItem:string = '';
@@ -45,7 +44,8 @@ export class ProductCardComponent implements OnInit{
       images: [],
       discount: 0,
       shoppingCartId: 0,
-      softDeleted: false
+      softDeleted: false,
+      rating: 0
     }
   }
   favourites: Favourites= {
@@ -75,7 +75,8 @@ export class ProductCardComponent implements OnInit{
   valueChange: EventEmitter<number> = new EventEmitter();
 
   constructor(private productService:ProductService,private cartService: CartService,private toastr:ToastrService, private router: Router,
-    private accountService: AccountService, private favouritesService: FavouritesService, private categoryService:CategoryService){
+    private accountService: AccountService, private favouritesService: FavouritesService, private categoryService:CategoryService,
+    private route:ActivatedRoute){
 
     this.accountService.currentUser$.pipe((take(1))).subscribe({
       next: user=> this.currentUser = user
@@ -90,7 +91,10 @@ export class ProductCardComponent implements OnInit{
     this.loadProducts();
     this.loadCategories();
   }
-
+  Handle(index:number){
+    alert(`You rate ${index}`);
+    return index;
+  }
   loadProducts(){
     this.productService.getProducts(this.pageNumber, this.pageSize).subscribe({
       next: response =>{
@@ -215,7 +219,18 @@ export class ProductCardComponent implements OnInit{
   }
 
   search(){
-
+    this.productService.getSearchProducts(this.searchItem)
+    .subscribe({next: response=>this.products = response});
   }
+
+  refresh(){
+    // var flag = this.route.snapshot.paramMap.has('products');
+    // if(flag){
+      window.location.reload();
+    // }else{
+    //   this.router.navigateByUrl('/products');
+    // }
+  }
+
 
 }

@@ -13,5 +13,6 @@ export interface Product{
     images: Photo[],
     discount: number,
     shoppingCartId: number,
-    softDeleted:boolean
+    softDeleted:boolean,
+    rating: number
 }

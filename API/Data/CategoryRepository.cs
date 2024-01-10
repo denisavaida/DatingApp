@@ -15,12 +15,12 @@ namespace API.Data
 
         
         public async Task<IEnumerable<ProductCategory>> GetCategoryAsync(){
-            return await _context.ProductCategory.ToListAsync();
+            return await _context.ProductCategories.ToListAsync();
         }
          
         public async Task<ProductCategory> AddCategory(ProductCategory category)
         {
-            await _context.ProductCategory.AddAsync(category);
+            await _context.ProductCategories.AddAsync(category);
             return category;
         }
         // public async Task<ProductCategory> GetCategoryByProdIdAsync(int id){
@@ -39,7 +39,7 @@ namespace API.Data
 
         public async Task<bool> CategoryExists(string name)
         {
-            return await _context.ProductCategory.AnyAsync(c=>c.Name == name.ToLower());
+            return await _context.ProductCategories.AnyAsync(c=>c.Name == name.ToLower());
         }
 
         public async Task<bool> SaveAllAsync()

@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500&display=swap');
+
 .example-selected-value {
     margin: 15px 0;
   }
@@ -13,6 +15,10 @@
 }
 .mat-button-toggle :hover{
   color: rgb(173, 168, 168);
+}
+
+.nav-item :hover{
+  background-color: white;
 }
 
 .editBtn{

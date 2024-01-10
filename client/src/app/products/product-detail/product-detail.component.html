@@ -12,6 +12,8 @@
                 <div class="part-2">
                     <p>EXCLUSIV ONLINE</p>
                     <strong><h3 style="text-transform: capitalize">{{product.name}}</h3></strong>
+                    <!-- <app-rating (onRating)="Handle($event)"></app-rating> -->
+                    <ngb-rating [max]="5" [(rate)]="product.rating" [readonly]="false" style="color: rgb(228, 196, 16);"></ngb-rating>
                 <div class="stockAvailable" *ngIf="product.stock > 0" >
                     <strong>In stock</strong>
                     

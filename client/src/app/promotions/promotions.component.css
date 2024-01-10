@@ -204,3 +204,7 @@ a:hover {
     transform: translateY(-50%);
 }
 
+.sidenavItem :hover{
+    cursor: pointer;
+    color: #8d8888;
+}

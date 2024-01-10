@@ -23,7 +23,8 @@ export class ProductEditComponent implements OnInit{
     images: [],
     discount: 0,
     shoppingCartId: 0,
-    softDeleted: false
+    softDeleted: false,
+    rating: 0
   };
 
   constructor(private productService:ProductService, private route: ActivatedRoute, private router: Router){

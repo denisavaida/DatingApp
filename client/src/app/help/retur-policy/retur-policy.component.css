@@ -1,0 +1,29 @@
+.pageContent{
+    font-size: medium;
+    font-weight: lighter;
+    /* font-family:Georgia, 'Times New Roman', Times, serif */
+    /* margin-bottom: -9.5%; */
+    width: fit-content;
+    height: fit-content;
+    margin-bottom: -5%;
+}
+
+.title{
+    text-align: center;
+    font-size: xx-large;
+}
+.subtitle{
+    font-size: x-large;
+}
+.storeLocation{
+    color: black;
+}
+
+.storeLocation :hover{
+    color: rgb(129, 126, 126);
+}
+
+.storeAdress{
+    font-weight: normal;
+    margin-right: 4%;
+}

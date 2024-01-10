@@ -10,11 +10,11 @@
                                             <div id="product-2" class="single-product">
                                                     <div class="part-1" >
                                                             <div *ngIf="product.stock>0">
-                                                                    <img src="{{product.image}}">
+                                                                <a routerLink="/products/{{product.id}}" ><img src="{{product.image}}"></a>
                                                                     <span class="discount" *ngIf="product.discount>0">{{product.discount}}%</span>
                                                             </div>
                                                             <div class="outOfStockImg" *ngIf="product.stock == 0">
-                                                                    <img src="{{product.image}}">
+                                                                <a routerLink="/products/{{product.id}}" ><img src="{{product.image}}"></a>
                                                                     <span class="discount" *ngIf="product.discount>0">{{product.discount}}%</span>
                                                             </div>
                                                             <ul *ngIf="currentUser">

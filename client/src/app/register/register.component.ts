@@ -3,6 +3,7 @@ import { AccountService } from '../_services/account.service';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
 import { AdressComponent } from '../adress/adress.component';
+import { User } from '../_models/user';
 
 @Component({
   selector: 'app-register',
@@ -15,7 +16,27 @@ export class RegisterComponent implements OnInit {
   @ViewChild(AdressComponent)
   
   adress :any = {}
-  model: any = {}
+  model: User = {
+    id: 0,
+    userName: '',
+    firstName: '',
+    lastName: '',
+    password: '',
+    role: '',
+    orders: [],
+    vouchers: [],
+    adress: {
+      street: '',
+      number: 0,
+      city: '',
+      region: '',
+      country: '',
+      postcode: 0,
+      appUserId: 0
+    },
+    dateOfBirth: new Date()
+  }
+  confirm:string="";
 
   constructor(private accountService : AccountService, private router: Router, private toastr: ToastrService){
      this.adress = accountService.loadAdress(this.adress);
@@ -28,7 +49,7 @@ export class RegisterComponent implements OnInit {
     this.model.role ="member";
     this.model.adress = this.adress.model;
     
-    if (this.model.password == this.model.confirm){
+    if (this.model.password == this.confirm){
       this.accountService.register(this.model).subscribe({
         next: response =>{
           this.toastr.success("Succesfully registered !")

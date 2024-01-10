@@ -67,6 +67,20 @@ namespace API.Controllers
                         }
                     }
                 }else{
+                    // var product = new Product{
+                    //     Name = cart.Product.Name,
+                    //     Description= cart.Product.Description,
+                    //     Quantity = cart.Product.Quantity,
+                    //     Stock = cart.Product.Stock,
+                    //     Categories  = cart.Product.Categories,
+                    //     Category = cart.Product.Category,
+                    //     OldPrice = cart.Product.OldPrice,
+                    //     Price = cart.Product.Price,
+                    //     Image = cart.Product.Image,
+                    //     Images = cart.Product.Images,
+                    //     SoftDeleted = cart.Product.SoftDeleted,
+                    //     Discount = cart.Product.Discount
+                    // };
                     shoppingCart = new ShoppingCart{
                         Quantity = cart.Quantity,
                         ProductId = cart.ProductId,

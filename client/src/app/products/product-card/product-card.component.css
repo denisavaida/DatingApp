@@ -198,4 +198,7 @@ a:hover {
 .mat-slider {
     width: 300px;
   }
-  
+.sidenavItem :hover{
+    cursor: pointer;
+    color: #8d8888;
+}

@@ -8,50 +8,33 @@
                 </div>
                 </div>
                 <div class="row">
-                <div class="col-md-2">
-                        <h3 style="text-transform: uppercase;">Disponibilitate</h3>
-                        <mat-list>
-                          <mat-list-item>
-                            <span matListItemTitle><a routerLink="/products">Toate produsele</a></span>
-                          </mat-list-item>
-                          <mat-list-item><a routerLink="/promotions">Promotii</a></mat-list-item>
-                          <mat-list-item><a href="">In stoc</a></mat-list-item>
-                        </mat-list>
-                        
-                        <h3 style="text-transform: uppercase; ">Pret</h3>
-                        <mat-list>
-                          <mat-list-item>
-                            <span matListItemTitle>Sub 50</span>
-                          </mat-list-item>
-                          <mat-list-item>
-                            <span matListItemTitle>50-100</span>
-                          </mat-list-item>
-                          <mat-list-item>
-                            <span matListItemTitle>100-200</span>
-                          </mat-list-item>
-                          <mat-list-item>
-                                <span matListItemTitle>200-500</span>
-                                </mat-list-item>
-                        <!-- <mat-list-item>
-                                <span matListItemTitle><mat-slider thumbLabel
-                                        [displayWith]="value"
-                                        tickInterval="1000"
-                                        min="1"
-                                        max="100000">
-                                       
-                                      </mat-slider></span> 
-                        </mat-list-item> -->
-                        </mat-list>
-                        
-                        <h3 style="text-transform: uppercase;">Categorii</h3>
-                        <mat-list>
-                          <mat-list-item  *ngFor="let categ of categories">
-                            <span matListItemTitle style="text-transform:capitalize;"><a routerLink="/categorizedProducts/{{categ.name}}">{{categ.name}}</a></span>
-                          </mat-list-item>
-                         
-                        </mat-list>
-                        
-                </div>
+                        <div class="col-md-2">
+                                <h3 style="text-transform: uppercase;">Disponibilitate</h3>
+                                <mat-list>
+                                  <mat-list-item class="sidenavItem">
+                                    <span matListItemTitle><a routerLink="/products">Toate produsele</a></span>
+                                  </mat-list-item>
+                                  <mat-list-item class="sidenavItem"><a routerLink="/promotions">Promotii</a></mat-list-item>
+                                  <mat-list-item class="sidenavItem"><a (click)="inStockProducts()">In stoc</a></mat-list-item>
+                                </mat-list>
+                                
+        
+                                <h3 style="text-transform: uppercase; ">Interval de pret</h3>
+                                <mat-slider min="1" max="500" color="accent" discrete="true" showTickMarks="false" >
+                                        <input matSliderStartThumb [(ngModel)]="startValue" (valueChange)="sliderValueChanged()">
+                                        <input matSliderEndThumb [(ngModel)]="endValue" (dragEnd)="sliderValueChanged()" >
+                                </mat-slider><br>
+                                <label>Pret : {{startValue}}Lei - {{endValue}}Lei</label><br><br>
+        
+        
+                                <h3 style="text-transform: uppercase;">Categorii</h3>
+                                <mat-list>
+                                  <mat-list-item  *ngFor="let categ of categories">
+                                    <span matListItemTitle style="text-transform:capitalize;" class="sidenavItem"><a (click)="categorizedProducts(categ.name)">{{categ.name}}</a></span>
+                                  </mat-list-item>
+                                </mat-list>
+                                
+                        </div>
                 <div class="col-md-10">
 
 
@@ -60,9 +43,10 @@
                                 <mat-form-field>
                                         <mat-select placeholder="Ordoneaza">
                                           <mat-option (onSelectionChange)="sortAscending()">Pret crescator</mat-option>
-                                          <mat-option>Pret descrescator</mat-option>
-                                          <mat-option>Cel mai mare discount</mat-option>
-                                          <mat-option>Cele mai populare</mat-option>
+                                          <mat-option (onSelectionChange)="sortDescending()">Pret descrescator</mat-option>
+                                          <mat-option (onSelectionChange)="sortBiggestDiscount()">Cel mai mare discount</mat-option>
+                                          <mat-option (onSelectionChange)="sortPopular()">Cele mai populare</mat-option> 
+                                          <!-- // popular part doesn't work yet -->
                                         </mat-select>
                                       </mat-form-field>
 
@@ -79,11 +63,11 @@
                         <div id="product-2" class="single-product">
                                 <div class="part-1" >
                                         <div *ngIf="product.stock>0">
-                                                <img src="{{product.image}}">
+                                                <a routerLink="/products/{{product.id}}" ><img src="{{product.image}}"></a>
                                                 <span class="discount" *ngIf="product.discount>0">{{product.discount}}%</span>
                                         </div>
                                         <div class="outOfStockImg" *ngIf="product.stock == 0">
-                                                <img src="{{product.image}}">
+                                                <a routerLink="/products/{{product.id}}" ><img src="{{product.image}}"></a>
                                                 <span class="discount" *ngIf="product.discount>0">{{product.discount}}%</span>
                                         </div>
                                         <ul *ngIf="currentUser">

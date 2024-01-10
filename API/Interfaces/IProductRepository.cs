@@ -11,6 +11,7 @@ namespace API.Interfaces
         Task<bool> SaveAllAsync();
         Task<Product> AddProductAsync(Product product);
         Task<PagedList<Product>> GetProductsAsync(ProductParams productParams);
+        Task<IEnumerable<Product>> GetProductsSearchAsync(string searchItem);
         Task<IEnumerable<Product>> GetProductsBySelectedCategoryAsync(string category);
         Task<IEnumerable<Product>> GetProductsByRangeAsync(int minPrice, int maxPrice);
         Task<IEnumerable<Product>> GetProductsBySortingTypeAsync(string type);

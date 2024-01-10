@@ -15,28 +15,32 @@ export class HomeComponent implements OnInit{
   registerMode = false;
   users: any;
   popularProds: Product[] = []
+  sortingType:string = ''
   images = [
-    {title: 'Christmas KIDS', short: 'Urmariti colectia de Craciun pentru copii!', src: "../../assets/Christmas.png", category:"christmas"},
+    
     {title: 'Jucarii pentru toata lumea', short: 'Te ajutam sa alegi jucarii pentru copilul tau!', src: "../../assets/toys3.png", category:"toys"},
     {title: 'Activitati practice', short: 'Idei de activitati de facut cu copilul tau !', src: "../../assets/crafts.png", category:"crafts"},
     {title: 'Baby gift boxes', short: 'Gaseste o cutie cadou pentru bebelusi !', src: "../../assets/gifts.png", category:"baby"},
-    {title: 'Verifica', short: 'Tinute pentru toti copiii !', src: "../../assets/dresses.png", category:"clothes"}
+    {title: 'Verifica', short: 'Tinute pentru toti copiii !', src: "../../assets/dresses.png", category:"clothes"},
+    {title: 'Christmas KIDS', short: 'Urmariti colectia de Craciun pentru copii!', src: "../../assets/Christmas.png", category:"christmas"}
   ];
   constructor(private router: Router,private http: HttpClient, private accountService: AccountService, private productService:ProductService){
-    this.getPopularProducts();
+    
+
   }
 
   ngOnInit(): void {this.accountService.getUsers();
+    this.getPopularProducts();
+    console.log(this.popularProds);
   }
+
   getPopularProducts(){
-    this.productService.getPopularProducts().subscribe({
-      next: response => {this.popularProds = response;
-        console.log(this.popularProds);
-      return this.popularProds},
-      error:error => console.log(error),
-      complete:()=>console.log('get popular products homepage Request has completed')
-      
-    })
+    this.sortingType = 'popular';
+    this.productService.getSortedProds(this.sortingType)
+    .subscribe({next: response=>{this.popularProds = response;    
+      console.log(this.popularProds);
+
+   }});
   }
 
   getUsers(){

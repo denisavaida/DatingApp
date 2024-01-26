@@ -24,6 +24,7 @@ public class DataContext : DbContext
     public DbSet<Summary> Summaries{get;set;}
     public DbSet<Status> Status{get;set;}
     public DbSet<Subscribtion> Subscriptions{get;set;}
+    public DbSet<CategoryGender> CategoryGender{get;set;}
     public DbSet<Subcategory> Subcategory{get;set;}
 
 }

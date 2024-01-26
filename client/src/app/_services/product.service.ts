@@ -5,6 +5,10 @@ import { Product } from '../_models/product';
 import { environment } from 'src/environments/environment';
 import { AccountService } from './account.service';
 import { PaginatedResult } from '../_models/pagination';
+import { Category } from '../_models/category';
+import { Subcategory } from '../_models/subcategory';
+import { CategoryGender } from '../_models/category-gender';
+import { Photo } from '../_models/photo';
 
 @Injectable({
   providedIn: 'root'
@@ -29,11 +33,20 @@ export class ProductService {
     });
   }
 
-  getProducts(page?:number, itemsPerPage ?:number){
+  getProducts(page?:number, itemsPerPage ?:number, categId?: number, subcategId?:number,categGId?:number){
     let params = new HttpParams();
     if(page && itemsPerPage){
       params = params.append('pageNumber',page);
       params = params.append('pageSize', itemsPerPage);
+    }
+    if(categId){
+      params = params.append('CategoryId',categId);
+    }    
+    if(subcategId){
+      params = params.append('SubcategoryId',subcategId);
+    }
+    if(categGId){
+      params = params.append('CategoryGenderId',categGId);
     }
 
     return  this.http.get(this.baseUrl+'products', {observe: 'response', params}).pipe(
@@ -52,7 +65,15 @@ export class ProductService {
       })
     )
   }
-
+  getCategories(){
+    return this.http.get<Category[]>(this.baseUrl+'category');
+  }
+  getSubcategories(){
+    return this.http.get<Subcategory[]>(this.baseUrl+'subcategory');
+  }
+  getCategoryGenders(){
+    return this.http.get<CategoryGender[]>(this.baseUrl+'categoryGender');
+  }
   getSearchProducts(searchItem:string){
    return this.http.get<Product[]>(this.baseUrl+'products/search/'+ searchItem);
   }
@@ -92,6 +113,12 @@ export class ProductService {
   getInStockProducts(){
     return this.http.get<Product[]>(this.baseUrl + 'products/instock');
   }
+  getPromotions(){
+    return this.http.get<Product[]>(this.baseUrl + 'products/promotions');
+  }
+  getPhotosOfProductId(id: number){
+    return this.http.get<Photo[]>(this.baseUrl+'products/photos/'+id);
+  }
   makeOrder(model:any){
     return this.http.post<Product>(this.baseUrl + 'products/order',model).pipe(
         map(product=>{
@@ -113,6 +140,17 @@ export class ProductService {
           })
         )
       }
+
+    addPhotoOfProduct(photo:Photo ){
+      return this.http.post<Photo>(this.baseUrl+ 'products/add-photo',photo).pipe(
+        map(photo=>{
+          if(photo){
+            localStorage.setItem('photo',JSON.stringify(photo));
+          }
+          return photo;
+        })
+      )
+    }
     updateProduct(prod: Product){
       return this.http.put<Product>(this.baseUrl + 'products/update',prod).pipe(
         map(product=>{
@@ -134,9 +172,9 @@ export class ProductService {
       })
     }
   
-    // deleteProduct(prod:Product){
-    //   this.http.delete<Product>(this.baseUrl+"favourites/delete/"+ prod.id);
-    // }
+    deleteProduct(prod:Product){
+      this.http.delete<Product>(this.baseUrl+"products/delete/"+ prod.id);
+    }
     setCurrentProduct(product: Product){
       this.currentProductSource.next(product);
     }

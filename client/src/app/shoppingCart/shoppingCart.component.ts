@@ -11,7 +11,6 @@ import { HttpClient } from '@angular/common/http';
 import { ProductService } from '../_services/product.service';
 import { take } from 'rxjs';
 import { Summary } from '../_models/summary';
-import { VoucherDto } from '../_models/voucherDto';
 import { Voucher } from '../_models/voucher';
 import { VoucherService } from '../_services/voucher.service';
 
@@ -28,23 +27,41 @@ export class ShoppingCartComponent {
     quantity: 0,
     subtotal: 0,
     AppUserId: 0,
-    productId: 0,
     id: 0,
     product: {
       id: 0,
       name: '',
       description: '',
       quantity: 0,
-      category: '',
+      category: {
+        id: 0,
+        name: ''
+      },
       oldPrice: 0,
       price: 0,
       image: '',
       stock: 0,
       images: [],
       discount: 0,
-      shoppingCartId: 0,
       softDeleted: false,
-      rating: 0
+      rating: 0,
+      categoryGender: {
+        id: 0,
+        name: ''
+      },
+      subcategory: {
+        id: 0,
+        name: '',
+        productCategoryId: 0
+      }
+    },
+    summary: {
+      AppUserId: 0,
+      productCost: 0,
+      discounted: 0,
+      total: 0,
+      shoppingCartItems: [],
+      voucherID: 0
     }
   }
   voucher:Voucher={
@@ -64,7 +81,6 @@ export class ShoppingCartComponent {
     discounted: 0
   };
   appliedVoucher:boolean = false;
-  // products:Product[] = [];
   currentUser: any ={};
   prod: any={};
   delOptions: any = [];
@@ -83,11 +99,14 @@ export class ShoppingCartComponent {
     }
 
   ngOnInit():void{
-    this.cart.forEach(element => {
-      this.summary.productCost = this.summary.productCost + element.subtotal;
-      this.summary.total = this.summary.productCost;
-      this.summary.shoppingCartItems.push(element);
-    });
+    if(this.cart.length>0){
+      this.cart.forEach(element => {
+        this.summary.productCost = this.summary.productCost + element.subtotal;
+        this.summary.total = this.summary.productCost;
+        this.summary.shoppingCartItems.push(element);
+      });
+    }
+
     this.summary.AppUserId = this.currentUser.id;
     console.log(this.summary);
   }
@@ -95,7 +114,7 @@ export class ShoppingCartComponent {
   getUsersCartItems(){
     if(this.cart.length != 0){
       for(var i = 0; i< this.cart.length; i++){
-        this.productService.getProductById(this.cart[i].productId).subscribe({next: response => {this.prod = response;
+        this.productService.getProductById(this.cart[i].product.id).subscribe({next: response => {this.prod = response;
 
           this.items.push(this.prod);
         }});
@@ -118,7 +137,7 @@ export class ShoppingCartComponent {
 
   deleteProduct(prod: any){
     for(var i=0;i<this.cart.length;i++){
-      if(this.cart[i].productId == prod.id){
+      if(this.cart[i].product.id == prod.id){
         console.log(this.cart[i].id);
         this.cartService.deleteCartItem(this.cart[i].id);
         
@@ -171,7 +190,7 @@ export class ShoppingCartComponent {
     item.subtotal = item.quantity * item.product.price;
     
    for(var i=0;i<this.cart.length;i++){
-      if(this.cart[i].productId == item.productId){
+      if(this.cart[i].product.id == item.product.id){
         this.cart[i].quantity = this.shoppingCart.quantity;
         this.cart[i].subtotal = this.shoppingCart.subtotal;
         this.cartService.updateShoppingCart(item).subscribe();

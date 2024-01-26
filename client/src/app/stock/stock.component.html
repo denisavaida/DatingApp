@@ -25,32 +25,39 @@
         placeholder="Stock"autocomplete="off">
     </div>
     <div class="mb-3">
-        <!-- <input type="text"
-        class="form-control"
-        name="category"
-        [(ngModel)]="model.category"
-        placeholder="Category"> -->
-            <mat-form-field>
-                <mat-select   [(ngModel)]="selectedCategories" 
-                (ngModelChange)="selectedCategories" name="selectedCategories" 
-                 placeholder="Categories" multiple >
-                <mat-option  *ngFor="let categ of categoriesDB" [value]="categ.name">{{categ.name}}</mat-option>
+            <mat-form-field class="selectField">
+                <mat-select #select  [(ngModel)]="selectedCategory"
+                (ngModelChange)="change(selectedCategory)" name="selectedCategories" 
+                 placeholder="Categories"  >
+                <mat-option  *ngFor="let categ of categoriesDB" [value]="categ">{{categ.name}}</mat-option>
                 </mat-select>
+
             </mat-form-field>
-
-          
-        <!-- <a class="btn btn-secondary dropdown-toggle" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" [(ngModel)]="model.category">
-            Category
-        </a>
-      
-        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink" >
-          <a class="dropdown-item" href="#">Action</a>
-          <a class="dropdown-item" href="#">Another action</a>
-          <a class="dropdown-item" href="#">Something else here</a>
-        </div> -->
+            <mat-form-field class="selectField">
+                <mat-select   [(ngModel)]="selectedSubcategory" 
+                (ngModelChange)="selectedSubcategory" name="selectedSubcategory" 
+                 placeholder="Subcategories"  >
+                <mat-option  *ngFor="let subcateg of subcategoriesDB" [value]="subcateg">{{subcateg.name}}</mat-option>
+                </mat-select>
+                
+            </mat-form-field >
+            <mat-form-field class="selectField">
+                <mat-select   [(ngModel)]="selectedCategoryGender" 
+                (ngModelChange)="selectedCategoryGender" name="selectedCategoryGender" 
+                 placeholder="Category gender"  >
+                <mat-option  *ngFor="let categG of categoryGendersDB" [value]="categG">{{categG.name}}</mat-option>
+                </mat-select>
+                
+            </mat-form-field>
     </div>
-
-
+    <div class="mb-3">
+        <input type="number"
+        class="form-control"
+        name="rating"
+        [(ngModel)]="model.rating"
+        placeholder="Rating"autocomplete="off">
+    </div>
+    
     <div class="mb-3">
         <input type="number"
         class="form-control"
@@ -63,8 +70,9 @@
         class="form-control"
         name="image"
         [(ngModel)]="model.image"
-        placeholder="Image URL" autocomplete="off">
+        placeholder="Main Image URL" autocomplete="off">
     </div>
+   
     <div class="mb-3">
         <input type="number"
         class="form-control"
@@ -75,7 +83,8 @@
     <div class="text-center">
         <button class="btn btn-success me-2" type="submit">Add to stock</button>
         <button class="btn cancelButton" type="button" (click)="cancel()">Cancel</button>
-
+       
+        
     </div>
     <!-- <mat-form-field>
         <mat-select placeholder="Categories" [(ngModel)]="selectedCategories" multiple>

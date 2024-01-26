@@ -3,7 +3,15 @@
         <div class="col">
             <div class="part-1" >
                 <button class="btn backButton" (click)="back()"><i class="fa fa-arrow-left"> Back </i></button>
-            <img class="card-img-top"src="{{product.image }}" alt="{{product.name}}" class="card-img-top img-thumbnail">
+                <ngb-carousel class="carousel">
+                    <ng-template ngbSlide *ngFor="let image of product.images">
+                      <div class="wrapper">
+                        <img class="imageSizing" [src]="image.url" alt="Random first slide">
+                      </div>
+                    </ng-template>
+                  </ngb-carousel>
+                      
+            <!-- <img class="card-img-top"src="{{product.image }}" alt="{{product.name}}" class="card-img-top img-thumbnail"> -->
 
             <!-- <ngx-gallery [options]="galleryOptions" [images]="galleryImages" class="ngx-gallery"></ngx-gallery> -->
             </div>   
@@ -15,12 +23,12 @@
                     <!-- <app-rating (onRating)="Handle($event)"></app-rating> -->
                     <ngb-rating [max]="5" [(rate)]="product.rating" [readonly]="false" style="color: rgb(228, 196, 16);"></ngb-rating>
                 <div class="stockAvailable" *ngIf="product.stock > 0" >
-                    <strong>In stock</strong>
+                    <strong>In stoc</strong>
                     
                 </div>
                 <div class="hide">{{product.stock}} products</div>
                 <div class="outOfStock" *ngIf="product.stock == 0">
-                    <strong>Out of stock</strong>
+                    <strong>Stoc epuizat</strong>
                 </div>
                 <div *ngIf="product.discount>0">
                     <span class="price" style="font-size:160%">{{product.price}} Lei  </span><del> {{product.oldPrice}} lei</del>
@@ -62,14 +70,55 @@
                 </div>
                 <div *ngIf="currentUser">
                     <div *ngIf="currentUser.username == 'admin'"> 
-                    
-                            <a routerLink="/products/edit/{{product.id}}" routerLinkActive="active"><button class="btn btn-warning editButton"><i class="fa fa-pencil-square-o"> Edit product </i></button></a>
-                            <button class="btn btn-primary cancelButton" type="button" (click)="delete()">Delete</button>
+                        <a routerLink="/products/add-photo/{{product.id}}" routerLinkActive="active"><button class="btn btn-success photoButton"><i class="fa fa-plus"> Add photos </i></button></a>
+                        <a routerLink="/products/edit/{{product.id}}" routerLinkActive="active"><button class="btn btn-warning editButton"><i class="fa fa-pencil-square-o"> Edit product </i></button></a>
+                        <button class="btn btn-primary cancelButton" type="button" (click)="delete()">Delete</button>
                 </div>
             </div>
             </div>
         </div>
 
     </div>
+    <p class="lead" style="font-size:xx-large; margin-bottom: 4%; margin-top: 3%;">Produse similare</p>
+        
+    <div class="container-fluid" style="margin-bottom: -5%;">
+            <section class="section-products" >
+              <div class="slider-wrap">
+                  <div class="slider-main row"> 
+                    
+                          <div class="col-md-6 col-lg-4 col-xl-3" *ngFor="let product of relatedProds; index as i">
+                                  <div class="card" *ngIf="product  && i<4" >
+                                          <div class="d-flex justify-content-between p-3">
+                                  <div id="product-2" class="single-product">
+                                          <div class="part-1" >
+                                                  <div *ngIf="product.stock>0">
+                                                    <a routerLink="/products/{{product.category.name}}/{{product.id}}" > <img src="{{product.image}}"></a>
+                                                          <span class="discount" *ngIf="product.discount>0">{{product.discount}}%</span>
+                                                  </div>
+
+                                          </div>
+                                          <div class="part-2">
+                                                  <h3 class="product-title"style="text-transform: capitalize">{{product.name}}</h3>
+                                                  <ngb-rating [max]="5" [(rate)]="product.rating" [readonly]="false" style="color: rgb(228, 196, 16); "></ngb-rating>
+                                                  <div *ngIf="product.stock>0" ><h6 style="color: green;font-size: small;font-weight: bolder;">In stoc</h6></div>
+                                                  <div *ngIf="product.stock==0" ><h6 style="color: red;font-size: small;font-weight: bolder;">Stoc epuizat</h6></div>
+                                                  <ng-template [ngIf]="product.oldPrice!=product.price" [ngIfElse]="loading" >
+                                                          <h4 class="product-old-price" >{{product.oldPrice}} Lei</h4>
+                                                  </ng-template>
+                                                  <ng-template #loading>
+                                                          <h4 class="product-old-price" style="visibility: hidden;">{{product.oldPrice}} Lei</h4>
+                                                  </ng-template>
+                                                  <h4 class="product-old-price" style="visibility: hidden;"></h4>
+                                                  <h4 class="product-price" style="color: red;font-size: large;" *ngIf="product.discount > 0">{{product.price}} Lei</h4>
+                                                  <h4 class="product-price" style="font-size: large;margin-left: -75px;" *ngIf="product.discount == 0">{{product.price}} Lei</h4>
+                                          </div>
+                                        </div>
+                                  </div>
+                                </div>
+                          </div>
+                  </div>
+              </div>
+          </section>
+      </div>
 
 </div>

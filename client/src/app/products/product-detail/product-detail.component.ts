@@ -10,6 +10,7 @@ import { CartService } from 'src/app/_services/cart.service';
 import { CategoryService } from 'src/app/_services/category.service';
 import { FavouritesService } from 'src/app/_services/favourites.service';
 import { ProductService } from 'src/app/_services/product.service';
+import { BreadcrumbService } from 'xng-breadcrumb';
 
 @Component({
   selector: 'app-product-detail',
@@ -23,39 +24,42 @@ product: Product ={
   name: '',
   description: '',
   quantity: 0,
-  category: '',
+  category:{
+    id: 0,
+    name: ''
+  },
   oldPrice: 0,
   price: 0,
   image: '',
   stock: 0,
   images: [],
   discount: 0,
-  shoppingCartId: 0,
   softDeleted: false,
-  rating: 0
+  rating: 0,
+  categoryGender: {
+    id: 0,
+    name: ''
+  },
+  subcategory: {
+    id: 0,
+    name: '',
+    productCategoryId: 0
+  }
 };
 categories: any={}
 shoppingCartItem:ShoppingCart= {
   quantity: 0,
   subtotal: 0,
   AppUserId: 0,
-  productId: 0,
   id: 0,
-  product: {
-    id: 0,
-    name: '',
-    description: '',
-    quantity: 0,
-    category: '',
-    oldPrice: 0,
-    price: 0,
-    image: '',
-    stock: 0,
-    images: [],
-    discount: 0,
-    shoppingCartId: 0,
-    softDeleted: false,
-    rating: 0
+  product: this.product,
+  summary: {
+    AppUserId: 0,
+    productCost: 0,
+    discounted: 0,
+    total: 0,
+    shoppingCartItems: [],
+    voucherID: 0
   }
 };
 favourites: Favourites= {
@@ -68,9 +72,12 @@ favourites: Favourites= {
 currentUser: any; 
 cart:any = {};
 dbprods:any[]=[];
+relatedProds: Product[] = []
 
-constructor( private productService: ProductService,private route: ActivatedRoute, private toastr: ToastrService, private accountService: AccountService,
-   private cartService:CartService,private router: Router,private favouritesService: FavouritesService, private categoryService:CategoryService){  
+constructor( private productService: ProductService,private route: ActivatedRoute, private toastr: ToastrService, 
+  private accountService: AccountService, private cartService:CartService,private router: Router,
+  private favouritesService: FavouritesService, private bcService:BreadcrumbService){  
+
   this.accountService.currentUser$.pipe((take(1))).subscribe({
   next: user=> this.currentUser = user
 })
@@ -80,6 +87,7 @@ this.cart = this.accountService.getShoppingCart();
 
 ngOnInit():void{
   this.loadProduct();
+  // this.loadRelatedProducts();
 }
 Handle(index:number){
   this.product.rating = index;
@@ -87,23 +95,42 @@ Handle(index:number){
   alert(`You rate ${index}`);
 }
 loadProduct(){
+
   var id = this.route.snapshot.paramMap.get('id');
   if(!id) return;
   this.productService.getProductById(id).subscribe({
     next: product => {
       this.product = product;
-      console.log(this.product);
-      if(this.product.stock > 0){
-        this.product.quantity = 1;
-      }
-      else{
-        this.product.quantity = 0;
-      }
+      this.bcService.set('@productDetails',product.name);
+      if(this.product){
+        this.productService.getPhotosOfProductId(this.product.id).subscribe({
+          next: photos => this.product.images = photos
+        });
+        console.log(this.product);
+        if(this.product.stock > 0){
+          this.product.quantity = 1;
+        }
+        else{
+          this.product.quantity = 0;
+        }
+        this.productService.getProductsBySelectedCategory(this.product.category.name)
+        .subscribe({next: response=>{this.relatedProds = response;    
+          console.log(this.relatedProds);
       
+       }});
+      }
+     
     }
   })
   return this.product;
 }
+// loadRelatedProducts(){
+//   this.productService.getProductsBySelectedCategory(this.product.category.name)
+//   .subscribe({next: response=>{this.relatedProds = response;    
+//     console.log(this.relatedProds);
+
+//  }});
+// }
 
 addToCart(prod:Product){
   if(this.currentUser){

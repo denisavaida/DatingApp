@@ -1,0 +1,127 @@
+<div class="container">
+    <div class="row">
+        <div class="col-md-4">
+            <h4 class="text-center text-primary">Update existing categories</h4>
+                <table *ngFor="let opt of categories">
+                  <tr>
+                    <td style="font-size: large;">{{opt.id}}</td>
+                    <td> <input type="text"
+                        class="form-control"
+                        name="name"
+                        [(ngModel)]="opt.name"
+                        placeholder="Name"autocomplete="off"></td>
+                   
+                    <td><button class="btn btn-dark btnf1" (click)="updateCategory(opt)">Update</button></td>
+                    <td><button class="btn btn-warning btnf1" (click)="deleteCategory(opt)">Delete</button></td>
+                  </tr>
+              
+                </table>
+              <div class="row">
+        <form #registerForm="ngForm" (ngSubmit)="addCategory()" autocomplete="off">
+            <h4 class="text-center text-primary">Add new category</h4>
+            <!-- <hr> -->
+            <!-- <br> -->
+            <div class="mb-3">
+                <input type="text"
+                        class="form-control"
+                        name="name"
+                        [(ngModel)]="modelC.name"
+                        placeholder="Name"autocomplete="off">
+            </div>
+        
+            <div class="text-center">
+                <button class="btn btn-success me-2" type="submit">Add</button>
+                <button class="btn cancelButton" type="button" (click)="cancel()">Cancel</button>
+        
+            </div> 
+        </form>
+    </div>
+        </div>
+        <div class="col-md-4">
+            <h4 class="text-center text-primary">Update existing subcategories</h4>
+          
+                <table *ngFor="let opt of subcategories">
+                  <tr>
+                    <td style="font-size: large;">{{opt.id}}</td>
+                    <td> <input type="text"
+                        class="form-control"
+                        name="name"
+                        [(ngModel)]="opt.name"
+                        placeholder="Name"autocomplete="off"></td>
+                    <td> <input type="text"
+                        class="form-control"
+                        name="CategoryId"
+                        [(ngModel)]="opt.productCategoryId"
+                        placeholder="CategoryId"autocomplete="off"></td>
+                   
+                    <td><button class="btn btn-dark btnf1" (click)="updateSubcategory(opt)">Update</button></td>
+                    <td><button class="btn btn-warning btnf1" (click)="deleteSubcategory(opt)">Delete</button></td>
+                  </tr>
+              
+                </table>
+              <div class="row">
+        <form #registerForm="ngForm" (ngSubmit)="addSubcategory()" autocomplete="off">
+            <h4 class="text-center text-primary">Add new subcategory</h4>
+            <!-- <hr> -->
+            <!-- <br> -->
+            <div class="mb-3">
+                <input type="text"
+                        class="form-control"
+                        name="name"
+                        [(ngModel)]="modelS.name"
+                        placeholder="Name"autocomplete="off">
+            </div>
+            <div class="mb-3"><input type="text"
+                class="form-control"
+                name="CategoryId"
+                [(ngModel)]="modelS.productCategoryId"
+                placeholder="CategoryId"autocomplete="off"></div>
+    
+        
+            <div class="text-center">
+                <button class="btn btn-success me-2" type="submit">Add</button>
+                <button class="btn cancelButton" type="button" (click)="cancel()">Cancel</button>
+        
+            </div> 
+        </form>
+    </div>
+        </div>
+        <div class="col-md-4">
+            <h4 class="text-center text-primary">Update existing category genders</h4>
+           
+                <table  *ngFor="let opt of categoryGenders">
+                 <tr>
+                    <td style="font-size: large;">{{opt.id}}</td>
+                    <td> <input type="text"
+                        class="form-control"
+                        name="name"
+                        [(ngModel)]="opt.name"
+                        placeholder="Name"autocomplete="off"></td>
+
+                    <td><button class="btn btn-dark btnf1" (click)="updateCategoryGender(opt)">Update</button></td>
+                    <td><button class="btn btn-warning btnf1" (click)="updateCategoryGender(opt)">Delete</button></td>
+                  </tr>
+                </table>
+              <div class="row">
+        <form #registerForm="ngForm" (ngSubmit)="addCategoryGender()" autocomplete="off">
+            <h4 class="text-center text-primary">Add new category gender</h4>
+            <!-- <hr> -->
+            <!-- <br> -->
+            <div class="mb-3">
+                <input type="text"
+                        class="form-control"
+                        name="name"
+                        [(ngModel)]="modelG.name"
+                        placeholder="Name"autocomplete="off">
+            </div>
+        
+        
+            <div class="text-center">
+                <button class="btn btn-success me-2" type="submit">Add</button>
+                <button class="btn cancelButton" type="button" (click)="cancel()">Cancel</button>
+        
+            </div> 
+        </form>
+    </div>
+        </div>
+</div>

@@ -114,6 +114,20 @@ namespace API.Migrations
                     b.ToTable("Card");
                 });
 
+            modelBuilder.Entity("API.Entities.CategoryGender", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("CategoryGender");
+                });
+
             modelBuilder.Entity("API.Entities.Delivery", b =>
                 {
                     b.Property<int>("Id")
@@ -257,16 +271,16 @@ namespace API.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("Category")
-                        .HasColumnType("TEXT");
+                    b.Property<int>("CategoryGenderId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("CategoryId")
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Description")
                         .HasColumnType("TEXT");
 
                     b.Property<int>("Discount")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int?>("FavouritesId")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Image")
@@ -293,9 +307,16 @@ namespace API.Migrations
                     b.Property<int>("Stock")
                         .HasColumnType("INTEGER");
 
+                    b.Property<int>("SubcategoryId")
+                        .HasColumnType("INTEGER");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("FavouritesId");
+                    b.HasIndex("CategoryGenderId");
+
+                    b.HasIndex("CategoryId");
+
+                    b.HasIndex("SubcategoryId");
 
                     b.ToTable("Product");
                 });
@@ -309,12 +330,7 @@ namespace API.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("ProductId")
-                        .HasColumnType("INTEGER");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("ProductId");
 
                     b.ToTable("ProductCategory");
                 });
@@ -369,16 +385,15 @@ namespace API.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("CategoryId")
-                        .HasColumnType("INTEGER");
-
                     b.Property<string>("Name")
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("ProductId")
+                    b.Property<int>("ProductCategoryId")
                         .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ProductCategoryId");
 
                     b.ToTable("Subcategory");
                 });
@@ -524,18 +539,29 @@ namespace API.Migrations
 
             modelBuilder.Entity("API.Entities.Product", b =>
                 {
-                    b.HasOne("API.Entities.Favourites", null)
-                        .WithMany("Product")
-                        .HasForeignKey("FavouritesId");
-                });
-
-            modelBuilder.Entity("API.Entities.ProductCategory", b =>
-                {
-                    b.HasOne("API.Entities.Product", null)
-                        .WithMany("Categories")
-                        .HasForeignKey("ProductId")
+                    b.HasOne("API.Entities.CategoryGender", "CategoryGender")
+                        .WithMany()
+                        .HasForeignKey("CategoryGenderId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("API.Entities.ProductCategory", "Category")
+                        .WithMany()
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("API.Entities.Subcategory", "Subcategory")
+                        .WithMany()
+                        .HasForeignKey("SubcategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Category");
+
+                    b.Navigation("CategoryGender");
+
+                    b.Navigation("Subcategory");
                 });
 
             modelBuilder.Entity("API.Entities.ShoppingCart", b =>
@@ -551,6 +577,15 @@ namespace API.Migrations
                         .HasForeignKey("SummaryId");
 
                     b.Navigation("Product");
+                });
+
+            modelBuilder.Entity("API.Entities.Subcategory", b =>
+                {
+                    b.HasOne("API.Entities.ProductCategory", null)
+                        .WithMany("Subcategories")
+                        .HasForeignKey("ProductCategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("API.Entities.Voucher", b =>
@@ -571,16 +606,14 @@ namespace API.Migrations
                     b.Navigation("Vouchers");
                 });
 
-            modelBuilder.Entity("API.Entities.Favourites", b =>
-                {
-                    b.Navigation("Product");
-                });
-
             modelBuilder.Entity("API.Entities.Product", b =>
                 {
-                    b.Navigation("Categories");
-
                     b.Navigation("Images");
+                });
+
+            modelBuilder.Entity("API.Entities.ProductCategory", b =>
+                {
+                    b.Navigation("Subcategories");
                 });
 
             modelBuilder.Entity("API.Entities.Summary", b =>

@@ -4,6 +4,7 @@ import { take } from 'rxjs';
 import { Adress } from 'src/app/_models/adress';
 import { User } from 'src/app/_models/user';
 import { AccountService } from 'src/app/_services/account.service';
+import { BreadcrumbService } from 'xng-breadcrumb';
 
 @Component({
   selector: 'app-member-edit',
@@ -34,7 +35,7 @@ export class MemberEditComponent implements OnInit{
   currentUser: User | null = null;
   adress: any = {};
   confirm: any;
-  constructor(private accountService: AccountService, private route:ActivatedRoute){
+  constructor(private accountService: AccountService, private route:ActivatedRoute, private bcService:BreadcrumbService){
     this.accountService.currentUser$.pipe((take(1))).subscribe({
       next: user=> this.currentUser = user
     })
@@ -51,6 +52,7 @@ export class MemberEditComponent implements OnInit{
     if(!username) return;
     this.accountService.getUserByName(username).subscribe({
       next: member => {this.member = member;
+        this.bcService.set('@memberEdit','Edit - '+this.member.firstName );
   }
       
     })

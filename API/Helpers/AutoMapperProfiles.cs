@@ -12,7 +12,7 @@ namespace API.Helpers
             .ForMember(P=>P.Quantity, opt => opt.Equals(1))
             .ForMember(P=>P.Image, opt => opt.MapFrom(src=>src.Images.FirstOrDefault(x=>x.IsMain).Url));
             CreateMap<ProductCategory,CategoryDto>()
-                .ForMember(p=>p.Id,opt=>opt.MapFrom(src=>src.ProductId));
+                .ForMember(p=>p.Id,opt=>opt.MapFrom(src=>src.Id));
         }
         
     }

@@ -30,39 +30,46 @@ namespace API.Controllers
         }
         [HttpPost("add")] //POST: api/oder/add
         public async Task<ActionResult<Order>> AddOrder(Order orderCheckout){
-            this.order = new Order
+            order = new Order
             {
                 Summary = orderCheckout.Summary,
-                Delivery= orderCheckout.Delivery,
+                Delivery = orderCheckout.Delivery,
                 DeliveryInfo = orderCheckout.DeliveryInfo,
                 PaymentMethod = orderCheckout.PaymentMethod,
+
                 AppUserId = orderCheckout.AppUserId
             };
-            this.order.Summary.AppUserId = orderCheckout.AppUserId;
-            this.order.DeliveryInfo.AppUserId = orderCheckout.AppUserId;
-            this.order.DeliveryInfo.Adress.AppUserId = orderCheckout.AppUserId;
-            this.order.PaymentMethod.AppUserId = orderCheckout.AppUserId;
+            order.Summary.AppUserId = orderCheckout.AppUserId;
+            order.DeliveryInfo.AppUserId = orderCheckout.AppUserId;
+            order.DeliveryInfo.Adress.AppUserId = orderCheckout.AppUserId;
+            order.PaymentMethod.AppUserId = orderCheckout.AppUserId;
+
             // var newOrder = new Order{};
             
-            await _userRepository.AddAdressAsync(this.order.DeliveryInfo.Adress);
+            await _userRepository.AddAdressAsync(order.DeliveryInfo.Adress);
             await _userRepository.SaveAllAsync();
 
-            await _deliveryRepository.AddDeliveryAsync(this.order.Delivery);
+            await _deliveryRepository.AddDeliveryAsync(order.Delivery);
             await _deliveryRepository.SaveAllAsync();
 
-            await _summaryRepository.AddSummaryAsync(this.order.Summary);
+            await _summaryRepository.AddSummaryAsync(order.Summary);
             await _summaryRepository.SaveAllAsync();
 
-            await _paymentRepository.AddCardAsync(this.order.PaymentMethod);
+            await _paymentRepository.AddCardAsync(order.PaymentMethod);
             await _paymentRepository.SaveAllAsync();
 
-            await _orderRepository.AddOrderAsync(this.order);
+            order.SummaryId = orderCheckout.Summary.Id;
+            order.DeliveryId= orderCheckout.Delivery.Id;
+            order.DeliveryInfoId = orderCheckout.DeliveryInfo.Id;
+            order.PaymentMethodId = orderCheckout.PaymentMethod.Id;
+
+            await _orderRepository.AddOrderAsync(order);
             await _orderRepository.SaveAllAsync();
 
             var orderedProds = order.Summary.ShoppingCartItems;
             for(int i=0; i<orderedProds.Count; i++){
                 var prod = new Product();
-                prod = _productRepository.GetProductByIdAsync(orderedProds[i].ProductId).Result;
+                prod = _productRepository.GetProductByIdAsync(orderedProds[i].Product.Id).Result;
                 prod.Stock = prod.Stock - orderedProds[i].Quantity;
                 _productRepository.Update(prod);
                 await _productRepository.SaveAllAsync();

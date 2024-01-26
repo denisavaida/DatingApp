@@ -3,13 +3,15 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace API.Entities
 {
     [Table("Product")]
-    public class Product  : BaseEntity      //Encapsulation
+    public class Product  : BaseEntity   
     {         
          public string Name { get; set; }   
          public string Description { get; set; }
          public int Quantity { get; set; }
          public int Stock{get;set;}
-         public string Category { get; set;}
+         public ProductCategory Category { get; set;}
+         public CategoryGender CategoryGender{get;set;}
+         public Subcategory Subcategory{get;set;}         
          public int OldPrice{ get; set; }
          public float Price{ get; set; }
         
@@ -21,7 +23,6 @@ namespace API.Entities
          public List<Photo> Images{ get; set; } 
          public bool SoftDeleted{get;set;}
          public int Discount { get; set; }
-         public List<ProductCategory> Categories { get; set;}
          public int Rating{get; set;}
          public float GetPrice(int oldPrice, int discount)
         {

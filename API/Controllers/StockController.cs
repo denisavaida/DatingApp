@@ -28,34 +28,29 @@ namespace API.Controllers
                 Description = product.Description.ToLower(),
                 Quantity = product.Quantity,
                 Stock = product.Stock,
-                Category = product.Category.ToLower(),
                 OldPrice = product.OldPrice,
                 Price = product.GetPrice(product.OldPrice, product.Discount),
                 Discount = product.Discount,
                 Image = product.Image,
-                Categories = new List<ProductCategory>{ new ProductCategory(){Name = product.Category.ToLower()}},
                 Images = new(),
-                SoftDeleted = product.SoftDeleted
-
+                SoftDeleted = product.SoftDeleted,
+                Rating = product.Rating,
+                
             };
-            var productDTO =  _mapper.Map<ProductDto>(newProduct);
             var photo = new Photo
             {
                 IsMain = true,
                 Url = product.Image,
-                ProductId = productDTO.Id,
+                ProductId = newProduct.Id,
             };
             newProduct.Images.Add(photo);
 
-            if (await _categoryRepository.CategoryExists(newProduct.Category.ToString())) 
-            {
-                Console.WriteLine("Category already exists !");
-            }
-            else{
-                await _categoryRepository.AddCategory(newProduct.Categories.FirstOrDefault());
-                
-            }
             await _productRepository.AddProductAsync(newProduct);
+            await _productRepository.SaveAllAsync();
+            newProduct.Subcategory = product.Subcategory;
+            newProduct.Category = product.Category;
+            newProduct.CategoryGender = product.CategoryGender;
+             _productRepository.Update(newProduct);
             await _productRepository.SaveAllAsync();
 
             return newProduct;

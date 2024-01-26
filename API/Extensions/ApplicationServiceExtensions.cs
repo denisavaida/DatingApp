@@ -28,6 +28,8 @@ namespace API.Extensions
             services.AddScoped<ISummaryRepository, SummaryRepository>();
             services.AddScoped<IPaymentRepository, PaymentRepository>();
             services.AddScoped<IPromotionsRepository, PromotionsRepository>();
+            services.AddScoped<ISubcategoryRepository, SubcategoryRepository>();
+            services.AddScoped<ICategoryGenderRepository, CategoryGenderRepository>();
 
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 

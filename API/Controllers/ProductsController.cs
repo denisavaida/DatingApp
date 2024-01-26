@@ -73,6 +73,13 @@ namespace API.Controllers
             // Response.AddPaginationHeader(new PaginationHeader(query.CurrentPage, query.PageSize, query.TotalCount, query.TotalPages));
             return Ok(products);
         }
+        [HttpGet("promotions")] // /api/products/promotions
+        public async Task<ActionResult<IEnumerable<ProductDto>>> GetPromoProducts()
+        {
+            var products = await _productRepository.GetPromoProductsAsync();
+            // Response.AddPaginationHeader(new PaginationHeader(query.CurrentPage, query.PageSize, query.TotalCount, query.TotalPages));
+            return Ok(products);
+        }
 
         [HttpGet("{id}")] // /api/products/2
         public async Task<ActionResult<ProductDto>> GetProductById(int id)
@@ -81,11 +88,29 @@ namespace API.Controllers
              return _mapper.Map<ProductDto>(product);
         }
 
-        [HttpGet("edit/{id}")] // /products/edit/1
+        [HttpGet("edit/{id}")] // /products/edit/1                  // IS IT WORKING????
         public async Task<ActionResult<ProductDto>> EditProduct(int id){
              var product = await _productRepository.GetProductByIdAsync(id);
              return _mapper.Map<ProductDto>(product);
         }
+        [HttpGet("photos/{id}")] // /products/photos/1
+        public async Task<ActionResult<IEnumerable<Photo>>> GetPhotosByProdId(int id){
+             var photos = await _productRepository.GetPhotoByProdIdAsync(id);
+             return _mapper.Map<Photo[]>(photos);
+        }
+        [HttpPost("add-photo")] // /products/add-photo?url='...'
+        public async Task<ActionResult<Photo>> AddPhotoOfProduct(Photo photo){
+            var newphoto = new Photo{
+                Url = photo.Url,
+                IsMain = photo.IsMain,
+                ProductId = photo.ProductId
+            };
+            await _productRepository.AddPhotoAsync(newphoto);
+            await _productRepository.SaveAllAsync();
+            return newphoto;
+        }
+
+
         [HttpPut("update")]
          public void UpdateProduct(Product product){
               _productRepository.Update(product);

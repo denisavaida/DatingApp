@@ -7,3 +7,6 @@
 .cancelButton{
     background-color: lightgrey; margin-right: 2%;
 }
+.mat-label{
+    padding-top:5%;
+}

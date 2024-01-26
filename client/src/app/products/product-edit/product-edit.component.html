@@ -6,7 +6,7 @@
 
                 <br>
                 <div class="mb-3">
-                    <h5 style="display: inline-block;">Name: </h5>
+                    <h5 style="display: inline-block;">Nume: </h5>
                     <input type="text"
                             class="form-control"
                             name="name"
@@ -15,32 +15,69 @@
                 </div>
             
                 <div class="mb-3"><h5 style="display: inline-block;
-                    margin-right: 2%;">Description:</h5> 
+                    margin-right: 2%;">Descriere:</h5> 
                     <textarea class="form-control"
                     name="description"
                     [(ngModel)]="model.description"
                     placeholder="Description"autocomplete="off" ></textarea>
                 </div>
                 <div class="mb-3"><h5 style="display: inline-block;
-                    margin-right: 2%;">Stock:</h5>
+                    margin-right: 2%;">Stoc existent:</h5>
                     <input type="number"
                     class="form-control"
                     name="stock"
                     [(ngModel)]="model.stock"
                     placeholder="Stock"autocomplete="off">
                 </div>
-                <div class="mb-3"><h5 style="display: inline-block;
-                    margin-right: 2%;">Category:</h5>
-                    <input type="text"
-                    class="form-control"
-                    name="category"
-                    [(ngModel)]="model.category"
-                    placeholder="Category">
+                <div class="mb-3">
+                     <mat-form-field><h5 *ngIf="!this.model" style="display: inline-block;
+                        margin-right: 2%;">Categorie:</h5>
+                          <mat-label *ngIf="this.model" class="label">{{this.model.category.name}}</mat-label>
+                        <mat-select [(ngModel)]="selectedCategory" 
+                        (ngModelChange)="change(selectedCategory)" name="selectedCategory" 
+                         placeholder="Categories" >
+                        <mat-option  *ngFor="let categ of categoriesDB" [value]="categ">{{categ.name}}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                   
+                
+                <mat-form-field class="selectField">
+                    <h5 *ngIf="!this.model" style="display: inline-block;
+                    margin-right: 2%;">Subcategorie:</h5>
+                    <mat-label  *ngIf="this.model" class="label">{{this.model.subcategory.name}}</mat-label>
+                <mat-select [(ngModel)]="selectedSubcategory" 
+                    (ngModelChange)="selectedSubcategory" name="selectedSubcategory" 
+                    placeholder="Subcategories" [(value)]="selectedSubcategory" >
+                    <mat-option  *ngFor="let subcateg of subcategoriesDB" [value]="subcateg" >{{subcateg.name}}
+                        <!-- <p *ngIf="subcateg.id == this.model.subcategory.id">{{this.model.subcategory.name}}</p> 
+                        <p *ngIf="subcateg.id != this.model.subcategory.id">{{subcateg.name}}</p> -->
+                    </mat-option>
+                </mat-select>
+    
+                </mat-form-field>
+                <mat-form-field class="selectField"><h5 *ngIf="!this.model" style="display: inline-block;
+                    margin-right: 2%;">Categoria de varsta:</h5>
+                      <mat-label  *ngIf="this.model" class="label">{{this.model.categoryGender.name}}</mat-label>
+                    <mat-select [(ngModel)]="selectedCategoryGender" 
+                    (ngModelChange)="selectedCategoryGender" name="selectedCategoryGender" 
+                     placeholder="Category gender"  >
+                    <mat-option  *ngFor="let categG of categoryGendersDB" [value]="categG">{{categG.name}}</mat-option>
+                    </mat-select>
+                    
+                </mat-form-field>
+
                 </div>
-            
-            
+
+                <div class="mb-3"><h5 style="display: inline-block;
+                    margin-right: 2%;">Rating:</h5>
+                    <input type="number" min="0" max="5"
+                    class="form-control"
+                    name="rating"
+                    [(ngModel)]="model.rating"
+                    placeholder="Rating">
+                </div>
                 <div class="mb-3" ><h5 style="display: inline-block;
-                    margin-right: 2%;">OldPrince:</h5>
+                    margin-right: 2%;">Pret vechi:</h5>
                     <input type="number"
                     class="form-control"
                     name="oldPrince"
@@ -49,7 +86,7 @@
                 </div>
 
                 <div class="mb-3"><h5 style="display: inline-block;
-                    margin-right: 2%;">Image Url:</h5> 
+                    margin-right: 2%;">Url Imagine:</h5> 
                     <input type="text"
                     class="form-control"
                     name="image"
@@ -57,7 +94,7 @@
                     placeholder="Image" autocomplete="off">
                 </div>
                 <div class="mb-3"><h5 style="display: inline-block;
-                    margin-right: 2%;">Discount:</h5>
+                    margin-right: 2%;">Reducere:</h5>
                     <input type="number"
                     class="form-control"
                     name="discount"
@@ -65,6 +102,7 @@
                     placeholder="Discount"autocomplete="off">
                 </div>
                 <div class="text-center"style="margin-right: 15%;">
+                    <!-- <button mat-button (click)="openOtherDialog()">More Photos</button> -->
                     <button class="btn btn-success me-2" type="submit">Update stock</button>
                     <button class="btn cancelButton" type="button" (click)="cancel()">Cancel</button>
                     <button class="btn btn-primary" type="button" (click)="delete()">Delete</button>

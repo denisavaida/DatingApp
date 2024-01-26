@@ -18,11 +18,11 @@ export class HomeComponent implements OnInit{
   sortingType:string = ''
   images = [
     
-    {title: 'Jucarii pentru toata lumea', short: 'Te ajutam sa alegi jucarii pentru copilul tau!', src: "../../assets/toys3.png", category:"toys"},
-    {title: 'Activitati practice', short: 'Idei de activitati de facut cu copilul tau !', src: "../../assets/crafts.png", category:"crafts"},
-    {title: 'Baby gift boxes', short: 'Gaseste o cutie cadou pentru bebelusi !', src: "../../assets/gifts.png", category:"baby"},
-    {title: 'Verifica', short: 'Tinute pentru toti copiii !', src: "../../assets/dresses.png", category:"clothes"},
-    {title: 'Christmas KIDS', short: 'Urmariti colectia de Craciun pentru copii!', src: "../../assets/Christmas.png", category:"christmas"}
+    {title: 'Jucarii pentru toata lumea', short: 'Te ajutam sa alegi jucarii pentru copilul tau!', src: "../../assets/toys3.png", category:"jocuri si jucarii"},
+    {title: 'Arunca o privire', short: 'Gaseste articole pentru bebelusul tau!', src: "../../assets/gifts.png", category:"mama si copilul"},
+    {title: 'Verifica', short: 'Tinute pentru toti copiii !', src: "../../assets/dresses.png", category:"imbracaminte"},
+    {title: 'Pantofi comozi', short: 'Incaltati-va comod!', src: "../../assets/shoes.jpg", category:"incaltaminte"},
+    {title: 'Casa si gradina', short: 'Idei de decor pentru gradina ta !', src: "../../assets/garden.jpg", category:"casa si gradina"}
   ];
   constructor(private router: Router,private http: HttpClient, private accountService: AccountService, private productService:ProductService){
     

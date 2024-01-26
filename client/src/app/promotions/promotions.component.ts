@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { Product } from '../_models/product';
 import { HttpClient } from '@angular/common/http';
 import { ProductService } from '../_services/product.service';
@@ -21,30 +21,48 @@ import { Category } from '../_models/category';
 })
 export class PromotionsComponent {
   baseUrl = environment.apiUrl;
-  products:any;
+  @Input() products:any;
   favourites: Product[] = [];
   currentUser: any = {};
   shoppingCart:ShoppingCart = {
     quantity: 0,
     subtotal: 0,
     AppUserId: 0,
-    productId: 0,
     id: 0,
     product: {
       id: 0,
       name: '',
       description: '',
       quantity: 0,
-      category: '',
+      category: {
+        id: 0,
+        name: ''
+      },
       oldPrice: 0,
       price: 0,
       image: '',
       stock: 0,
       images: [],
       discount: 0,
-      shoppingCartId: 0,
       softDeleted: false,
-      rating: 0
+      rating: 0,
+      categoryGender: {
+        id: 0,
+        name: ''
+      },
+      subcategory: {
+        id: 0,
+        name: '',
+        productCategoryId: 0
+      }
+    },
+    summary: {
+      AppUserId: 0,
+      productCost: 0,
+      discounted: 0,
+      total: 0,
+      shoppingCartItems: [],
+      voucherID: 0
     }
   } ;
   cart:any =[];

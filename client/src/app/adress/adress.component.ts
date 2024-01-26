@@ -1,24 +1,54 @@
-import { Component, EventEmitter, Injectable, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Injectable, Input, OnInit, Output } from '@angular/core';
 import { AccountService } from '../_services/account.service';
 import { ToastrService } from 'ngx-toastr';
 import { Adress } from '../_models/adress';
 import { CheckoutService } from '../_services/checkout.service';
+import { take } from 'rxjs';
 @Component({
   selector: 'app-adress',
   templateUrl: './adress.component.html',
   styleUrls: ['./adress.component.css']
 })
 
-export class AdressComponent {
+export class AdressComponent implements OnInit {
   // model: any= {}
+  modell:any;
   @Input('userId') userId: any;
-  // @Output() adressFilled = new EventEmitter<Adress>();
+  @Output() adressFilled = new EventEmitter<Adress>();
   // @Input() adressFrom :any ={};
- @Input('model') model:any={}
-  // adressOutput: any = {};
+ @Input('model') model:Adress={
+   street: '',
+   number: 0,
+   city: '',
+   region: '',
+   country: '',
+   postcode: 0,
+   appUserId: 0
+ }
+  currentUser: any;
 
   constructor(private accountService: AccountService, private toastr: ToastrService,private checkoutService:CheckoutService){
+    
+  }
+  ngOnInit(): void {
 
+    this.loadAdress();
+  }
+  loadAdress(){
+    this.accountService.currentUser$.pipe((take(1))).subscribe({
+      next: user=> {
+        this.currentUser = user
+        if(this.currentUser){
+          console.log(this.currentUser);
+          this.accountService.getAdress(this.currentUser.id).subscribe({
+            next: adress => {this.model = adress
+              this.adressFilled.emit(this.model)
+            // console.log(this.adressFilled)
+          }
+          })
+        }
+      }
+    })
   }
   // addAdressRegister(){
   //   this.adressOutput ={

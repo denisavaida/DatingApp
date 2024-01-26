@@ -7,9 +7,9 @@ import { DeliveryService } from 'src/app/_services/delivery.service';
   styleUrls: ['./payment-info.component.css']
 })
 export class PaymentInfoComponent implements OnInit{
-  delOptions: any = [];
-  constructor(private deliveryService:DeliveryService){
-    this.delOptions = this.deliveryService.getDeliveryOptions();
+
+  constructor(){
+   
   }
   ngOnInit(): void {
     

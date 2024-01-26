@@ -35,8 +35,7 @@ namespace API.Controllers
                 if(!favExists){
                 favourites = new Favourites{
                     ProductId = fav.ProductId,
-                    AppUserId = fav.AppUserId,
-                    Product = fav.Product
+                    AppUserId = fav.AppUserId
                 };
                 await _favouritesRepository.AddFavouritesAsync(favourites);
                 await _favouritesRepository.SaveAllAsync();
@@ -45,8 +44,7 @@ namespace API.Controllers
             }else{
                 favourites = new Favourites{
                         ProductId = fav.ProductId,
-                        AppUserId = fav.AppUserId,
-                        Product = fav.Product
+                        AppUserId = fav.AppUserId
                 };
                 await _favouritesRepository.AddFavouritesAsync(favourites);
                 await _favouritesRepository.SaveAllAsync();

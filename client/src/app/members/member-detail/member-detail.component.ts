@@ -4,6 +4,7 @@ import { take } from 'rxjs';
 import { MemberDto } from 'src/app/_models/memberDto';
 import { User } from 'src/app/_models/user';
 import { AccountService } from 'src/app/_services/account.service';
+import { BreadcrumbService } from 'xng-breadcrumb';
 
 @Component({
   selector: 'app-member-detail',
@@ -33,7 +34,7 @@ export class MemberDetailComponent implements OnInit{
     dateOfBirth: new Date()
   };
   currentUser:  User | null = null; 
-  constructor(private accountService: AccountService, private route: ActivatedRoute){
+  constructor(private accountService: AccountService, private route: ActivatedRoute, private bcService: BreadcrumbService){
     this.accountService.currentUser$.pipe((take(1))).subscribe({
       next: user=> {this.user = user;
       
@@ -52,6 +53,7 @@ export class MemberDetailComponent implements OnInit{
     this.accountService.getUserByName(username).subscribe({
       next: user => {
         this.user = user;
+        this.bcService.set('@memberDetail','Details - ' + this.user.userName );
         console.log(this.user);
       }
     })

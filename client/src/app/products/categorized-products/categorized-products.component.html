@@ -1,68 +1,148 @@
-<section class="section-products" >
+<!-- <section class="section-products" >
     <div class="container">
         <div class="row">
+                <div class="col-md-2">
+                        <h3 style="text-transform: uppercase;">Subcategorii</h3>
+                        <ul class="list-group my-3">
+                            <li class="list-group-item" 
+                                *ngFor="let subcateg of subcategories"
+                                [class.active]="subcateg.id === subcategIdSelected"
+                                [value]="subcateg.id"
+                                (click)="onSubcategorySelected(subcateg.id)"
+                                >
+                                <span matListItemTitle style="text-transform:capitalize;" class="sidenavItem">{{subcateg.name}}</span>
+                            </li>
+                        </ul>
+                       
+                </div>
                 <div class="col-md-10">
-                        
-                            <div class="row"> 
-                                    <div class="col-md-6 col-lg-4 col-xl-3" *ngFor="let product of products">
-                                            <div class="card" *ngIf="product">
-                                                    <div class="d-flex justify-content-between p-3">
-                                            <div id="product-2" class="single-product">
-                                                    <div class="part-1" >
-                                                            <div *ngIf="product.stock>0">
-                                                                <a routerLink="/products/{{product.id}}" ><img src="{{product.image}}"></a>
-                                                                    <span class="discount" *ngIf="product.discount>0">{{product.discount}}%</span>
-                                                            </div>
-                                                            <div class="outOfStockImg" *ngIf="product.stock == 0">
-                                                                <a routerLink="/products/{{product.id}}" ><img src="{{product.image}}"></a>
-                                                                    <span class="discount" *ngIf="product.discount>0">{{product.discount}}%</span>
-                                                            </div>
-                                                            <ul *ngIf="currentUser">
-                                                                    <li *ngIf="currentUser.username != 'admin'"><a (click)="addToCart(product)"><i class="fa fa-shopping-cart"></i></a></li>
-                                                                    <li *ngIf="currentUser.username != 'admin'"><a (click)="addToFavourites(product)"><i class="fa fa-heart"></i></a></li>
-                                                                    <li ><a routerLink="/products/{{product.id}}" routerLinkActive="active"><i class="fa fa-expand"></i></a></li>
-                                                                    <li *ngIf="currentUser.username == 'admin'"><a routerLink="/products/edit/{{product.id}}" routerLinkActive="active"><i class="fa fa-pencil-square-o"></i></a></li> 
-                                                                    <li *ngIf="currentUser.username == 'admin'"><a (click)="deleteProduct(product)"><i class="fa fa-trash"></i></a></li> 
-                                                            </ul>
+                        <div class="row" >
+                                <div class="col-md-6">       
+                                        <mat-form-field>
+                                                <mat-select placeholder="Ordoneaza">
+                                                  <mat-option (onSelectionChange)="sortAscending()">Pret crescator</mat-option>
+                                                  <mat-option (onSelectionChange)="sortDescending()">Pret descrescator</mat-option>
+                                                  <mat-option (onSelectionChange)="sortBiggestDiscount()">Cel mai mare discount</mat-option>
+                                                  <mat-option (onSelectionChange)="sortPopular()">Cele mai populare</mat-option> 
+                                                </mat-select>
+                                              </mat-form-field>
 
-                                                    </div>
-                                                    <div class="part-2">
-                                                            <h3 class="product-title"style="text-transform: capitalize">{{product.name}}</h3>
-                                                            <div *ngIf="product.stock>0" ><h6 style="color: green;font-size: small;font-weight: bolder;">In stock</h6></div>
-                                                            <div *ngIf="product.stock==0" ><h6 style="color: red;font-size: small;font-weight: bolder;">Out of stock</h6></div>
-                                                            <ng-template [ngIf]="product.oldPrice!=product.price" [ngIfElse]="loading" >
-                                                                    <h4 class="product-old-price" >{{product.oldPrice}} Lei</h4>
-                                                            </ng-template>
-                                                            <ng-template #loading>
-                                                                    <h4 class="product-old-price" style="visibility: hidden;">{{product.oldPrice}} Lei</h4>
-                                                            </ng-template>
-                                                            <h4 class="product-old-price" style="visibility: hidden;"></h4>
-                                                            <h4 class="product-price" style="color: red;font-size: large;" *ngIf="product.discount > 0">{{product.price}} Lei</h4>
-                                                            <h4 class="product-price" style="font-size: large;margin-left: -75px;" *ngIf="product.discount == 0">{{product.price}} Lei</h4>
-                                                    </div>
-                                                    </div>
-                                            </div>
-                                            </div>
-                            
-                                    </div>
-                            </div>
+                                     </div>
+                                <div class="col-md-6">
+                                        <form class="d-flex">
+                                                <input name="search" class="form-control me-2 searchInput" type="search" placeholder="Cauta" [(ngModel)]="searchItem">
+                                                <button class="btn btn-outline-success my-2 my-sm-0 searchBtn" (click)="search()">Search</button>
+                                        </form>
+                                </div>
+                        </div>
+              
+                        <app-product-card [products]="products"></app-product-card>
+
                 </div>
         </div>
 
       
     </div>
-</section>
-<!-- 
-<div class="d-flex justify-content-center" *ngIf="pagination">
-        <pagination [boundaryLinks]="true" 
-                [totalItems]="pagination.totalItems"
-                [itemsPerPage]="pagination.itemsPerPage"
-                [maxSize]="10"
-                [(ngModel)]="pagination.currentPage"
-                (pageChanged)="pageChanged($event)"
-                previousText="&lsaquo;" 
-                nextText="&rsaquo;" 
-                firstText="&laquo;" 
-                lastText="&raquo;">
-        </pagination>
-</div> -->
+</section> -->
+
+
+<section class="section-products" >
+        <div class="container">
+            <div class="row">
+                <div class="col-md-2">
+                        <h3 style="text-transform: uppercase;">Subcategorii</h3>
+                        <ul class="list-group my-3">
+                            <li class="list-group-item" 
+                                *ngFor="let subcateg of subcategories"
+                                [class.active]="subcateg.id === subcategIdSelected"
+                                [value]="subcateg.id"
+                                (click)="onSubcategorySelected(subcateg.id)"
+                                >
+                                <span matListItemTitle style="text-transform:capitalize;" class="sidenavItem">{{subcateg.name}}</span>
+                            </li>
+                        </ul>
+                       
+                </div>
+                    <div class="col-md-10">
+                        <div class="row" >
+                                <div class="col-md-6">       
+                                        <mat-form-field>
+                                                <mat-select placeholder="Ordoneaza">
+                                                  <mat-option (onSelectionChange)="sortAscending()">Pret crescator</mat-option>
+                                                  <mat-option (onSelectionChange)="sortDescending()">Pret descrescator</mat-option>
+                                                  <mat-option (onSelectionChange)="sortBiggestDiscount()">Cel mai mare discount</mat-option>
+                                                  <mat-option (onSelectionChange)="sortPopular()">Cele mai populare</mat-option> 
+                                                </mat-select>
+                                              </mat-form-field>
+
+                                     </div>
+                                <div class="col-md-6">
+                                        <form class="d-flex">
+                                                <input name="search" class="form-control me-2 searchInput" type="search" placeholder="Cauta" [(ngModel)]="searchItem">
+                                                <button class="btn btn-outline-success my-2 my-sm-0 searchBtn" (click)="search()">Search</button>
+                                        </form>
+                                </div>
+                        </div>
+                                <div class="row"> 
+                                        <div class="col-md-6 col-lg-4 col-xl-3" *ngFor="let product of products">
+                                                <div class="card" *ngIf="product">
+                                                        <div class="d-flex justify-content-between p-3">
+                                                <div id="product-2" class="single-product">
+                                                        <div class="part-1" >
+                                                                <div *ngIf="product.stock>0">
+                                                                    <a routerLink="/products/{{product.id}}" ><img src="{{product.image}}"></a>
+                                                                        <span class="discount" *ngIf="product.discount>0">{{product.discount}}%</span>
+                                                                </div>
+                                                                <div class="outOfStockImg" *ngIf="product.stock == 0">
+                                                                    <a routerLink="/products/{{product.id}}" ><img src="{{product.image}}"></a>
+                                                                        <span class="discount" *ngIf="product.discount>0">{{product.discount}}%</span>
+                                                                </div>
+                                                                <ul *ngIf="currentUser">
+                                                                        <li *ngIf="currentUser.username != 'admin'"><a (click)="addToCart(product)"><i class="fa fa-shopping-cart"></i></a></li>
+                                                                        <li *ngIf="currentUser.username != 'admin'"><a (click)="addToFavourites(product)"><i class="fa fa-heart"></i></a></li>
+                                                                        <li ><a routerLink="/products/{{product.id}}" routerLinkActive="active"><i class="fa fa-expand"></i></a></li>
+                                                                        <li *ngIf="currentUser.username == 'admin'"><a routerLink="/products/edit/{{product.id}}" routerLinkActive="active"><i class="fa fa-pencil-square-o"></i></a></li> 
+                                                                        <li *ngIf="currentUser.username == 'admin'"><a (click)="deleteProduct(product)"><i class="fa fa-trash"></i></a></li> 
+                                                                </ul>
+    
+                                                        </div>
+                                                        <div class="part-2">
+                                                                <h3 class="product-title"style="text-transform: capitalize">{{product.name}}</h3>
+                                                                <div *ngIf="product.stock>0" ><h6 style="color: green;font-size: small;font-weight: bolder;">In stock</h6></div>
+                                                                <div *ngIf="product.stock==0" ><h6 style="color: red;font-size: small;font-weight: bolder;">Out of stock</h6></div>
+                                                                <ng-template [ngIf]="product.oldPrice!=product.price" [ngIfElse]="loading" >
+                                                                        <h4 class="product-old-price" >{{product.oldPrice}} Lei</h4>
+                                                                </ng-template>
+                                                                <ng-template #loading>
+                                                                        <h4 class="product-old-price" style="visibility: hidden;">{{product.oldPrice}} Lei</h4>
+                                                                </ng-template>
+                                                                <h4 class="product-old-price" style="visibility: hidden;"></h4>
+                                                                <h4 class="product-price" style="color: red;font-size: large;" *ngIf="product.discount > 0">{{product.price}} Lei</h4>
+                                                                <h4 class="product-price" style="font-size: large;margin-left: -75px;" *ngIf="product.discount == 0">{{product.price}} Lei</h4>
+                                                        </div>
+                                                        </div>
+                                                </div>
+                                                </div>
+                                
+                                        </div>
+                                </div>
+                    </div>
+            </div>
+    
+          
+        </div>
+    </section>
+<!--     
+    <div class="d-flex justify-content-center" *ngIf="pagination">
+            <pagination [boundaryLinks]="true" 
+                    [totalItems]="pagination.totalItems"
+                    [itemsPerPage]="pagination.itemsPerPage"
+                    [maxSize]="10"
+                    [(ngModel)]="pagination.currentPage"
+                    (pageChanged)="pageChanged($event)"
+                    previousText="&lsaquo;" 
+                    nextText="&rsaquo;" 
+                    firstText="&laquo;" 
+                    lastText="&raquo;">
+            </pagination>
+    </div> -->

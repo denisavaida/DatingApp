@@ -20,7 +20,7 @@ namespace API.Data
         }
         public async Task<ShoppingCart> GetShoppingCartByProductIdAsync(int id)
         {
-            var cartItem = await _context.ShoppingCartItems.SingleOrDefaultAsync(c => c.ProductId == id);
+            var cartItem = await _context.ShoppingCartItems.SingleOrDefaultAsync(c => c.Product.Id == id);
              return cartItem;
         }
         public async Task<ShoppingCart> GetShoppingCartByIdAsync(int id)
@@ -35,12 +35,12 @@ namespace API.Data
         public async Task<ShoppingCart> AddShoppingCartAsync(ShoppingCart shoppingCart)
         {
             await _context.ShoppingCartItems.AddAsync(shoppingCart);
-            _context.Products.Attach(shoppingCart.Product);
+            // _context.Products.Attach(shoppingCart.Product);
             return shoppingCart;
         }
         public async Task<bool> ProductExistsInShoppingCart(int id)
         {
-            return await _context.ShoppingCartItems.AnyAsync(x => x.ProductId == id);
+            return await _context.ShoppingCartItems.AnyAsync(x => x.Product.Id == id);
         }
         public async Task<bool> ShoppingCartExists(int id){
             return await _context.ShoppingCartItems.AnyAsync(x => x.Id == id);
@@ -48,7 +48,7 @@ namespace API.Data
 
         public async Task<IEnumerable<ShoppingCart>> GetAllShoppingCart()
         {
-            return await _context.ShoppingCartItems.Include(p=>p.ProductId).ToListAsync();
+            return await _context.ShoppingCartItems.Include(p=>p.Product).ToListAsync();
         }
         public async Task<bool> SaveAllAsync()
         {

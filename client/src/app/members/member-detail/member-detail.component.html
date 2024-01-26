@@ -1,5 +1,5 @@
 <div *ngIf="user != null">
-    <p style="text-transform: capitalize;">Welcome {{user.lastName}}!</p>
+    <p style="text-transform: capitalize;">Welcome {{user.firstName}}!</p>
 </div>
 <div class="container" style="margin-bottom: 31.75%;">
   <div class="row">
@@ -45,8 +45,8 @@
               <div class=" col-md-2">
               </div>
               <div class="col-md-6">
-                  <h3>Bun venit, {{user.lastName}} !</h3>
-                  <h6>Numele: {{user.firstName}} {{user.lastName}}</h6>
+                  <h3 >Detaliile contului tau :</h3>
+                  <h6 style="text-transform: capitalize;">Numele: {{user.firstName}} {{user.lastName}}</h6>
                   <h6>Email: {{user.userName}}</h6>
                   <h6>Data nasterii: {{user.dateOfBirth}}</h6>
                   <h6>Adresa: </h6>  

@@ -2,7 +2,7 @@ import { Card } from "./card";
 import { Delivery } from "./deliveryMethod";
 import { DeliveryInfo } from "./deliveryInfo";
 import { Summary } from "./summary";
-import { Status } from "./Status";
+import { Status } from "./status";
 
 export interface Order{
     id: number,

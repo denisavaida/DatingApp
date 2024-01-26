@@ -20,22 +20,40 @@ export class CartService{
       quantity: 0,
       subtotal: 0,
       AppUserId: 0,
-      productId: 0,
       product: {
         id: 0,
         name: "",
         description: "",
         quantity: 0,
-        category: "",
+        category: {
+          id: 0,
+          name: ""
+        },
         oldPrice: 0,
         price: 0,
         image: "",
         stock: 0,
         images: [],
         discount: 0,
-        shoppingCartId: 0,
         softDeleted: false,
-        rating: 0
+        rating: 0,
+        categoryGender: {
+          id: 0,
+          name: ""
+        },
+        subcategory: {
+          id: 0,
+          name: "",
+          productCategoryId: 0
+        }
+      },
+      summary: {
+        AppUserId: 0,
+        productCost: 0,
+        discounted: 0,
+        total: 0,
+        shoppingCartItems: [],
+        voucherID: 0
       }
     }
     summary: Summary={
@@ -121,7 +139,7 @@ export class CartService{
       this.shoppingCartItem.quantity = this.shoppingCartItem.quantity + prod.quantity;
       this.shoppingCartItem.product = prod;
       this.shoppingCartItem.subtotal = this.shoppingCartItem.product.price * this.shoppingCartItem.quantity;
-      this.shoppingCartItem.productId = prod.id;
+      this.shoppingCartItem.product.id= prod.id;
       return this.shoppingCartItem;
     }
     
@@ -141,7 +159,7 @@ export class CartService{
     }
     itemsCount(){
         
-        return this.cart.length;
+        return this.items.length;
     }
     clearCart(){
         this.items = [];
@@ -153,9 +171,6 @@ export class CartService{
                 this.items.splice(i,1);
             }
         }
-        // return this.http.delete<Product>(this.baseUrl+'shoppingCart/delete/'+id).subscribe(data => {
-        //     console.log(data);
-        // });
     }
     deleteCartItem(id:number){
         return this.http.delete<ShoppingCart>(this.baseUrl+'shoppingCart/delete/'+id).subscribe(

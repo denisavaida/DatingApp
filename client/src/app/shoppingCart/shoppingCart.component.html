@@ -40,7 +40,7 @@
             <table>
                 <tr *ngFor="let item of cart">
                       
-                  <td><a a routerLink="/products/{{item.productId}}" routerLinkActive="active"><img src="{{item.product.image}}"></a></td>
+                  <td><a a routerLink="/products/{{item.product.id}}" routerLinkActive="active"><img src="{{item.product.image}}"></a></td>
                   <td style="text-transform: capitalize;">{{item.product.name}} <p style="color: green;font-weight: bolder;">In stock</p></td>
                  
                   <td style="text-align: end;" ><h4 >{{item.subtotal}} Lei </h4><input type="number" min="1" max="{{item.product.stock}}"[(ngModel)]="item.quantity" name="quantity" (click)="increaseQuantity(item,item.product)"><br>

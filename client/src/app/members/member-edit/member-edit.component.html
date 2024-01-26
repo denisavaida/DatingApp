@@ -1,7 +1,7 @@
 
 <section class="section-user" >
     <div class="container" *ngIf="member">                
-        <h2 class="text-center text-primary">Edit member details</h2>
+        <h2 class="text-center text-primary">Edit member details of {{this.member.firstName}}</h2>
         <hr>
         <form #updateForm="ngForm" (ngSubmit)="updateUser()" autocomplete="off" class="updateForm">
 

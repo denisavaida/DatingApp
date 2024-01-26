@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace API.Entities
@@ -7,11 +8,8 @@ namespace API.Entities
     {
         public string Name { get; set; }
 
-        [ForeignKey("CategoryId")]
-        public int CategoryId{get;set;}
-        
-        [ForeignKey("ProductId")]
-        public int ProductId { get; set; }
+        [ForeignKey("ProductCategoryId")]
+        public int ProductCategoryId{get;set;}
 
     }
 }

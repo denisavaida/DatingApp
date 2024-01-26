@@ -11,7 +11,9 @@ namespace API.DTOs
          public string Image{ get; set; } 
          public string Discount{get;set;}
          public string Description{get;set;}
-         public string Category{get;set;}
+         public ProductCategory Category{get;set;}
+         public CategoryGender CategoryGender{get;set;}
+         public Subcategory Subcategory{get;set;}
          public int Rating{get;set;}
 
          public int GetQuantity(){

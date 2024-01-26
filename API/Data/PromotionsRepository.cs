@@ -16,7 +16,7 @@ namespace API.Data
         
         public async Task<PagedList<Product>> GetPromoProductsAsync(ProductParams productParams)
         {
-            var query =   _context.Products.Include(p=>p.Images).Include(p=> p.Categories).Where(p=>p.Discount > 0).OrderByDescending(p=>p.Stock)
+            var query =   _context.Products.Include(p=>p.Images).Where(p=>p.Discount > 0).OrderByDescending(p=>p.Stock)
                             .AsNoTracking(); //meant for read operations
 
              return await  PagedList<Product>.CreateAsync(query, productParams.PageNumber, productParams.PageSize);

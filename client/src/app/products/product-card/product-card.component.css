@@ -62,6 +62,8 @@ a:hover {
 
 .section-products .single-product {
     margin-bottom: 16px;
+    margin-left: -4%;
+    margin-top: -3%;
 }
 
 .section-products .single-product .part-1 {

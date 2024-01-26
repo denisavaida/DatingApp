@@ -1,0 +1,89 @@
+<section class="section-products" >
+    <div class="container">
+        <div class="row">
+            <div *ngIf="isPromoPage">
+                <div class="header justify-content-center text-center ">
+                    
+                    <h1><b>Promotii de pana la 50% </b></h1>
+                    <p>Oferta valabila pentru produsele online, in limita stocului disponibil.</p>
+                </div>
+            </div>
+                <div class="col-md-2">
+   
+                        <h3 style="text-transform: uppercase;">Disponibilitate</h3>
+                        <mat-list>
+                            <mat-list-item class="sidenavItem"><a (click)="getPromotions()" >Promotii</a></mat-list-item>
+                            <mat-list-item class="sidenavItem"><a (click)="inStockProducts()">In stoc</a></mat-list-item>
+                        </mat-list>
+                        
+                        
+                        <h3 style="text-transform: uppercase; ">Interval de pret</h3>
+                        <mat-slider min="1" max="500" color="accent" discrete="true" showTickMarks="false" >
+                                <input matSliderStartThumb [(ngModel)]="startValue" (valueChange)="sliderValueChanged()">
+                                <input matSliderEndThumb [(ngModel)]="endValue" (dragEnd)="sliderValueChanged()" >
+                        </mat-slider><br>
+                        <label>Pret : {{startValue}}Lei - {{endValue}}Lei</label><br><br>
+     
+                        <h3 style="text-transform: uppercase;">Categorii</h3>
+                        <ul class="list-group my-3">
+                            <li class="list-group-item" 
+                                *ngFor="let categ of categories"
+                                [class.active]="categ.id === categIdSelected"
+                                [value]="categ.id"
+                                (click)="onCategorySelected(categ.id)"
+                                >
+                                <span matListItemTitle style="text-transform:capitalize;" class="sidenavItem">{{categ.name}}</span>
+                            </li>
+                        </ul> <h3 style="text-transform: uppercase;">Categorii de varsta</h3>
+                        <ul *ngIf="isHomeCateg" class="list-group my-3">
+                            <li class="list-group-item" 
+                                *ngFor="let categg of categoryGenders"
+                                [class.active]="categg.id === categGenderIdSelected"
+                                [value]="categg.id"
+                                (click)="onCategoryGenderSelected(categg.id)"
+                                >
+                                <span matListItemTitle style="text-transform:capitalize;" class="sidenavItem">{{categg.name}}</span>
+                            </li>
+                        </ul>
+                        <h3 style="text-transform: uppercase;">Subcategorii</h3>
+                        <ul class="list-group my-3">
+                            <li class="list-group-item" 
+                                *ngFor="let subcateg of subcategories"
+                                [class.active]="subcateg.id === subcategIdSelected"
+                                [value]="subcateg.id"
+                                (click)="onSubcategorySelected(subcateg.id)"
+                                >
+                                <span matListItemTitle style="text-transform:capitalize;" class="sidenavItem">{{subcateg.name}}</span>
+                            </li>
+                        </ul>
+                       
+                </div>
+                <div class="col-md-10">
+                        <div class="row" >
+                                <div class="col-md-6">       
+                                        <mat-form-field>
+                                                <mat-select placeholder="Ordoneaza">
+                                                  <mat-option (onSelectionChange)="sortAscending()">Pret crescator</mat-option>
+                                                  <mat-option (onSelectionChange)="sortDescending()">Pret descrescator</mat-option>
+                                                  <mat-option (onSelectionChange)="sortBiggestDiscount()">Cel mai mare discount</mat-option>
+                                                  <mat-option (onSelectionChange)="sortPopular()">Cele mai populare</mat-option> 
+                                                </mat-select>
+                                              </mat-form-field>
+
+                                     </div>
+                                <div class="col-md-6">
+                                        <form class="d-flex">
+                                                <input name="search" class="form-control me-2 searchInput" type="search" placeholder="Cauta" [(ngModel)]="searchItem">
+                                                <button class="btn btn-outline-success my-2 my-sm-0 searchBtn" (click)="search()">Search</button>
+                                        </form>
+                                </div>
+                        </div>
+              
+                        <app-product-card [products]="products"></app-product-card>
+
+                </div>
+        </div>
+
+      
+    </div>
+</section>

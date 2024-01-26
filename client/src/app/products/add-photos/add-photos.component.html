@@ -1,0 +1,30 @@
+<!-- <p>add-photos works!</p>
+
+<div class="container" *ngIf="product">
+    <mat-card>
+        <img class="card-img-top"src="{{product.image }}" alt="{{product.name}}" class="card-img-top img-thumbnail">
+      <h6>{{product.name}} </h6>
+      <h6>Rating: {{product.rating}}</h6>
+      <h6>{{product.description}} </h6>
+      <h6>Categorii : {{product.category.name}} , {{product.categoryGender.name}}, {{product.subcategory.name}}</h6>
+      <h6>Stock: {{product.stock}}</h6>
+      <h6>Reducere de la: {{product.oldPrice}} Lei -> {{product.price}} Lei</h6>
+    </mat-card>
+  </div> -->
+  <form #stockForm="ngForm" (ngSubmit)="addPhoto()" autocomplete="off">
+    <h2 class="text-center text-primary">Add extra photos to product</h2>
+    <hr>
+    <br>
+    <div class="mb-3">
+            <input type="text"
+            class="form-control"
+            name="image"
+            [(ngModel)]="photo.url"
+            placeholder="Image URL" autocomplete="off">
+    </div>
+    <div class="text-center">
+        <button class="btn btn-success me-2" type="submit">Add</button>
+        <button class="btn cancelButton" type="button" (click)="cancel()">Cancel</button>
+
+    </div>
+</form>

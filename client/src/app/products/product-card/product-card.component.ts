@@ -1,4 +1,4 @@
-import { Component,  EventEmitter,  OnInit, Output } from '@angular/core';
+import { Component,  EventEmitter,  Input,  OnInit, Output } from '@angular/core';
 import {  ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { take } from 'rxjs';
@@ -21,7 +21,7 @@ import { environment } from 'src/environments/environment';
 })
 export class ProductCardComponent implements OnInit{
   baseUrl = environment.apiUrl;
-  products:any = [];
+  @Input() products:any = [];
   categories: any = [];
   currentUser: any = {};
   searchItem:string = '';
@@ -30,22 +30,40 @@ export class ProductCardComponent implements OnInit{
     quantity: 0,
     subtotal: 0,
     AppUserId: 0,
-    productId: 0,
     product: {
       id: 0,
       name: '',
       description: '',
       quantity: 0,
-      category: '',
+      category: {
+        id: 0,
+        name: ''
+      },
       oldPrice: 0,
       price: 0,
       image: '',
       stock: 0,
       images: [],
       discount: 0,
-      shoppingCartId: 0,
       softDeleted: false,
-      rating: 0
+      rating: 0,
+      categoryGender: {
+        id: 0,
+        name: ''
+      },
+      subcategory: {
+        id: 0,
+        name: '',
+        productCategoryId: 0
+      }
+    },
+    summary: {
+      AppUserId: 0,
+      productCost: 0,
+      discounted: 0,
+      total: 0,
+      shoppingCartItems: [],
+      voucherID: 0
     }
   }
   favourites: Favourites= {
@@ -65,7 +83,7 @@ export class ProductCardComponent implements OnInit{
   cart:any;
   pagination: Pagination | undefined;
   pageNumber = 1;
-  pageSize = 8;
+  pageSize = 12;
 
   startValue:any = 0;
   endValue: any = 500;
@@ -175,7 +193,8 @@ export class ProductCardComponent implements OnInit{
 
   deleteProduct(prod: Product){
     prod.softDeleted = true;
-    this.productService.updateProduct(prod);
+    // this.productService.updateProduct(prod);
+    this.productService.deleteProduct(prod);
     window.location.reload();
   }
   sliderValueChanged(){ 
@@ -222,15 +241,5 @@ export class ProductCardComponent implements OnInit{
     this.productService.getSearchProducts(this.searchItem)
     .subscribe({next: response=>this.products = response});
   }
-
-  refresh(){
-    // var flag = this.route.snapshot.paramMap.has('products');
-    // if(flag){
-      window.location.reload();
-    // }else{
-    //   this.router.navigateByUrl('/products');
-    // }
-  }
-
 
 }

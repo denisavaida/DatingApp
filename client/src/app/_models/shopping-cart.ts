@@ -1,10 +1,11 @@
 import { Product } from "./product";
+import { Summary } from "./summary";
 
 export interface ShoppingCart{
     id:number,
     quantity: number,
     subtotal: number,
     AppUserId: number, 
-    productId: number,
-    product: Product
+    product: Product,
+    summary:Summary
 }

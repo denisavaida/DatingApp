@@ -8,37 +8,28 @@
 
         <ul class="navbar-nav me-auto mb-2 mb-md-0" > 
           <li class="nav-item">
-            <a class="nav-link " aria-current="page" routerLink="/products" routerLinkActive="active">Produse</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" routerLink="/promotions" routerLinkActive="active">Promotii</a>
+            <a class="nav-link " aria-current="page" routerLink="/products" routerLinkActive="active">Toate produsele</a>
           </li>
 
-          <li class="nav-item" >
+          <!-- <li class="nav-item" >
             <div class="dropdown" dropdown>
                 <button class="nav-link dropdown-toggle" data-toggle= "dropdown" dropdownToggle>Categorii
                 </button>
                 <div class="dropdown-menu" *dropdownMenu style="z-index:99999;">
-                  <a class="dropdown-item"  *ngFor="let categ of categoriesDB" routerLink="/categorizedProducts/{{categ.name}}" routerLinkActive="active" style="text-transform: capitalize;">{{categ.name}}</a>
+                  <a class="dropdown-item"  *ngFor="let categ of categoriesDB" routerLink="/categorized/{{categ.name}}" routerLinkActive="active" style="text-transform: capitalize;">{{categ.name}}</a>
                 </div>
             </div>
+          </li> -->
+          <li class="nav-item" *ngFor="let categ of categoriesDB">
+            <a class="nav-link " aria-current="page" routerLink="/products/category/{{categ.name}}" routerLinkActive="active" style="text-transform: capitalize;">{{categ.name}}</a>
           </li>
-
           <!-- <li class="nav-item">
             <a class="nav-link " routerLink="/messages" routerLinkActive="active">Messages</a>
           </li> -->
           <!-- <li class="nav-item">
             <a class="nav-link " routerLink="/errors" routerLinkActive="active">Errors</a>
           </li> -->
-          <li class="nav-item" *ngIf="model.role== 'admin'">
-            <a class="nav-link " routerLink="/stock" routerLinkActive="active">Adauga produse</a>
-          </li>
-          <li class="nav-item" *ngIf="model.role == 'admin'">
-            <a class="nav-link " routerLink="/deliveryChange" routerLinkActive="active">Modifica livrarea</a>
-          </li>
-          <li class="nav-item" *ngIf="model.role == 'admin'">
-            <a class="nav-link " routerLink="/voucherCreate" routerLinkActive="active">Genereaza voucher</a>
-          </li>
+
         </ul>
        
         <form *ngIf="!(user.currentUser)" #loginForm="ngForm" class="d-flex" (ngSubmit)="login()" autocomplete="off" >
@@ -54,15 +45,16 @@
         </form>
         
         <div class="dropdown" *ngIf="user.currentUser" dropdown>
-          <button class="btn btn-dark " *ngIf="user.currentUser.userName == 'admin'" ><a class="text-light text-decoration-none" dropdownToggle style="font-size: large; text-transform: capitalize;"><i class="fa fa-user"> Welcome {{model.username| titlecase}} </i></a>
+          <button class="btn btn-dark " *ngIf=" model.userName == 'admin'" ><a class="text-light text-decoration-none" dropdownToggle style="font-size: large; text-transform: capitalize;"><i class="fa fa-user"> Welcome {{model.username| titlecase}} </i></a>
             <div class="dropdown-menu" *dropdownMenu>
+              <a class="dropdown-item" routerLink="/administration">Administration</a>
               <a class="dropdown-item" routerLink="/users/{{model.userName}}" routerLinkActive="active">Details profile</a>
               <a class="dropdown-item" routerLink="/users/edit/{{model}}" routerLinkActive="active">Edit profile</a>
               <a class="dropdown-item" routerLink="/orders" routerLinkActive="active">My orders</a>
               <a class="dropdown-item"(click)="logout()">Logout</a>
             </div></button>
             
-          <button class="btn btn-dark " *ngIf="user.currentUser.userName != 'admin'"><a class="text-light text-decoration-none" dropdownToggle style="font-size: large; "><i class="fa fa-user"> Contul meu {{user.currentUser.firstName|titlecase}}</i></a>
+          <button class="btn btn-dark " *ngIf="model.userName != 'admin'"><a class="text-light text-decoration-none" dropdownToggle style="font-size: large; "><i class="fa fa-user"> Contul meu {{user.currentUser.firstName|titlecase}}</i></a>
               <div class="dropdown-menu" *dropdownMenu>
                 <a class="dropdown-item" routerLink="/users/{{model.userName}}" routerLinkActive="active">Details profile</a>
                 <a class="dropdown-item" routerLink="/users/edit/{{model.userName}}" routerLinkActive="active">Edit profile</a>

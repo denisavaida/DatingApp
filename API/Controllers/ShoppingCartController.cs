@@ -3,16 +3,20 @@ using API.Entities;
 using API.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
+using SQLitePCL;
 
 namespace API.Controllers
 {
     public class ShoppingCartController : BaseApiController
     {
         private IShoppingCartRepository _shoppingCartRepository;
+
+        private IProductRepository _productRepository;
         private ShoppingCart shoppingCart;
         
-        public ShoppingCartController(IShoppingCartRepository shoppingCartRepository){
+        public ShoppingCartController(IShoppingCartRepository shoppingCartRepository, IProductRepository productRepository){
             _shoppingCartRepository = shoppingCartRepository;
+            _productRepository = productRepository;
         }
         
         [HttpGet("{id}")]
@@ -34,62 +38,57 @@ namespace API.Controllers
 
                 var dbcart = await GetShoppingCartProds(cart.AppUserId);
                 if(! dbcart.IsNullOrEmpty()){
-                    var cartItem = await _shoppingCartRepository.GetShoppingCartByProductIdAsync(cart.ProductId);
-                    
+                    var cartItem = await _shoppingCartRepository.GetShoppingCartByProductIdAsync(cart.Product.Id);
+                    // var product  = await _productRepository.GetProductByIdAsync(cart.ProductId);
                     if(cartItem == null){
                         shoppingCart = new ShoppingCart{
                                 Quantity = cart.Quantity,
-                                ProductId = cart.ProductId,
-                                Product = cart.Product,
                                 AppUserId = cart.AppUserId,
-                                Subtotal = cart.Subtotal
+                                Subtotal = cart.Subtotal,
                             };
                             await _shoppingCartRepository.AddShoppingCartAsync(shoppingCart);
                             await _shoppingCartRepository.SaveAllAsync();
+                             shoppingCart.Product = cart.Product;
+                             shoppingCart.Summary = cart.Summary;
+                             _shoppingCartRepository.Update(shoppingCart);
+                            await _shoppingCartRepository.SaveAllAsync();
+
                     }else{
                         var cartExists = await _shoppingCartRepository.ShoppingCartExists(cartItem.Id);
                         if(cartExists){
                             cartItem.Quantity = cartItem.Quantity + cart.Quantity;
                             cartItem.Subtotal = cartItem.Quantity * cart.Product.Price;
-                            this.shoppingCart = cartItem;
+                            shoppingCart = cartItem;
                             _shoppingCartRepository.Update(cartItem);  
                             await _shoppingCartRepository.SaveAllAsync();                      
                         } else{
                             shoppingCart = new ShoppingCart{
                                 Quantity = cart.Quantity,
-                                ProductId = cart.ProductId,
-                                Product = cart.Product,
                                 AppUserId = cart.AppUserId,
                                 Subtotal = cart.Subtotal
                             };
                             await _shoppingCartRepository.AddShoppingCartAsync(shoppingCart);
                             await _shoppingCartRepository.SaveAllAsync();
+                            shoppingCart.Product = cart.Product;
+                             shoppingCart.Summary = cart.Summary;
+                             _shoppingCartRepository.Update(shoppingCart);
+                            await _shoppingCartRepository.SaveAllAsync();
+
                         }
                     }
                 }else{
-                    // var product = new Product{
-                    //     Name = cart.Product.Name,
-                    //     Description= cart.Product.Description,
-                    //     Quantity = cart.Product.Quantity,
-                    //     Stock = cart.Product.Stock,
-                    //     Categories  = cart.Product.Categories,
-                    //     Category = cart.Product.Category,
-                    //     OldPrice = cart.Product.OldPrice,
-                    //     Price = cart.Product.Price,
-                    //     Image = cart.Product.Image,
-                    //     Images = cart.Product.Images,
-                    //     SoftDeleted = cart.Product.SoftDeleted,
-                    //     Discount = cart.Product.Discount
-                    // };
                     shoppingCart = new ShoppingCart{
                         Quantity = cart.Quantity,
-                        ProductId = cart.ProductId,
-                        Product = cart.Product,
                         AppUserId = cart.AppUserId,
                         Subtotal = cart.Subtotal
                     };
                     await _shoppingCartRepository.AddShoppingCartAsync(shoppingCart);
                     await _shoppingCartRepository.SaveAllAsync();
+                    shoppingCart.Product = cart.Product;
+                    shoppingCart.Summary = cart.Summary;
+                    _shoppingCartRepository.Update(shoppingCart);
+                    await _shoppingCartRepository.SaveAllAsync();
+
                 }
             return shoppingCart;
         

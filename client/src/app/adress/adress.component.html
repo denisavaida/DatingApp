@@ -51,3 +51,57 @@
 
 </div>
 </form>
+
+<form #adressForm="ngForm" autocomplete="off" aria-required="true" *ngIf="modell">
+    <div class="row">
+        <div class="col">
+            <input matInput matNativeControl type="text"
+            class="form-control"
+            name="street"
+            [(ngModel)]="modell.street"
+            placeholder="Strada">
+        </div>
+        <div class="col">
+            <input matInput matNativeControl type="number"
+            class="form-control"
+            name="number"
+            step="1" pattern="\d+"
+            [(ngModel)]="modell.number"
+            placeholder="Numar">
+        </div>
+    <div class="col">
+        <input matInput matNativeControl type="text"
+        class="form-control"
+        name="postcode"
+        [(ngModel)]="modell.postcode"
+        placeholder="Cod postal">
+    </div>
+    </div>
+    <div class="row mb-4">
+        
+    </div>
+    <div class="row">
+        <div class="col">
+            <input matInput matNativeControl type="text"
+            class="form-control"
+            name="city"
+            [(ngModel)]="modell.city"
+            placeholder="Oras">
+        </div>
+        <div class="col">
+            <input matInput matNativeControl type="text"
+            class="form-control"
+            name="region"
+            [(ngModel)]="modell.region"
+            placeholder="Judet">
+        </div>
+        <div class="col">
+            <input matInput matNativeControl type="text"
+            class="form-control"
+            name="country"
+            [(ngModel)]="modell.country"
+            placeholder="Tara">
+        </div>
+    
+    </div>
+    </form>

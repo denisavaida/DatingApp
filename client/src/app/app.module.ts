@@ -5,7 +5,7 @@ import { HTTP_INTERCEPTORS, HttpClientModule } from "@angular/common/http";
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { NavComponent } from './nav/nav.component';
+import { MyStrategy, NavComponent } from './nav/nav.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { HomeComponent } from './home/home.component';
@@ -28,12 +28,10 @@ import { AdressComponent } from './adress/adress.component';
 import { ProductCardComponent } from './products/product-card/product-card.component';
 import { LoginComponent } from './login/login.component';
 import { AccountService } from './_services/account.service';
-import { ProductEditComponent } from './products/product-edit/product-edit.component';
 import { CartService } from './_services/cart.service';
 import { ProductService } from './_services/product.service';
 import { FavouritesService } from './_services/favourites.service';
 import { PromotionsComponent } from './promotions/promotions.component';
-import { DeliveryInfoComponent } from './delivery/delivery-info/delivery-info.component';
 import { DeliveryOptionsComponent } from './delivery/delivery-options/delivery-options.component';
 import { PaymentComponent } from './delivery/payment/payment.component';
 import { TabsModule } from 'ngx-bootstrap/tabs';
@@ -45,7 +43,6 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { DeliveryChangeComponent } from './delivery/delivery-change/delivery-change.component';
-import { DeliveryEditComponent } from './delivery/delivery-edit/delivery-edit.component';
 import { CheckoutService } from './_services/checkout.service';
 import { CategoryService } from './_services/category.service';
 import { MatStepperModule} from '@angular/material/stepper';
@@ -73,8 +70,20 @@ import { ShippingInfoComponent } from './help/shipping-info/shipping-info.compon
 import { StoreLocationComponent } from './help/store-location/store-location.component';
 import { NextDirective } from './home/next.directive';
 import { PrevDirective } from './home/prev.directive';
+import {MatTableModule} from '@angular/material/table';
+import { RouteReuseStrategy, RouterModule } from '@angular/router';
+import { ProductHomepageComponent } from './products/product-homepage/product-homepage.component';
+import { AdministrationComponent } from './administration/administration.component';
+import { GenerateCategoryComponent } from './generate-category/generate-category.component';
+import { ProductEditComponent } from './products/product-edit/product-edit.component';
+import { DeliveryInfoComponent } from './delivery/delivery-info/delivery-info.component';
+import {MatTreeModule} from '@angular/material/tree';
+import { AddPhotosComponent } from './products/add-photos/add-photos.component';
+import { BreadcrumbModule } from 'xng-breadcrumb';
 
-
+const routes = [
+  {path: '', component: AppComponent},
+];
 @NgModule({exports: [ MatFormFieldModule, MatInputModule ],
   declarations: [
     AppComponent,
@@ -102,7 +111,6 @@ import { PrevDirective } from './home/prev.directive';
     PaymentComponent,
     CheckoutComponent,
     DeliveryChangeComponent,
-    DeliveryEditComponent,
     ConfirmationComponent,
     VoucherDetailComponent,
     VoucherCreateComponent,
@@ -113,7 +121,11 @@ import { PrevDirective } from './home/prev.directive';
     ShippingInfoComponent,
     StoreLocationComponent,
     NextDirective,
-    PrevDirective    
+    PrevDirective,
+    ProductHomepageComponent,
+    AdministrationComponent,
+    GenerateCategoryComponent,
+    AddPhotosComponent    
   ],
   imports: [
     BrowserModule,
@@ -141,14 +153,19 @@ import { PrevDirective } from './home/prev.directive';
     MatSliderModule,
     MatIconModule,
     MatButtonModule,
+    MatTableModule,
+    MatTreeModule,
+    BreadcrumbModule,
     BsDropdownModule.forRoot(),
     ToastrModule.forRoot({
       positionClass:'toast-bottom-right'
     }),
     
-    TabsModule.forRoot()
+    TabsModule.forRoot(),
+    RouterModule.forRoot(routes,{onSameUrlNavigation:'reload'})
   ],  
-  providers: [ AccountService,CartService,ProductService,FavouritesService, CheckoutService, CategoryService,VoucherService, PromotionService,
+  providers: [ AccountService,CartService,ProductService,FavouritesService, CheckoutService, CategoryService,VoucherService, PromotionService,  
+    {provide: RouteReuseStrategy, useClass: MyStrategy},
     {provide: HTTP_INTERCEPTORS, useClass:ErrorInterceptor, multi:true,}
   ],
   bootstrap: [AppComponent]
